@@ -1,18 +1,29 @@
-import { Button, Checkbox, Form, Input } from 'antd';
 import AuthLayout from '@/components/auth/Layout';
-import { UserOutlined, LockOutlined } from '@ant-design/icons';
+import { UserOutlined } from '@ant-design/icons';
+import { Button, Form, Input, Typography } from 'antd';
 import Link from 'next/link';
 
 // TODO: Link and Logic
 
-const title: string = 'Login';
+const title: string = 'Recover Password';
 
-export default function Login() {
+const { Text } = Typography;
+
+export default function Recover() {
   const [form] = Form.useForm();
 
   return (
     <AuthLayout pageTitle={title} formTitle={title}>
-      <Form form={form} name="login" layout="vertical" className="w-full">
+      <Text>
+        Enter the email associated with your account and we will send an email
+        with instructions to reset your password.
+      </Text>
+      <Form
+        form={form}
+        name="recover"
+        layout="vertical"
+        className="w-full mt-6"
+      >
         <Form.Item name="email" required>
           <Input
             prefix={
@@ -22,33 +33,19 @@ export default function Login() {
           />
         </Form.Item>
 
-        <Form.Item name="password" required>
-          <Input
-            prefix={
-              <LockOutlined className="mr-1 text-black text-opacity-25" />
-            }
-            type="password"
-            placeholder="Password"
-          />
-        </Form.Item>
-
-        <Form.Item name="remember" valuePropName="checked">
-          <Checkbox>Remember me?</Checkbox>
-        </Form.Item>
-
         <Form.Item>
           <Button
             type="primary"
             htmlType="submit"
             className="w-full mb-5 bg-custom-color hover:bg-hover-color"
           >
-            Login
+            Send Instructions
           </Button>
           <Link
-            href="/auth/password/recover"
+            href="/auth/login"
             className="text-custom-color hover:text-custom-color"
           >
-            Forgot Password?
+            Back to Login?
           </Link>
         </Form.Item>
       </Form>
