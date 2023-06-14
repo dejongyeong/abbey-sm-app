@@ -3,7 +3,7 @@ import { LockOutlined } from '@ant-design/icons';
 import { Button, Form, Input } from 'antd';
 import { Typography } from 'antd';
 
-// TODO: Link and Logic
+// TODO: Link and Logic and Email
 
 const title: string = 'Reset Password';
 
