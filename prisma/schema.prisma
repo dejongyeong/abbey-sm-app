@@ -1,0 +1,95 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider  = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model User {
+  id                  String        @db.Uuid @unique
+  sb_auth_id          String        @unique
+  email               String        @db.VarChar(255) @unique
+  password            String?
+  first_name          String        @db.VarChar(255)
+  last_name           String        @db.VarChar(255)
+  dial_code           String        @db.VarChar(10)
+  phone               String        @db.VarChar(50)
+  company             Json?
+  role                Role          @relation(fields: [role_id], references: [id])
+  role_id             String        @db.Uuid
+  machines            Machine[]
+  invites_sent        Invite[]      @relation("sender_to_receiver")
+  invites_received    Invite[]      @relation("receiver_to_invite")
+  created_at          DateTime      @default(now())
+  updated_at          DateTime      @updatedAt
+  deleted_at          DateTime?
+
+  @@map("profiles")
+}
+
+model Invite {
+  id                String          @id @db.Uuid @default(uuid())
+  sender            User            @relation("sender_to_receiver", fields: [sender_id], references: [id])
+  sender_id         String          @db.Uuid
+  receiver          User            @relation("receiver_to_invite", fields: [receiver_id], references: [id])
+  receiver_id       String          @db.Uuid
+  token             String          @unique
+  token_expires     DateTime?
+  is_accepted       Boolean         @default(false)
+  created_at        DateTime        @default(now())
+  updated_at        DateTime        @updatedAt
+
+  @@map("invites")
+}
+
+model Role {
+  id                  String          @id @db.Uuid @default(uuid())
+  name                String          @unique
+  descr               String?
+  alias               String          @unique @db.VarChar(255)
+  users               User[]
+  created_at          DateTime        @default(now())
+  updated_at          DateTime        @updatedAt
+  deleted_at          DateTime?
+
+  @@map("roles")
+}
+
+model MachineType {
+  id                String          @id @db.Uuid @default(uuid())
+  name              String          @db.VarChar(255)
+  alias             String          @db.VarChar(255)
+  machines          Machine[]
+  created_at        DateTime        @default(now())
+  updated_at        DateTime        @updatedAt
+
+  @@map("machine_types")
+}
+
+model Machine {
+  id                String          @id @default(uuid())
+  serial_no         String          @db.VarChar(255) @unique
+  model_no          String          @db.VarChar(255)
+  prod_date         DateTime
+  type_id           String          @db.Uuid
+  type              MachineType     @relation(fields: [type_id], references: [id])
+  owner             User            @relation(fields: [owner_id], references: [id])
+  owner_id          String          @db.Uuid
+  created_at        DateTime        @default(now())
+  updated_at        DateTime        @updatedAt
+  deleted_at        DateTime?
+
+  @@map("machines")
+}
+
+// Relations
+// 1. A user can send an invitation to many invitees, and the invitees are invited by the user. 
+// 2. A user can have only one role.
+// 3. A user can have many machines and many machines can belong to one user (many-to-many relation).
+// 4. A machine can have only one machine type.
