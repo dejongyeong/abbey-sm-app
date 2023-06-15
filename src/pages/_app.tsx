@@ -1,4 +1,5 @@
 import '@/styles/globals.css';
+import 'react-toastify/dist/ReactToastify.min.css';
 
 import { createPagesBrowserClient } from '@supabase/auth-helpers-nextjs';
 import { SessionContextProvider } from '@supabase/auth-helpers-react';
@@ -7,6 +8,7 @@ import type { AppProps } from 'next/app';
 import Head from 'next/head';
 import ErrorBoundaryWrapper from '@/components/error/ErrorBoundaryWrapper';
 import { SUPABASE_CONFIG } from '@/config/constant';
+import Toast from '@/components/shared/Toast';
 
 export default function App({ Component, pageProps }: AppProps) {
   const [supabaseClient] = useState(() =>
@@ -31,6 +33,7 @@ export default function App({ Component, pageProps }: AppProps) {
           initialSession={pageProps.initialSession}
         >
           <Component {...pageProps} />
+          <Toast />
         </SessionContextProvider>
       </ErrorBoundaryWrapper>
     </div>

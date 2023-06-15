@@ -7,8 +7,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/router';
 import { ILogin } from '../../types/auth';
 import { login } from '@/services/auth/login';
-
-// TODO: Link and Logic
+import { toast } from 'react-toastify';
 
 const title: string = 'Login';
 
@@ -27,11 +26,10 @@ export default function Login() {
     setLoading(true);
     try {
       const data = await login(email, password);
-
-      console.log(data.message);
+      toast.success(data.message);
       router.push('/');
     } catch (error) {
-      console.log((error as Error).message);
+      toast.error((error as Error).message);
     } finally {
       setLoading(false);
     }
