@@ -9,7 +9,7 @@ import ErrorBoundaryWrapper from '@/components/error/ErrorBoundaryWrapper';
 import { SUPABASE_CONFIG } from '@/config/constant';
 
 export default function App({ Component, pageProps }: AppProps) {
-  const [supabase] = useState(() =>
+  const [supabaseClient] = useState(() =>
     createPagesBrowserClient({
       supabaseUrl: SUPABASE_CONFIG.url,
       supabaseKey: SUPABASE_CONFIG.anonKey,
@@ -27,7 +27,7 @@ export default function App({ Component, pageProps }: AppProps) {
 
       <ErrorBoundaryWrapper>
         <SessionContextProvider
-          supabaseClient={supabase}
+          supabaseClient={supabaseClient}
           initialSession={pageProps.initialSession}
         >
           <Component {...pageProps} />
