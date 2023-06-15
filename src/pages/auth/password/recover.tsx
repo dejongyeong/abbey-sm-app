@@ -52,3 +52,34 @@ export default function Recover() {
     </AuthLayout>
   );
 }
+
+{
+  /* <button
+        onClick={async () => {
+          const data = {
+            to: 'dejong.re2@gmail.com',
+            from: 'dejong.yeong@mtu.ie',
+            subject: 'Test',
+            html: '<p>This is a test email</p>',
+          };
+
+          try {
+            const response = await fetch('/api/send-email', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(data),
+            });
+
+            if (response.ok) {
+              console.log(response.statusText);
+            } else {
+              console.log(response.statusText);
+            }
+          } catch (error) {
+            console.log(error);
+          }
+        }}
+      >
+        Send Email
+      </button> */
+}

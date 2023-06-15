@@ -10,7 +10,7 @@ export default async function handler(
     if (req.method === 'POST') {
       await login(req, res);
     } else {
-      res.status(404).json({ message: 'Method not allowed' });
+      res.status(405).json({ message: 'Method not allowed' });
     }
   } catch (error: any) {
     res.status(500).json({ message: error.message });
