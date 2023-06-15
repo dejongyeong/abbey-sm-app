@@ -6,6 +6,7 @@ import { loginSchema } from '@/validations/auth/login-schema';
 import { useState } from 'react';
 import { useRouter } from 'next/router';
 import { ILogin } from '../../types/auth';
+import { login } from '@/services/auth/login';
 
 // TODO: Link and Logic
 
@@ -23,7 +24,17 @@ export default function Login() {
   const router = useRouter();
 
   const onFinish = async ({ email, password, remember }: ILogin) => {
-    console.log('Login Logic');
+    setLoading(true);
+    try {
+      const data = await login(email, password);
+
+      console.log(data.message);
+      router.push('/');
+    } catch (error) {
+      console.log((error as Error).message);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
