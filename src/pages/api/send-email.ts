@@ -22,16 +22,6 @@ export default async function handler(
 
 async function send(req: NextApiRequest, res: NextApiResponse) {
   try {
-    const supabaseServerClient = getSupabaseServerClient(req, res);
-
-    const {
-      data: { session },
-    } = await supabaseServerClient.auth.getSession();
-
-    if (!session) res.status(401).json({ message: 'Not authenticated' });
-
-    // TODO: check user role
-
     const { to, from, subject, html } = req.body;
     const message = { to, from, subject, html };
 
