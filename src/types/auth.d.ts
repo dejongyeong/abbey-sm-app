@@ -3,3 +3,7 @@ export interface ILogin {
   password: string;
   remember?: boolean;
 }
+
+export interface IRecover {
+  email: string;
+}

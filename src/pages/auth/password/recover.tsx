@@ -1,9 +1,11 @@
 import AuthLayout from '@/components/auth/Layout';
+import { recover } from '@/services/auth/recover';
+import { IRecover } from '@/types/auth';
 import { UserOutlined } from '@ant-design/icons';
 import { Button, Form, Input, Typography } from 'antd';
 import Link from 'next/link';
-
-// TODO: Link and Logic
+import { useState } from 'react';
+import { toast } from 'react-toastify';
 
 const title: string = 'Recover Password';
 
@@ -11,6 +13,20 @@ const { Text } = Typography;
 
 export default function Recover() {
   const [form] = Form.useForm();
+  const [loading, setLoading] = useState(false);
+
+  const onFinish = async ({ email }: IRecover) => {
+    setLoading(true);
+    try {
+      const data = await recover(email);
+      // TODO: toast
+      console.log(data);
+    } catch (error) {
+      toast.error((error as Error).message);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <AuthLayout pageTitle={title} formTitle={title}>
@@ -22,6 +38,7 @@ export default function Recover() {
         form={form}
         name="recover"
         layout="vertical"
+        onFinish={onFinish}
         className="w-full mt-6"
       >
         <Form.Item name="email" required>
@@ -39,7 +56,7 @@ export default function Recover() {
             htmlType="submit"
             className="w-full mb-5 bg-custom-color hover:bg-hover-color"
           >
-            Send Instructions
+            {!loading ? 'Send Instructions' : 'Sending'}
           </Button>
           <Link
             href="/auth/login"
