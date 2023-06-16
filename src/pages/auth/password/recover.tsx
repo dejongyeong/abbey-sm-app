@@ -19,8 +19,7 @@ export default function Recover() {
     setLoading(true);
     try {
       const data = await recover(email);
-      // TODO: toast
-      console.log(data);
+      toast.success(`${data.message}`);
     } catch (error) {
       toast.error((error as Error).message);
     } finally {
