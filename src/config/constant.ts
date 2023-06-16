@@ -15,6 +15,7 @@ export const SUPABASE_CONFIG = {
 // SendGrid
 export const SENDGRID_CONFIG = {
   apiKey: process.env.NEXT_PUBLIC_SENDGRID_API_KEY,
+  from: 'dejong.yeong@mtu.ie',
 };
 
 // Redis
