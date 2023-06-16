@@ -49,7 +49,7 @@ async function mail(email: string, action_link: string) {
   try {
     const data = {
       to: email,
-      from: SENDGRID_CONFIG.from,
+      from: SENDGRID_CONFIG.sendFrom,
       subject: 'Test',
       html: `<a href=${action_link}>Recovery Link</a>`,
     };
