@@ -6,11 +6,11 @@ export const login = async (email: string, password: string) => {
       body: JSON.stringify({ email: email, password: password }),
     });
 
+    const data = await response.json();
     if (!response.ok) {
-      throw new Error(response.statusText);
+      throw new Error(`${response.status}: ${data.message}`);
     }
 
-    const data = await response.json();
     return data;
   } catch (error) {
     throw new Error('Error during API request');

@@ -4,6 +4,10 @@ export interface ILogin {
   remember?: boolean;
 }
 
-export interface IRecover {
+export interface IRecoverPassword {
   email: string;
+}
+
+export interface IResetPassword {
+  password: string;
 }

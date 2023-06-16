@@ -1,6 +1,6 @@
 import AuthLayout from '@/components/auth/Layout';
-import { recover } from '@/services/auth/recover';
-import { IRecover } from '@/types/auth';
+import { recoverPassword } from '@/services/auth/recover';
+import { IRecoverPassword } from '@/types/auth';
 import { UserOutlined } from '@ant-design/icons';
 import { Button, Form, Input, Typography } from 'antd';
 import Link from 'next/link';
@@ -15,10 +15,10 @@ export default function Recover() {
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
 
-  const onFinish = async ({ email }: IRecover) => {
+  const onFinish = async ({ email }: IRecoverPassword) => {
     setLoading(true);
     try {
-      const data = await recover(email);
+      const data = await recoverPassword(email);
       toast.success(`${data.message}`);
     } catch (error) {
       toast.error((error as Error).message);

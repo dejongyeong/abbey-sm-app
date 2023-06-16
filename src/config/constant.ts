@@ -10,6 +10,7 @@ export const SUPABASE_CONFIG = {
   url: process.env.NEXT_PUBLIC_SUPABASE_PROJECT_URL,
   anonKey: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
   serviceKey: process.env.NEXT_PUBLIC_SUPABASE_SERVICE_KEY,
+  jwtSecret: process.env.NEXT_PUBLIC_SUPABASE_JWT_SECRET,
 };
 
 // SendGrid

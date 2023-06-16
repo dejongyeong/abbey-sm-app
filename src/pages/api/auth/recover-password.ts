@@ -9,16 +9,16 @@ export default async function handler(
 ) {
   try {
     if (req.method === 'POST') {
-      await recover(req, res);
+      await recoverPassword(req, res);
     } else {
-      res.status(405);
+      res.status(405).json({ message: 'Method not allowed' });
     }
   } catch (error: any) {
     res.status(500).json({ message: error.message });
   }
 }
 
-async function recover(req: NextApiRequest, res: NextApiResponse) {
+async function recoverPassword(req: NextApiRequest, res: NextApiResponse) {
   try {
     const supabaseServerAdminClient = getSupabaseServerAdminClient(req, res);
 
@@ -38,7 +38,7 @@ async function recover(req: NextApiRequest, res: NextApiResponse) {
         res.status(400).json({ message: (error as Error).message });
       }
     } else {
-      res.status(400).json({ message: error?.message });
+      res.status(404).json({ message: error?.message });
     }
   } catch (error: any) {
     res.status(500).json({ message: error.message });
