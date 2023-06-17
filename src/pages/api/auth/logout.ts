@@ -1,4 +1,4 @@
-import { getSupabaseServerClient } from '@/lib/supabase/server';
+import { getSupabaseServerClient } from '@/lib/supabase/api-server';
 import { NextApiRequest, NextApiResponse } from 'next';
 
 export default async function handler(

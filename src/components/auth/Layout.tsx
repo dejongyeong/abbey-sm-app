@@ -32,8 +32,6 @@ export default function AuthLayout({ children, pageTitle, formTitle }: TProps) {
         <title>{`Abbey Machinery Monitoring System | ` + pageTitle}</title>
         <meta name="description" content={APP_DESCRIPTION} />
         <meta name="author" content="De Jong Yeong" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className="flex w-full h-screen justify-center items-center bg-gradient-to-r from-gray-100 via-gray-200 to-gray-300">
         <div className="w-2/6 px-6 py-8 rounded-none bg-white">

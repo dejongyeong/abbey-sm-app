@@ -1,6 +1,6 @@
 import { NextApiHandler } from 'next';
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { getSupabaseServerClient } from '@/lib/supabase/server';
+import { getSupabaseServerClient } from '@/lib/supabase/api-server';
 
 const handler: NextApiHandler = async (
   req: NextApiRequest,

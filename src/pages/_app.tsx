@@ -3,14 +3,24 @@ import 'react-toastify/dist/ReactToastify.min.css';
 
 import { createPagesBrowserClient } from '@supabase/auth-helpers-nextjs';
 import { SessionContextProvider } from '@supabase/auth-helpers-react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import type { AppProps } from 'next/app';
+import type { ReactElement, ReactNode } from 'react';
+import type { NextPage } from 'next';
 import Head from 'next/head';
 import ErrorBoundaryWrapper from '@/components/error/ErrorBoundaryWrapper';
 import { SUPABASE_CONFIG } from '@/config/constant';
 import Toast from '@/components/shared/Toast';
 
-export default function App({ Component, pageProps }: AppProps) {
+export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
+  getLayout?: (page: ReactElement, pageProps?: P) => ReactNode;
+};
+
+type AppPropsWithLayout = AppProps & {
+  Component: NextPageWithLayout;
+};
+
+export default function App({ Component, pageProps }: AppPropsWithLayout) {
   const [supabaseClient] = useState(() =>
     createPagesBrowserClient({
       supabaseUrl: SUPABASE_CONFIG.url,
@@ -18,8 +28,15 @@ export default function App({ Component, pageProps }: AppProps) {
     })
   );
 
+  // Use the layout defined at the page level, if available
+  const getLayout = Component.getLayout ?? ((page) => page);
+
+  // handle flash of unstyled content
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
+
   return (
-    <div>
+    <div className={`${!mounted ? 'invisible' : 'visible'}`}>
       <Head>
         <meta
           name="viewport"
@@ -27,15 +44,18 @@ export default function App({ Component, pageProps }: AppProps) {
         />
       </Head>
 
-      <ErrorBoundaryWrapper>
-        <SessionContextProvider
-          supabaseClient={supabaseClient}
-          initialSession={pageProps.initialSession}
-        >
-          <Component {...pageProps} />
-          <Toast />
-        </SessionContextProvider>
-      </ErrorBoundaryWrapper>
+      {getLayout(
+        <ErrorBoundaryWrapper>
+          <SessionContextProvider
+            supabaseClient={supabaseClient}
+            initialSession={pageProps.initialSession}
+          >
+            <Component {...pageProps} />
+            <Toast />
+          </SessionContextProvider>
+        </ErrorBoundaryWrapper>,
+        pageProps
+      )}
     </div>
   );
 }
