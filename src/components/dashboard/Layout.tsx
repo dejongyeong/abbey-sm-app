@@ -2,6 +2,7 @@ import { Layout } from 'antd';
 import Head from 'next/head';
 import { ReactNode } from 'react';
 import Logo from '../shared/dashboard/Logo';
+import Navigation from '../shared/dashboard/Navigation';
 
 const APP_DESCRIPTION = 'SMA Dashboard to monitor Tankers or Feeders telemetry';
 
@@ -13,7 +14,7 @@ type TProps = {
 
 const { Content, Sider, Footer } = Layout;
 
-export default function DshLayout({ children, pageTitle }: TProps) {
+export default function DshLayout({ children, pageProps, pageTitle }: TProps) {
   return (
     <>
       <Head>
@@ -23,9 +24,9 @@ export default function DshLayout({ children, pageTitle }: TProps) {
       </Head>
       <main className="w-full h-screen">
         <Layout>
-          <Sider>
+          <Sider breakpoint="lg" collapsedWidth="0">
             <Logo />
-            <p>Navigation</p>
+            <Navigation />
           </Sider>
           <Layout>
             <p>Banner</p>
