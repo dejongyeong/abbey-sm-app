@@ -39,8 +39,6 @@ model Invite {
   sender_id         String          @db.Uuid
   receiver          User            @relation("receiver_to_invite", fields: [receiver_id], references: [id])
   receiver_id       String          @db.Uuid
-  token             String          @unique
-  token_expires     DateTime?
   is_accepted       Boolean         @default(false)
   created_at        DateTime        @default(now())
   updated_at        DateTime        @updatedAt
