@@ -26,8 +26,6 @@ model User {
   machines            Machine[]
   invites_sent        Invite[]      @relation("sender_to_receiver")
   invites_received    Invite[]      @relation("receiver_to_invite")
-  reset_token         String?
-  reset_token_expiry  DateTime?
   created_at          DateTime      @default(now())
   updated_at          DateTime      @updatedAt
   deleted_at          DateTime?
