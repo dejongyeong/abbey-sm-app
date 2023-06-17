@@ -6,7 +6,7 @@ import { ReactNode } from 'react';
 
 export default function Home() {
   return (
-    <main className="w-full h-screen">
+    <main className="w-full h-screen p-8">
       <h1>Dashboard</h1>
     </main>
   );
