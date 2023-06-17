@@ -36,13 +36,13 @@ export const getNavList = (router: NextRouter): MenuItem[] => {
     }),
 
     // Users
-    getItem('User Roles', '2', <UserSwitchOutlined />),
+    getItem('Users', '2', <UserSwitchOutlined />),
 
     // Machines
     getItem('Machines', '3', <ToolOutlined />),
 
     // Analytics
-    getItem('User Roles', '4', <LineChartOutlined />),
+    getItem('Analytics', '4', <LineChartOutlined />),
 
     // Divider
     {
