@@ -3,6 +3,7 @@ import Head from 'next/head';
 import { ReactNode } from 'react';
 import Logo from '../shared/dashboard/Logo';
 import Navigation from '../shared/dashboard/Navigation';
+import Banner from '../shared/dashboard/Banner';
 
 const APP_DESCRIPTION = 'SMA Dashboard to monitor Tankers or Feeders telemetry';
 
@@ -29,7 +30,7 @@ export default function DshLayout({ children, pageProps, pageTitle }: TProps) {
             <Navigation />
           </Sider>
           <Layout>
-            <p>Banner</p>
+            <Banner />
             <Content>{children}</Content>
             <Footer className="text-center mt-8">
               MTU & Abbey Machinery - Smart Machine App Prototype @{' '}

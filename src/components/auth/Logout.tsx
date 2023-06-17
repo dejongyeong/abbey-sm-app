@@ -1,6 +1,6 @@
 import { logout } from '@/services/auth/logout';
 import { LoadingOutlined, LogoutOutlined } from '@ant-design/icons';
-import { Button } from 'antd';
+import { Button, Tooltip } from 'antd';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { toast } from 'react-toastify';
@@ -23,12 +23,16 @@ export default function Logout() {
   };
 
   return (
-    <Button
-      type="text"
-      shape="circle"
-      icon={!loading ? <LogoutOutlined /> : <LoadingOutlined />}
-      className="flex items-center justify-center"
-      onClick={signOut}
-    />
+    <div className="flex justify-center align-middle">
+      <Tooltip title="Logout">
+        <Button
+          type="text"
+          shape="circle"
+          icon={!loading ? <LogoutOutlined /> : <LoadingOutlined />}
+          className="flex items-center justify-center"
+          onClick={signOut}
+        />
+      </Tooltip>
+    </div>
   );
 }
