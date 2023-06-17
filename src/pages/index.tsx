@@ -1,4 +1,3 @@
-import Logout from '@/components/auth/Logout';
 import DshLayout from '@/components/dashboard/Layout';
 import { getSupabaseSsrServerClient } from '@/lib/supabase/ssr-server';
 import { GetServerSidePropsContext } from 'next';
