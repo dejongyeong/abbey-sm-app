@@ -12,10 +12,9 @@ datasource db {
 }
 
 model User {
-  id                  String        @db.Uuid @unique
-  sb_auth_id          String        @unique
+  id                  String        @id @db.Uuid @default(uuid())
+  sb_auth_id          String        @db.Uuid @unique
   email               String        @db.VarChar(255) @unique
-  password            String?
   first_name          String        @db.VarChar(255)
   last_name           String        @db.VarChar(255)
   dial_code           String        @db.VarChar(10)
@@ -35,9 +34,9 @@ model User {
 
 model Invite {
   id                String          @id @db.Uuid @default(uuid())
-  sender            User            @relation("sender_to_receiver", fields: [sender_id], references: [id])
+  sender            User            @relation("sender_to_receiver", fields: [sender_id], references: [sb_auth_id])
   sender_id         String          @db.Uuid
-  receiver          User            @relation("receiver_to_invite", fields: [receiver_id], references: [id])
+  receiver          User            @relation("receiver_to_invite", fields: [receiver_id], references: [sb_auth_id])
   receiver_id       String          @db.Uuid
   is_accepted       Boolean         @default(false)
   created_at        DateTime        @default(now())
@@ -75,9 +74,9 @@ model Machine {
   serial_no         String          @db.VarChar(255) @unique
   model_no          String          @db.VarChar(255)
   prod_date         DateTime
+  type              MachineType     @relation(fields: [type_id], references: [id], onDelete: Cascade)
   type_id           String          @db.Uuid
-  type              MachineType     @relation(fields: [type_id], references: [id])
-  owner             User            @relation(fields: [owner_id], references: [id])
+  owner             User            @relation(fields: [owner_id], references: [sb_auth_id], onDelete: Cascade)
   owner_id          String          @db.Uuid
   created_at        DateTime        @default(now())
   updated_at        DateTime        @updatedAt
