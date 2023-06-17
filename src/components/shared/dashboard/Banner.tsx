@@ -1,6 +1,7 @@
 import Logout from '@/components/auth/Logout';
 import { Divider, Layout } from 'antd';
 import Notification from './Notification';
+import UserAva from './UserAva';
 
 const { Header } = Layout;
 
@@ -11,7 +12,7 @@ export default function Banner() {
         <Logout />
         <Notification />
         <Divider type="vertical" className="h-8" />
-        <div>Avatar</div>
+        <UserAva />
         <div>User Info</div>
       </div>
     </Header>
