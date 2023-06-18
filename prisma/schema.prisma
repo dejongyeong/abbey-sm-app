@@ -12,7 +12,7 @@ datasource db {
 }
 
 model User {
-  id                  String        @id @default(uuid()) @db.Uuid @unique
+  id                  String        @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid @unique
   sb_auth_id          String        @db.Uuid @unique
   email               String        @db.VarChar(255) @unique
   first_name          String        @db.VarChar(255)
@@ -26,51 +26,51 @@ model User {
   invites_sent        Invite[]      @relation("sender_to_receiver")
   invites_received    Invite[]      @relation("receiver_to_invite")
   created_at          DateTime      @default(now())
-  updated_at          DateTime      @updatedAt
+  updated_at          DateTime      @updatedAt @default(now())
   deleted_at          DateTime?
 
   @@map("profiles")
 }
 
 model Invite {
-  id                String          @id @db.Uuid @default(uuid())
+  id                String          @id @db.Uuid @default(dbgenerated("uuid_generate_v4()"))
   sender            User            @relation("sender_to_receiver", fields: [sender_id], references: [sb_auth_id])
   sender_id         String          @db.Uuid
   receiver          User            @relation("receiver_to_invite", fields: [receiver_id], references: [sb_auth_id])
   receiver_id       String          @db.Uuid
   is_accepted       Boolean         @default(false)
   created_at        DateTime        @default(now())
-  updated_at        DateTime        @updatedAt
+  updated_at        DateTime        @updatedAt @default(now())
 
   @@map("invites")
 }
 
 model Role {
-  id                  String          @id @db.Uuid @default(uuid())
+  id                  String          @id @db.Uuid @default(dbgenerated("uuid_generate_v4()"))
   name                String          @unique
   descr               String?
   alias               String          @unique @db.VarChar(255)
   users               User[]
   created_at          DateTime        @default(now())
-  updated_at          DateTime        @updatedAt
+  updated_at          DateTime        @updatedAt @default(now())
   deleted_at          DateTime?
 
   @@map("roles")
 }
 
 model MachineType {
-  id                String          @id @db.Uuid @default(uuid())
+  id                String          @id @db.Uuid @default(dbgenerated("uuid_generate_v4()"))
   name              String          @db.VarChar(255)
   alias             String          @db.VarChar(255)
   machines          Machine[]
   created_at        DateTime        @default(now())
-  updated_at        DateTime        @updatedAt
+  updated_at        DateTime        @updatedAt @default(now())
 
   @@map("machine_types")
 }
 
 model Machine {
-  id                String          @id @default(uuid())
+  id                String          @id @default(dbgenerated("uuid_generate_v4()"))
   serial_no         String          @db.VarChar(255) @unique
   model_no          String          @db.VarChar(255)
   prod_date         DateTime
@@ -79,7 +79,7 @@ model Machine {
   owner             User            @relation(fields: [owner_id], references: [sb_auth_id], onDelete: Cascade)
   owner_id          String          @db.Uuid
   created_at        DateTime        @default(now())
-  updated_at        DateTime        @updatedAt
+  updated_at        DateTime        @updatedAt @default(now())
   deleted_at        DateTime?
 
   @@map("machines")
