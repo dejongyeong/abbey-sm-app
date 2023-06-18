@@ -36,7 +36,9 @@ export const getNavList = (router: NextRouter): MenuItem[] => {
     }),
 
     // Users
-    getItem('Users', '2', <UserSwitchOutlined />),
+    getItem('Users', '2', <UserSwitchOutlined />, undefined, undefined, () => {
+      router.push('/users');
+    }),
 
     // Machines
     getItem('Machines', '3', <ToolOutlined />),
