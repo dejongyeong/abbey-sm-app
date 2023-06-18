@@ -1,17 +1,17 @@
 import { getCountries } from '@/utils/get-countries';
 import { getDialCode } from '@/utils/get-dial-code';
-import { InfoCircleOutlined, PlusOutlined } from '@ant-design/icons';
+import { InfoCircleOutlined } from '@ant-design/icons';
 import { Button, Divider, Form, Input, Select, Tooltip } from 'antd';
 import { useState } from 'react';
 
 const dials = getDialCode();
 const countries = getCountries();
 
-export default function InviteForm({ senderId }: any) {
+export default function InviteForm({ senderId, roles }: any) {
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
 
-  // TODO: remove this, create role and get role from db
+  // TODO: filter role and remove console.log
   console.log(senderId);
 
   return (
@@ -83,7 +83,13 @@ export default function InviteForm({ senderId }: any) {
         </Form.Item>
 
         <Form.Item label="Role" name="role" required>
-          <Input placeholder="Role" />
+          <Select placeholder="Role">
+            {roles.map((role: any) => (
+              <Select.Option key={role.id} value={role.id}>
+                {role.name}
+              </Select.Option>
+            ))}
+          </Select>
         </Form.Item>
 
         <Divider />

@@ -2,13 +2,15 @@ import DshLayout from '@/components/dashboard/Layout';
 import UserTable from '@/components/user/UserTable';
 import InviteSection from '@/components/user/invite/InviteSection';
 import { getSupabaseSsrServerClient } from '@/lib/supabase/ssr-server';
+import { getAllRoles } from '@/services/role/get-all-roles';
+import { IRole } from '@/types/role';
 import { Breadcrumb, Typography } from 'antd';
 import { GetServerSidePropsContext } from 'next';
 import { ReactNode } from 'react';
 
 const { Title } = Typography;
 
-export default function Users({ uid }: { uid: string }) {
+export default function Users({ uid, roles }: { uid: string; roles: IRole }) {
   const senderId = uid;
 
   return (
@@ -17,7 +19,7 @@ export default function Users({ uid }: { uid: string }) {
       <div className="h-auto mt-7 p-5 bg-white ">
         <Title level={4}>Manage Users</Title>
         <div className="mt-6">
-          <InviteSection senderId={senderId} />
+          <InviteSection senderId={senderId} roles={roles} />
         </div>
         <div className="mt-8 overflow-x-auto">
           <UserTable />
@@ -52,10 +54,14 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
     };
   }
 
+  // TODO: filter roles based on role
+  const roles = await getAllRoles();
+
   return {
     props: {
       initialSession: session,
       uid: session.user.id,
+      roles: roles,
     },
   };
 };

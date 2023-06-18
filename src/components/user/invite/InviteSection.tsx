@@ -5,7 +5,7 @@ import InviteForm from './InviteForm';
 
 const { Text } = Typography;
 
-export default function InviteSection({ senderId }: any) {
+export default function InviteSection({ senderId, roles }: any) {
   return (
     <Collapse
       size="small"
@@ -26,7 +26,7 @@ export default function InviteSection({ senderId }: any) {
                 registration.
               </Text>
               <Divider className="mt-4" />
-              <InviteForm senderId={senderId} />
+              <InviteForm senderId={senderId} roles={roles} />
             </div>
           ),
         },
