@@ -5,12 +5,14 @@ export interface ICreateUserInput {
   last_name: string;
   dial_code: string;
   phone: string;
-  company?: {
-    name: string;
-    street: string;
-    city: string;
-    state: string;
-    zip: string;
-  };
+  company?:
+    | {
+        name: string;
+        street: string;
+        city: string;
+        state: string;
+        zip: string;
+      }
+    | undefined;
   role_id: string;
 }
