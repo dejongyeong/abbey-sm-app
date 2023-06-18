@@ -28,14 +28,14 @@ async function createUserAndSendInvitation(
 ) {
   try {
     const inviteLink = await generateInviteLink(req, res); // get user id
-    const receiver = inviteLink?.user.id;
+    const receiverId = inviteLink?.user.id;
     const { senderId } = req.body;
-    const user = await checkUserExist(receiver); // check if user exist
+    const user = await checkUserExist(receiverId); // check if user exist
 
     try {
       if (!user) {
         const profile = await createUser(req, inviteLink?.user.id); // receiver
-        await createInvite(senderId, receiver); // link sender and receiver
+        await createInvite(senderId, receiverId); // link sender and receiver
         await mail(profile.email, inviteLink.properties.action_link); // send email
         res.status(200).json({ message: 'Invitation link sent!' });
       } else {

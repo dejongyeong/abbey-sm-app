@@ -57,6 +57,8 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
   // TODO: filter roles based on role
   const roles = await getAllRoles();
 
+  // check user role and filter
+
   return {
     props: {
       initialSession: session,
