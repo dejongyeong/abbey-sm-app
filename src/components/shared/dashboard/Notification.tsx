@@ -26,9 +26,8 @@ export default function Notification() {
       <Dropdown menu={{ items }} trigger={['click']} placement="bottomRight">
         <Button
           type="text"
-          shape="circle"
           icon={
-            <Badge dot>
+            <Badge dot className="-mt-1">
               <BellOutlined />
             </Badge>
           }

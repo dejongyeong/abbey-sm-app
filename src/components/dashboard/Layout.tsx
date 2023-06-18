@@ -23,7 +23,7 @@ export default function DshLayout({ children, pageProps, pageTitle }: TProps) {
         <meta name="description" content={APP_DESCRIPTION} />
         <meta name="author" content="De Jong Yeong" />
       </Head>
-      <main className="w-full h-screen">
+      <main className="w-full h-auto">
         <Layout>
           <Sider breakpoint="lg" collapsedWidth="0">
             <Logo />
@@ -31,8 +31,8 @@ export default function DshLayout({ children, pageProps, pageTitle }: TProps) {
           </Sider>
           <Layout>
             <Banner />
-            <Content>{children}</Content>
-            <Footer className="text-center mt-8">
+            <Content className="w-full h-auto p-8">{children}</Content>
+            <Footer className="text-center mt-6">
               MTU & Abbey Machinery - Smart Machine App Prototype @{' '}
               {new Date().getFullYear()}
             </Footer>

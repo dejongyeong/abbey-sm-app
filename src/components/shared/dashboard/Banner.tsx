@@ -10,8 +10,8 @@ export default function Banner() {
   return (
     <Header className="w-full flex justify-end items-center bg-white pe-12">
       <div className="flex flex-row gap-3 justify-end items-center">
-        <Logout />
         <Notification />
+        <Logout />
         <Divider type="vertical" className="h-8" />
         <UserAva />
         <UserInfo />

@@ -27,7 +27,6 @@ export default function Logout() {
       <Tooltip title="Logout">
         <Button
           type="text"
-          shape="circle"
           icon={!loading ? <LogoutOutlined /> : <LoadingOutlined />}
           className="flex items-center justify-center"
           onClick={signOut}
