@@ -28,16 +28,21 @@ const getItem = (
   } as MenuItem;
 };
 
-export const getNavList = (router: NextRouter): MenuItem[] => {
+export const getNavList = (
+  router: NextRouter,
+  setSelectedKeys: Function
+): MenuItem[] => {
   const items: MenuItem[] = [
     // Home dashboard
     getItem('Dashboard', '1', <HomeOutlined />, undefined, undefined, () => {
       router.push('/');
+      setSelectedKeys(['1']);
     }),
 
     // Users
     getItem('Users', '2', <UserSwitchOutlined />, undefined, undefined, () => {
       router.push('/users');
+      setSelectedKeys(['2']);
     }),
 
     // Machines
