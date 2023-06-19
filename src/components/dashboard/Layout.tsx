@@ -24,7 +24,7 @@ export default function DshLayout({ children, pageProps, pageTitle }: TProps) {
   return (
     <>
       <Head>
-        <title>{`Abbey Machinery Monitoring System | ` + pageTitle}</title>
+        <title>{pageTitle + `| Abbey Machinery Monitoring System`}</title>
         <meta name="description" content={APP_DESCRIPTION} />
         <meta name="author" content="De Jong Yeong" />
       </Head>

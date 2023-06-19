@@ -1,8 +1,7 @@
 import ErrorFallback from '@/components/error/ErrorFallback';
 import { useRouter } from 'next/router';
-import { ErrorBoundary } from 'react-error-boundary';
 
-const CustomErrorComponent = ({ error }: { error: Error | any }) => {
+const CustomErrorComponent = () => {
   const router = useRouter();
 
   const onRetry = () => {
@@ -13,11 +12,7 @@ const CustomErrorComponent = ({ error }: { error: Error | any }) => {
     router.push('/');
   };
 
-  return (
-    <ErrorBoundary FallbackComponent={ErrorFallback}>
-      <ErrorFallback error={error} onRetry={onRetry} onGoHome={onGoHome} />
-    </ErrorBoundary>
-  );
+  return <ErrorFallback onRetry={onRetry} onGoHome={onGoHome} />;
 };
 
 export default CustomErrorComponent;

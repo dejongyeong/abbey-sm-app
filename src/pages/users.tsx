@@ -12,7 +12,12 @@ import { ReactNode } from 'react';
 
 const { Title } = Typography;
 
-export default function Users({ uid, roles }: { uid: string; roles: IRole }) {
+interface IProps {
+  uid: string;
+  roles: IRole;
+}
+
+export default function Users({ uid, roles }: IProps) {
   const senderId = uid;
 
   return (
@@ -40,36 +45,30 @@ Users.getLayout = function getLayout(page: ReactNode, pageProps: any) {
 };
 
 export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
-  try {
-    const session = await checkUserSessionSsr(ctx);
-    if (!session) {
-      return {
-        redirect: {
-          destination: '/auth/login',
-          permanent: false,
-        },
-      };
-    }
-
-    // get current user
-    const user = await getLoginUser(session.user.id);
-
-    // get role option based on user role
-    const roles = await roleOptions(user);
-
+  const session = await checkUserSessionSsr(ctx);
+  if (!session) {
     return {
-      props: {
-        initialSession: session,
-        uid: session?.user.id,
-        roles: roles,
-        user: user,
+      redirect: {
+        destination: '/auth/login',
+        permanent: false,
       },
     };
-  } catch (error: any) {
-    return {
-      notFound: true,
-    };
   }
+
+  // get current user
+  const user = await getLoginUser(session.user.id);
+
+  // get role option based on user role
+  const roles = await roleOptions(user);
+
+  return {
+    props: {
+      initialSession: session,
+      uid: session?.user.id,
+      roles: roles,
+      user: user,
+    },
+  };
 };
 
 const roleOptions = async (user: any) => {

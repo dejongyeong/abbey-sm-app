@@ -21,28 +21,24 @@ Home.getLayout = function getLayout(page: ReactNode, pageProps: any) {
 };
 
 export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
-  try {
-    const session = await checkUserSessionSsr(ctx);
-    if (!session) {
-      return {
-        redirect: {
-          destination: '/auth/login',
-          permanent: false,
-        },
-      };
-    }
-
-    // get current user
-    const user = await getLoginUser(session.user.id);
-
+  const session = await checkUserSessionSsr(ctx);
+  if (!session) {
     return {
-      props: {
-        initialSession: session,
-        uid: session.user.id,
-        user: user,
+      redirect: {
+        destination: '/auth/login',
+        permanent: false,
       },
     };
-  } catch (error) {
-    return { notFound: true };
   }
+
+  // get current user
+  const user = await getLoginUser(session.user.id);
+
+  return {
+    props: {
+      initialSession: session,
+      uid: session.user.id,
+      user: user,
+    },
+  };
 };
