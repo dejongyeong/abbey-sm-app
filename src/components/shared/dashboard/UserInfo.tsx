@@ -2,14 +2,15 @@ import { Typography } from 'antd';
 
 const { Text } = Typography;
 
-//TODO: get user full name and roles
-export default function UserInfo() {
+const UserInfo = ({ fullName, role }: { fullName: string; role: string }) => {
   return (
     <div className="flex flex-col gap-1 justify-center align-top">
-      <Text strong>Full Name</Text>
+      <Text strong>{fullName}</Text>
       <Text type="secondary" className="text-xs leading-none">
-        User Role
+        {role}
       </Text>
     </div>
   );
-}
+};
+
+export default UserInfo;

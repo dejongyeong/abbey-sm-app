@@ -4,6 +4,9 @@ import { ReactNode } from 'react';
 import Logo from '../shared/dashboard/Logo';
 import Navigation from '../shared/dashboard/Navigation';
 import Banner from '../shared/dashboard/Banner';
+import { GetServerSidePropsContext } from 'next';
+import { checkUserSessionSsr } from '@/services/auth/check-session-ssr';
+import { getLoginUser } from '@/services/user/get-login-user';
 
 const APP_DESCRIPTION = 'SMA Dashboard to monitor Tankers or Feeders telemetry';
 
@@ -16,6 +19,8 @@ type TProps = {
 const { Content, Sider, Footer } = Layout;
 
 export default function DshLayout({ children, pageProps, pageTitle }: TProps) {
+  const user = pageProps.user;
+
   return (
     <>
       <Head>
@@ -30,7 +35,7 @@ export default function DshLayout({ children, pageProps, pageTitle }: TProps) {
             <Navigation />
           </Sider>
           <Layout>
-            <Banner />
+            <Banner user={user} />
             <Content className="w-full h-auto p-8">{children}</Content>
             <Footer className="text-center mt-6">
               MTU & Abbey Machinery - Smart Machine App Prototype @{' '}

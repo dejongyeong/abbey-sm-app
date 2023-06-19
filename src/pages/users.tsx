@@ -1,9 +1,9 @@
 import DshLayout from '@/components/dashboard/Layout';
 import UserTable from '@/components/user/UserTable';
 import InviteSection from '@/components/user/invite/InviteSection';
-import { getSupabaseSsrServerClient } from '@/lib/supabase/ssr-server';
 import { checkUserSessionSsr } from '@/services/auth/check-session-ssr';
 import { getAllRoles } from '@/services/role/get-all-roles';
+import { getLoginUser } from '@/services/user/get-login-user';
 import { IRole } from '@/types/role';
 import { Breadcrumb, Typography } from 'antd';
 import { GetServerSidePropsContext } from 'next';
@@ -50,6 +50,9 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
       };
     }
 
+    // get current user
+    const user = await getLoginUser(session.user.id);
+
     // TODO: filter roles based on role
     const roles = await getAllRoles();
 
@@ -60,6 +63,7 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
         initialSession: session,
         uid: session?.user.id,
         roles: roles,
+        user: user,
       },
     };
   } catch (error: any) {

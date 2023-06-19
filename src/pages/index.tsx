@@ -1,5 +1,6 @@
 import DshLayout from '@/components/dashboard/Layout';
-import { getSupabaseSsrServerClient } from '@/lib/supabase/ssr-server';
+import { checkUserSessionSsr } from '@/services/auth/check-session-ssr';
+import { getLoginUser } from '@/services/user/get-login-user';
 import { GetServerSidePropsContext } from 'next';
 import { ReactNode } from 'react';
 
@@ -20,26 +21,28 @@ Home.getLayout = function getLayout(page: ReactNode, pageProps: any) {
 };
 
 export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
-  const supabaseSsrServerClient = getSupabaseSsrServerClient(ctx);
+  try {
+    const session = await checkUserSessionSsr(ctx);
+    if (!session) {
+      return {
+        redirect: {
+          destination: '/auth/login',
+          permanent: false,
+        },
+      };
+    }
 
-  // check session
-  const {
-    data: { session },
-  } = await supabaseSsrServerClient.auth.getSession();
+    // get current user
+    const user = await getLoginUser(session.user.id);
 
-  if (!session) {
     return {
-      redirect: {
-        destination: '/auth/login',
-        permanent: false,
+      props: {
+        initialSession: session,
+        uid: session.user.id,
+        user: user,
       },
     };
+  } catch (error) {
+    return { notFound: true };
   }
-
-  return {
-    props: {
-      initialSession: session,
-      uid: session.user.id,
-    },
-  };
 };
