@@ -9,8 +9,6 @@ import { getUid, resetPassword } from '@/services/auth/reset';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 
-// TODO: Link and Logic and Email
-
 const title: string = 'Reset Password';
 
 const { Text } = Typography;
