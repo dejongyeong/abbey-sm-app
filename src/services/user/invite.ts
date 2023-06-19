@@ -1,5 +1,3 @@
-// TODO: check params
-// current session user id (sender id), other info of the invited user
 export const invite = async (params: any) => {
   try {
     const response = await fetch('/api/users/invite', {
@@ -15,6 +13,6 @@ export const invite = async (params: any) => {
 
     return data;
   } catch (error) {
-    throw new Error('Error during API request');
+    throw new Error((error as Error).message);
   }
 };

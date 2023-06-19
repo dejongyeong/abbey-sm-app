@@ -4,11 +4,12 @@ export async function createInvite(senderUid: string, receiverUid: string) {
   try {
     await prisma.invite.create({
       data: {
-        sender_id: senderUid,
-        receiver_id: receiverUid,
+        sender: { connect: { sb_auth_id: senderUid } },
+        receiver: { connect: { sb_auth_id: receiverUid } },
       },
     });
   } catch (error) {
+    console.log(error);
     throw error;
   }
 }

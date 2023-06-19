@@ -27,6 +27,8 @@ async function createUserAndSendInvitation(
   res: NextApiResponse
 ) {
   try {
+    // TODO: create a separate file to resend invitation link only with email
+
     const inviteLink = await generateInviteLink(req, res); // get user id
     const receiverId = inviteLink?.user.id;
     const { senderId } = req.body;
@@ -63,7 +65,7 @@ async function generateInviteLink(req: NextApiRequest, res: NextApiResponse) {
     await supabaseServerAdminClient.auth.admin.generateLink({
       type: 'invite',
       email: email,
-      options: { redirectTo: `${BASE_URL}/account/confirm` },
+      options: { redirectTo: `${BASE_URL}/auth/account/confirm` },
     });
 
   if (error) {
@@ -73,7 +75,7 @@ async function generateInviteLink(req: NextApiRequest, res: NextApiResponse) {
   return user;
 }
 
-async function createUser(req: NextApiRequest, sbAuthId: string) {
+async function createUser(req: NextApiRequest, receiverId: string) {
   const {
     email,
     first_name,
@@ -87,7 +89,7 @@ async function createUser(req: NextApiRequest, sbAuthId: string) {
   try {
     const user = await prisma.user.create({
       data: {
-        sb_auth_id: sbAuthId,
+        sb_auth_id: receiverId,
         email: email,
         first_name: first_name,
         last_name: last_name,
@@ -100,6 +102,7 @@ async function createUser(req: NextApiRequest, sbAuthId: string) {
 
     return user;
   } catch (error: any) {
+    console.log(error);
     throw new Error('Failed to create User.');
   }
 }
@@ -118,12 +121,3 @@ async function mail(email: string, action_link: string) {
     throw error;
   }
 }
-
-// Create the invite
-//   await prisma.invite.create({
-//     data: {
-//       sender_id: createdUser.id,
-//       receiver_id: createdUser.id,
-//       token: inviteToken,
-//     },
-//   });
