@@ -5,7 +5,6 @@ import { getDialCode } from '@/utils/get-dial-code';
 import { inviteSchema } from '@/validations/user/invite-schema';
 import { InfoCircleOutlined } from '@ant-design/icons';
 import { Button, Divider, Form, Input, Select, Tooltip } from 'antd';
-import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { toast } from 'react-toastify';
 
@@ -47,7 +46,7 @@ export default function InviteForm({ senderId, roles }: any) {
     try {
       const data = await invite(params);
       toast.success(data.message);
-      // form.resetFields();
+      form.resetFields();
     } catch (error) {
       toast.error((error as Error).message);
     } finally {
