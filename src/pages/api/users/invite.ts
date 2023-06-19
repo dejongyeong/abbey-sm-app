@@ -27,8 +27,6 @@ async function createUserAndSendInvitation(
   res: NextApiResponse
 ) {
   try {
-    // TODO: create a separate file to resend invitation link only with email
-
     const inviteLink = await generateInviteLink(req, res); // get user id
     const receiverId = inviteLink?.user.id;
     const { senderId } = req.body;
@@ -53,11 +51,14 @@ async function createUserAndSendInvitation(
       res.status(400).json({ message: (error as Error).message });
     }
   } catch (error: any) {
-    res.status(500).json({ message: error.message });
+    throw error;
   }
 }
 
-async function generateInviteLink(req: NextApiRequest, res: NextApiResponse) {
+export async function generateInviteLink(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
   const supabaseServerAdminClient = getSupabaseServerAdminClient(req, res);
 
   const { email } = req.body;
@@ -102,12 +103,11 @@ async function createUser(req: NextApiRequest, receiverId: string) {
 
     return user;
   } catch (error: any) {
-    console.log(error);
     throw new Error('Failed to create User.');
   }
 }
 
-async function mail(email: string, action_link: string) {
+export async function mail(email: string, action_link: string) {
   try {
     const data = {
       to: email,
