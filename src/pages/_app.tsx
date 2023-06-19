@@ -8,7 +8,6 @@ import type { AppProps } from 'next/app';
 import type { ReactElement, ReactNode } from 'react';
 import type { NextPage } from 'next';
 import Head from 'next/head';
-import ErrorBoundaryWrapper from '@/components/error/ErrorBoundaryWrapper';
 import { SUPABASE_CONFIG } from '@/config/constant';
 import Toast from '@/components/shared/Toast';
 
@@ -45,15 +44,13 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
       </Head>
 
       {getLayout(
-        <ErrorBoundaryWrapper>
-          <SessionContextProvider
-            supabaseClient={supabaseClient}
-            initialSession={pageProps.initialSession}
-          >
-            <Component {...pageProps} />
-            <Toast />
-          </SessionContextProvider>
-        </ErrorBoundaryWrapper>,
+        <SessionContextProvider
+          supabaseClient={supabaseClient}
+          initialSession={pageProps.initialSession}
+        >
+          <Component {...pageProps} />
+          <Toast />
+        </SessionContextProvider>,
         pageProps
       )}
     </div>

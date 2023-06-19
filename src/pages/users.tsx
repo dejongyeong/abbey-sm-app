@@ -2,6 +2,7 @@ import DshLayout from '@/components/dashboard/Layout';
 import UserTable from '@/components/user/UserTable';
 import InviteSection from '@/components/user/invite/InviteSection';
 import { getSupabaseSsrServerClient } from '@/lib/supabase/ssr-server';
+import { checkUserSessionSsr } from '@/services/auth/check-session-ssr';
 import { getAllRoles } from '@/services/role/get-all-roles';
 import { IRole } from '@/types/role';
 import { Breadcrumb, Typography } from 'antd';
@@ -38,32 +39,32 @@ Users.getLayout = function getLayout(page: ReactNode, pageProps: any) {
 };
 
 export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
-  const supabaseSsrServerClient = getSupabaseSsrServerClient(ctx);
+  try {
+    const session = await checkUserSessionSsr(ctx);
+    if (!session) {
+      return {
+        redirect: {
+          destination: '/auth/login',
+          permanent: false,
+        },
+      };
+    }
 
-  // check session
-  const {
-    data: { session },
-  } = await supabaseSsrServerClient.auth.getSession();
+    // TODO: filter roles based on role
+    const roles = await getAllRoles();
 
-  if (!session) {
+    // check user role and filter
+
     return {
-      redirect: {
-        destination: '/auth/login',
-        permanent: false,
+      props: {
+        initialSession: session,
+        uid: session?.user.id,
+        roles: roles,
       },
     };
+  } catch (error: any) {
+    return {
+      notFound: true,
+    };
   }
-
-  // TODO: filter roles based on role
-  const roles = await getAllRoles();
-
-  // check user role and filter
-
-  return {
-    props: {
-      initialSession: session,
-      uid: session.user.id,
-      roles: roles,
-    },
-  };
 };
