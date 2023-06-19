@@ -2,6 +2,7 @@ import DshLayout from '@/components/dashboard/Layout';
 import UserTable from '@/components/user/UserTable';
 import InviteSection from '@/components/user/invite/InviteSection';
 import { checkUserSessionSsr } from '@/services/auth/check-session-ssr';
+import { filterRoleList } from '@/services/role/filter-role-list';
 import { getAllRoles } from '@/services/role/get-all-roles';
 import { getLoginUser } from '@/services/user/get-login-user';
 import { IRole } from '@/types/role';
@@ -53,10 +54,8 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
     // get current user
     const user = await getLoginUser(session.user.id);
 
-    // TODO: filter roles based on role
-    const roles = await getAllRoles();
-
-    // check user role and filter
+    // get role option based on user role
+    const roles = await roleOptions(user);
 
     return {
       props: {
@@ -70,5 +69,15 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
     return {
       notFound: true,
     };
+  }
+};
+
+const roleOptions = async (user: any) => {
+  try {
+    const roles = await getAllRoles();
+    const filtered = await filterRoleList(user, roles);
+    return filtered;
+  } catch (error) {
+    throw error;
   }
 };

@@ -16,6 +16,7 @@ export async function getLoginUser(uid: string) {
         select: {
           id: true,
           name: true,
+          alias: true,
         },
       },
     },
