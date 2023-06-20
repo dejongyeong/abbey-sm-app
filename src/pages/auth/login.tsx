@@ -3,7 +3,7 @@ import AuthLayout from '@/components/auth/Layout';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import Link from 'next/link';
 import { loginSchema } from '@/validations/auth/login-schema';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { ILogin } from '../../types/auth';
 import { login } from '@/services/auth/login';
@@ -21,6 +21,12 @@ export default function Login() {
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
   const router = useRouter();
+
+  // TODO: might need to revise this in future
+  useEffect(() => {
+    const { error } = router.query;
+    error ? toast.error(error) : null;
+  });
 
   const onFinish = async ({ email, password, remember }: ILogin) => {
     setLoading(true);

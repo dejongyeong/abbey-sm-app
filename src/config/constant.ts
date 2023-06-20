@@ -32,3 +32,8 @@ export const REDIS_CONFIG = {
   port: process.env.NEXT_PUBLIC_REDIS_PORT,
   password: process.env.NEXT_PUBLIC_REDIS_PASSWORD,
 };
+
+// Super Admin has no invitation - to bypass nextjs middleware
+export const SUPER_ADMIN = {
+  email: 'dejong.re2@gmail.com',
+};
