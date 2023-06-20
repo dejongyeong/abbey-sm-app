@@ -1,13 +1,15 @@
 import DshLayout from '@/components/dashboard/Layout';
 import { checkUserSessionSsr } from '@/services/auth/check-session-ssr';
 import { getLoginUser } from '@/services/user/get-login-user';
+import { Breadcrumb } from 'antd';
 import { GetServerSidePropsContext } from 'next';
 import { ReactNode } from 'react';
 
 export default function Home() {
   return (
-    <main className="w-full h-screen p-8">
-      <h1>Dashboard</h1>
+    <main className="w-full h-auto">
+      <Breadcrumb items={[{ title: 'Home' }, { title: 'Dashboard' }]} />
+      <div className="h-auto mt-7 p-5 bg-white"></div>
     </main>
   );
 }

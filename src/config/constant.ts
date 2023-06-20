@@ -19,6 +19,13 @@ export const SENDGRID_CONFIG = {
   sendFrom: 'dejong.yeong@mtu.ie',
 };
 
+// Influx DB
+export const INFLUX_CONFIG = {
+  url: process.env.NEXT_PUBLIC_INFLUX_URL,
+  token: process.env.NEXT_PUBLIC_INFLUX_TOKEN,
+  org: process.env.NEXT_PUBLIC_INFLUX_ORG,
+};
+
 // Redis
 export const REDIS_CONFIG = {
   host: process.env.NEXT_PUBLIC_REDIS_HOST,
