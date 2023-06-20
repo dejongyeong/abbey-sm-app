@@ -4,9 +4,6 @@ import { ReactNode } from 'react';
 import Logo from '../shared/dashboard/Logo';
 import Navigation from '../shared/dashboard/Navigation';
 import Banner from '../shared/dashboard/Banner';
-import { GetServerSidePropsContext } from 'next';
-import { checkUserSessionSsr } from '@/services/auth/check-session-ssr';
-import { getLoginUser } from '@/services/user/get-login-user';
 
 const APP_DESCRIPTION = 'SMA Dashboard to monitor Tankers or Feeders telemetry';
 
@@ -20,6 +17,7 @@ const { Content, Sider, Footer } = Layout;
 
 export default function DshLayout({ children, pageProps, pageTitle }: TProps) {
   const user = pageProps.user;
+  console.log(user);
 
   return (
     <>
