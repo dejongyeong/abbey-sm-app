@@ -32,7 +32,7 @@ export default function DshLayout({ children, pageProps, pageTitle }: TProps) {
         <Layout>
           <Sider breakpoint="lg" collapsedWidth="0">
             <Logo />
-            <Navigation />
+            <Navigation role={user?.role.alias} />
           </Sider>
           <Layout>
             <Banner user={user} />

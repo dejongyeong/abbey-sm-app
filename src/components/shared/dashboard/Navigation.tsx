@@ -3,9 +3,11 @@ import { getNavList } from './NavList';
 import { Menu } from 'antd';
 import { useEffect, useState } from 'react';
 
-export default function Navigation() {
+export default function Navigation({ role }: { role: string }) {
   const router = useRouter();
   const [selectedKeys, setSelectedKeys] = useState(['1']);
+
+  console.log(role);
 
   useEffect(() => {
     const current = router.asPath;
@@ -19,7 +21,7 @@ export default function Navigation() {
     }
   }, [router]);
 
-  const items = getNavList(router, setSelectedKeys);
+  const items = getNavList(role, router, setSelectedKeys);
 
   return (
     <Menu

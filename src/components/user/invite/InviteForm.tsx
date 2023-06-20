@@ -21,8 +21,6 @@ export default function InviteForm({ senderId, roles }: any) {
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
 
-  // TODO: filter role
-
   const onFinish = async (value: IInvite) => {
     setLoading(true);
 
@@ -55,7 +53,7 @@ export default function InviteForm({ senderId, roles }: any) {
   };
 
   return (
-    <div className="flex flex-col mt-3 w-max h-max">
+    <div className="flex flex-col mt-3 min-[426px]:w-max min-[426px]:h-max">
       <Form
         form={form}
         name="invite"
@@ -69,11 +67,15 @@ export default function InviteForm({ senderId, roles }: any) {
         </Form.Item>
 
         <Form.Item label="Name" required className="mb-0">
-          <div className="flex gap-2">
+          <div className="flex flex-row gap-2 max-[426px]:flex-col max-[426px]:gap-0">
             <Form.Item name="first_name" rules={[yupSync]}>
               <Input placeholder="First Name" />
             </Form.Item>
-            <Form.Item name="last_name" rules={[yupSync]}>
+            <Form.Item
+              name="last_name"
+              className="max-[426px]:-mt-2"
+              rules={[yupSync]}
+            >
               <Input placeholder="Last Name" />
             </Form.Item>
           </div>

@@ -29,20 +29,15 @@ const getItem = (
 };
 
 export const getNavList = (
+  role: string,
   router: NextRouter,
   setSelectedKeys: Function
 ): MenuItem[] => {
-  const items: MenuItem[] = [
+  let items: MenuItem[] = [
     // Home dashboard
     getItem('Dashboard', '1', <HomeOutlined />, undefined, undefined, () => {
       router.push('/');
       setSelectedKeys(['1']);
-    }),
-
-    // Users
-    getItem('Users', '2', <UserSwitchOutlined />, undefined, undefined, () => {
-      router.push('/users');
-      setSelectedKeys(['2']);
     }),
 
     // Machines
@@ -60,6 +55,26 @@ export const getNavList = (
     // Settings
     getItem('Settings', '5', <SettingOutlined />),
   ];
+
+  const allow = ['am-admin', 'am-manager', 'dealership', 'dealership'];
+  if (allow.includes(role)) {
+    // Users
+    items.splice(
+      1,
+      0,
+      getItem(
+        'Users',
+        '2',
+        <UserSwitchOutlined />,
+        undefined,
+        undefined,
+        () => {
+          router.push('/users');
+          setSelectedKeys(['2']);
+        }
+      )
+    );
+  }
 
   return items;
 };
