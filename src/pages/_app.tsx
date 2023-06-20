@@ -9,6 +9,7 @@ import type { ReactElement, ReactNode } from 'react';
 import type { NextPage } from 'next';
 import Head from 'next/head';
 import { SUPABASE_CONFIG } from '@/config/constant';
+import NextNProgress from 'nextjs-progressbar';
 import Toast from '@/components/shared/Toast';
 
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
@@ -44,13 +45,16 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
       </Head>
 
       {getLayout(
-        <SessionContextProvider
-          supabaseClient={supabaseClient}
-          initialSession={pageProps.initialSession}
-        >
-          <Component {...pageProps} />
-          <Toast />
-        </SessionContextProvider>,
+        <>
+          <NextNProgress />
+          <SessionContextProvider
+            supabaseClient={supabaseClient}
+            initialSession={pageProps.initialSession}
+          >
+            <Component {...pageProps} />
+            <Toast />
+          </SessionContextProvider>
+        </>,
         pageProps
       )}
     </div>
