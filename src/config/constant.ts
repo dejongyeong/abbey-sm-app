@@ -24,6 +24,7 @@ export const INFLUX_CONFIG = {
   url: process.env.NEXT_PUBLIC_INFLUX_URL,
   token: process.env.NEXT_PUBLIC_INFLUX_TOKEN,
   org: process.env.NEXT_PUBLIC_INFLUX_ORG,
+  bucket: 'demo',
 };
 
 // Redis
