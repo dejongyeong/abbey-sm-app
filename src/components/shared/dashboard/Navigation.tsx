@@ -7,8 +7,6 @@ export default function Navigation({ role }: { role: string }) {
   const router = useRouter();
   const [selectedKeys, setSelectedKeys] = useState(['1']);
 
-  console.log(role);
-
   useEffect(() => {
     const current = router.asPath;
     switch (current) {

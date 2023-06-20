@@ -17,7 +17,6 @@ const { Content, Sider, Footer } = Layout;
 
 export default function DshLayout({ children, pageProps, pageTitle }: TProps) {
   const user = pageProps.user;
-  console.log(user);
 
   return (
     <>
