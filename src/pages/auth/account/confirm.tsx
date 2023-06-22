@@ -8,10 +8,17 @@ import { IResetPassword } from '../../../types/auth';
 import { getUid } from '@/services/auth/reset';
 import { confirm } from '@/services/auth/confirm';
 import { toast } from 'react-toastify';
+import { accountConfirmSchema } from '@/validations/auth/account-confirm-schema';
 
 const title: string = 'Confirm Account';
 
 const { Text } = Typography;
+
+const yupSync = {
+  async validator({ field }: any, value: any) {
+    await accountConfirmSchema.validateSyncAt(field, { [field]: value });
+  },
+};
 
 export default function Confirm() {
   const [form] = Form.useForm();
@@ -55,7 +62,7 @@ export default function Confirm() {
         onFinish={onFinish}
         className="w-full mt-5"
       >
-        <Form.Item name="password" required hasFeedback>
+        <Form.Item name="password" required hasFeedback rules={[yupSync]}>
           <Input.Password
             prefix={
               <LockOutlined className="mr-1 text-black text-opacity-25" />

@@ -38,3 +38,8 @@ export const REDIS_CONFIG = {
 export const SUPER_ADMIN = {
   email: 'dejong.re2@gmail.com',
 };
+
+// All value are in milliseconds.
+export const SENSOR_INTERVAL = {
+  vacuumSpeed: 10000, // 10 seconds
+};

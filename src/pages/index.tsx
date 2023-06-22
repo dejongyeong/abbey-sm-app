@@ -1,4 +1,6 @@
 import DshLayout from '@/components/dashboard/Layout';
+import VacuumSpeed from '@/components/sensors/VacuumSpeed';
+import { BASE_URL } from '@/config/constant';
 import { checkUserSessionSsr } from '@/services/auth/check-session-ssr';
 import { getLoginUser } from '@/services/user/get-login-user';
 import { Breadcrumb } from 'antd';
@@ -9,7 +11,9 @@ export default function Home() {
   return (
     <main className="w-full h-auto">
       <Breadcrumb items={[{ title: 'Home' }, { title: 'Dashboard' }]} />
-      <div className="h-auto mt-7 p-5 bg-white"></div>
+      <div className="h-auto mt-7 p-5 bg-white">
+        <VacuumSpeed />
+      </div>
     </main>
   );
 }
