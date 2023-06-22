@@ -13,7 +13,7 @@ export default function Banner({ user }: any) {
   const role = user.role.name;
 
   return (
-    <Header className="w-full flex justify-end items-center bg-white pe-12">
+    <Header className="w-full flex justify-end items-center bg-white pe-12 max-[425px]:p-0 max-[425px]:pe-6">
       <div className="flex flex-row gap-3 justify-end items-center">
         <Notification />
         <Logout />
