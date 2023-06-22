@@ -49,7 +49,7 @@ async function queryData(
   res: NextApiResponse
 ) {
   querying(query, res);
-  // setInterval(querying, SENSOR_INTERVAL.vacuumSpeed); // Schedule the next query after the interval
+  setInterval(querying, SENSOR_INTERVAL.vacuumSpeed); // Schedule the next query after the interval
 }
 
 const querying = async (query: string, res: NextApiResponse) => {
