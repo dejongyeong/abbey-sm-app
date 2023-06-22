@@ -1,6 +1,5 @@
 import DshLayout from '@/components/dashboard/Layout';
-import VacuumSpeed from '@/components/sensors/VacuumSpeed';
-import { BASE_URL } from '@/config/constant';
+import VacuumSpeed from '@/components/sensors/vacuum-speed/VacuumSpeed';
 import { checkUserSessionSsr } from '@/services/auth/check-session-ssr';
 import { getLoginUser } from '@/services/user/get-login-user';
 import { Breadcrumb } from 'antd';

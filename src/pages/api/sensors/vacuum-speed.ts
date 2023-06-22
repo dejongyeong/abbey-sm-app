@@ -33,11 +33,10 @@ async function getVacuumSpeedData(req: NextApiRequest, res: NextApiResponse) {
     |> filter(fn: (r) => r._field == "${escape.tag(field_max)}" 
                       or r._field == "${escape.tag(field_avg)}")
     |> filter(fn: (r) => r.machine_serial == "${escape.tag(machine_serial)}")
-    |> pivot(rowKey: ["_time"], columnKey: ["_field"], valueColumn: "_value")
     |> map(fn: (r) => ({
         dateTime: r._time,
-        vacuumRpmAvg: r.vacuum_rpm_avg,
-        vacuumRpmMax: r.vacuum_rpm_max})
+        value: float(v: r._value),
+        category: r._field})
     )`;
 
   queryData(query, req, res);
@@ -57,12 +56,12 @@ const querying = async (query: string, res: NextApiResponse) => {
     influxDbClient.queryRows(query, {
       next: (row: string[], tableMeta: FluxTableMetaData) => {
         const o = tableMeta.toObject(row);
-        const dt = o.dateTime ? convertTimezone(o.dateTime) : o.dateTime;
+        const dt = convertTimezone(o.dateTime);
 
         const data = {
           dt: dt,
-          vacuum_rpm_max: o.vacuumRpmMax,
-          vacuum_rpm_avg: o.vacuumRpmAvg,
+          value: o.value,
+          category: o.category === 'vacuum_rpm_max' ? 'RPM Max' : 'RPM Average',
         };
         sendEvent(data, res);
       },
