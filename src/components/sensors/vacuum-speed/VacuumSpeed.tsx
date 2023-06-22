@@ -1,17 +1,18 @@
 import { useEffect, useState } from 'react';
 import MultiLineChart from './MultiLineChart';
-import { Typography } from 'antd';
+import { Card, Typography } from 'antd';
+import NoData from '@/components/shared/sensors/NoData';
+import DataError from '@/components/shared/sensors/DataError';
 
 const { Title } = Typography;
 
 const VacuumSpeed = () => {
   const [data, setData] = useState<any[]>([]);
-  const [error, setError] = useState();
-
-  const api =
-    '/api/sensors/vacuum-speed?start=-5d&end=now()&measurement=Vacuumspeed&field_max=vacuum_rpm_max&field_avg=vacuum_rpm_avg&machine_serial=T100';
+  const [error, setError] = useState(false);
 
   useEffect(() => {
+    const api =
+      '/api/sensors/vacuum-speed?start=-2d&end=now()&measurement=Vacuumspeed&field_max=vacuum_rpm_max&field_avg=vacuum_rpm_avg&machine_serial=T100';
     const eventSource = new EventSource(api);
 
     eventSource.onmessage = (event: any) => {
@@ -20,25 +21,30 @@ const VacuumSpeed = () => {
     };
 
     eventSource.onerror = (error: any) => {
-      setError(error);
+      setError(true);
       eventSource.close();
     };
 
     return () => {
       eventSource.close();
+      setData([]); // beware of this if is causing problem to showing real-time
     };
   }, []);
 
-  if (!data || data.length === 0) {
-    return <div>No data available.</div>;
-  }
-
-  // TODO: include error
+  // TODO: add machine number
   return (
-    <div>
+    <Card>
       <Title level={5}>Vacuum Speed</Title>
-      <MultiLineChart data={data} />
-    </div>
+      <div className="mt-6">
+        {error ? (
+          <DataError />
+        ) : data && data.length > 0 ? (
+          <MultiLineChart data={data} />
+        ) : (
+          <NoData />
+        )}
+      </div>
+    </Card>
   );
 };
 
