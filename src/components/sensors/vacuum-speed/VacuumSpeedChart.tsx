@@ -1,6 +1,6 @@
-import { DMultiLineChart } from '@/config/dynamic-multi-line-chart';
+import { DLineChart } from '@/config/dynamic-line-chart';
 
-const MultiLineChart = ({ data }: any) => {
+const VacuumSpeedChart = ({ data }: any) => {
   const config = {
     data,
     xField: 'dt',
@@ -20,7 +20,7 @@ const MultiLineChart = ({ data }: any) => {
     responsive: true,
   };
 
-  return <DMultiLineChart {...config} />;
+  return <DLineChart {...config} />;
 };
 
-export default MultiLineChart;
+export default VacuumSpeedChart;

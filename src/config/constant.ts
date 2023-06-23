@@ -42,4 +42,5 @@ export const SUPER_ADMIN = {
 // All value are in milliseconds.
 export const SENSOR_INTERVAL = {
   vacuumSpeed: 10000, // 10 seconds
+  vacuumTemp: 60000, // 1 minute
 };

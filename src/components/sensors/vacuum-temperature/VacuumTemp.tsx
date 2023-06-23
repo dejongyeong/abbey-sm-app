@@ -1,18 +1,18 @@
 import { useEffect, useState } from 'react';
-import VacuumSpeedChart from './VacuumSpeedChart';
 import { Card, Typography } from 'antd';
 import NoData from '@/components/shared/sensors/NoData';
 import DataError from '@/components/shared/sensors/DataError';
+import VacuumTempChart from './VacuumTempChart';
 
 const { Title } = Typography;
 
-const VacuumSpeed = () => {
+const VacuumTemp = () => {
   const [data, setData] = useState<any[]>([]);
   const [error, setError] = useState(false);
 
   useEffect(() => {
     const api =
-      '/api/sensors/vacuum-speed?start=-4d&end=now()&measurement=Vacuumspeed&field_max=vacuum_rpm_max&field_avg=vacuum_rpm_avg&machine_serial=T100';
+      '/api/sensors/vacuum-temp?start=-2d&end=now()&machine_serial=T100';
     const eventSource = new EventSource(api);
 
     eventSource.onmessage = (event: any) => {
@@ -31,15 +31,15 @@ const VacuumSpeed = () => {
     };
   }, []);
 
-  // TODO: add machine number
+  // TODO: add machine number (user input)
   return (
     <Card>
-      <Title level={5}>Vacuum Speed</Title>
+      <Title level={5}>Vacuum Pump Temperature</Title>
       <div className="mt-6">
         {error ? (
           <DataError />
         ) : data && data.length > 0 ? (
-          <VacuumSpeedChart data={data} />
+          <VacuumTempChart data={data} />
         ) : (
           <NoData />
         )}
@@ -48,4 +48,4 @@ const VacuumSpeed = () => {
   );
 };
 
-export default VacuumSpeed;
+export default VacuumTemp;

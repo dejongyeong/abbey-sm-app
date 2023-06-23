@@ -1,10 +1,10 @@
 import { INFLUX_CONFIG, SENSOR_INTERVAL } from '@/config/constant';
-import influxDbClient from '@/lib/influxdb/client';
-import { handleError } from '@/services/sensors/handle-error';
-import { sendEvent } from '@/services/sensors/send-event';
-import { convertTimezone } from '@/utils/convert-timezone';
-import { FluxTableMetaData, escape } from '@influxdata/influxdb-client';
 import { NextApiRequest, NextApiResponse } from 'next';
+import { FluxTableMetaData, escape } from '@influxdata/influxdb-client';
+import influxDbClient from '@/lib/influxdb/client';
+import { convertTimezone } from '@/utils/convert-timezone';
+import { sendEvent } from '@/services/sensors/send-event';
+import { handleError } from '@/services/sensors/handle-error';
 
 export default async function handler(
   req: NextApiRequest,
@@ -16,27 +16,25 @@ export default async function handler(
     res.setHeader('Connection', 'keep-alive');
     res.setHeader('X-Accel-Buffering', 'no'); // Disable response buffering for Vercel
 
-    getVacuumSpeedData(req, res); // get data
+    getVacuumTempData(req, res); // get data
   } else {
     res.setHeader('Allow', 'GET');
     res.status(405).json({ message: 'Method not allowed' });
   }
 }
 
-async function getVacuumSpeedData(req: NextApiRequest, res: NextApiResponse) {
-  const { start, end, measurement, field_max, field_avg, machine_serial }: any =
-    req.query;
+async function getVacuumTempData(req: NextApiRequest, res: NextApiResponse) {
+  const { start, end, machine_serial }: any = req.query;
 
   const query = `from(bucket: ${escape.quoted(INFLUX_CONFIG.bucket)}) 
-    |> range(start: ${start}, stop: ${end}) 
-    |> filter(fn: (r) => r._measurement == "${escape.measurement(measurement)}")
-    |> filter(fn: (r) => r._field == "${escape.tag(field_max)}" 
-                      or r._field == "${escape.tag(field_avg)}")
-    |> filter(fn: (r) => r.machine_serial == "${escape.tag(machine_serial)}")
-    |> map(fn: (r) => ({
+      |> range(start: ${start}, stop: ${end}) 
+      |> filter(fn: (r) => r._measurement == "Vaccuumpump_temperature")
+      |> filter(fn: (r) => r._field == "temperature" )
+      |> filter(fn: (r) => r.machine_serial == "${escape.tag(machine_serial)}")
+      |> map(fn: (r) => ({
         dateTime: r._time,
-        value: float(v: r._value),
-        category: r._field})
+        value: r._value,
+        category: "Temperature"})
     )`;
 
   queryData(query, req, res);
@@ -48,7 +46,7 @@ async function queryData(
   res: NextApiResponse
 ) {
   querying(query, res);
-  const interval = setInterval(querying, SENSOR_INTERVAL.vacuumSpeed); // Schedule the next query after the interval
+  const interval = setInterval(querying, SENSOR_INTERVAL.vacuumTemp); // Schedule the next query after the interval
 
   // Close the SSE connection when the client disconnects
   req.on('close', () => {
@@ -64,11 +62,7 @@ const querying = async (query: string, res: NextApiResponse) => {
         const o = tableMeta.toObject(row);
         const dt = convertTimezone(o.dateTime);
 
-        const data = {
-          dt: dt,
-          value: o.value,
-          category: o.category === 'vacuum_rpm_max' ? 'RPM Max' : 'RPM Average',
-        };
+        const data = { dt: dt, value: o.value, category: o.category };
         sendEvent(data, res);
       },
       error: (error) => {

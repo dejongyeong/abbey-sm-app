@@ -1,5 +1,6 @@
 import DshLayout from '@/components/dashboard/Layout';
 import VacuumSpeed from '@/components/sensors/vacuum-speed/VacuumSpeed';
+import VacuumTemp from '@/components/sensors/vacuum-temperature/VacuumTemp';
 import { checkUserSessionSsr } from '@/services/auth/check-session-ssr';
 import { getLoginUser } from '@/services/user/get-login-user';
 import { Breadcrumb } from 'antd';
@@ -13,6 +14,7 @@ export default function Home() {
       <div className="h-auto mt-7 p-5 bg-white">
         <div className="grid grid-cols-3 max-[1440px]:grid-cols-2 max-[768px]:grid-cols-1 gap-4">
           <VacuumSpeed />
+          <VacuumTemp />
         </div>
       </div>
     </main>
