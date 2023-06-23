@@ -12,7 +12,7 @@ const VacuumSpeed = () => {
 
   useEffect(() => {
     const api =
-      '/api/sensors/vacuum-speed?start=-2d&end=now()&measurement=Vacuumspeed&field_max=vacuum_rpm_max&field_avg=vacuum_rpm_avg&machine_serial=T100';
+      '/api/sensors/vacuum-speed?start=-4d&end=now()&measurement=Vacuumspeed&field_max=vacuum_rpm_max&field_avg=vacuum_rpm_avg&machine_serial=T100';
     const eventSource = new EventSource(api);
 
     eventSource.onmessage = (event: any) => {
