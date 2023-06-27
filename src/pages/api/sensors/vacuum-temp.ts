@@ -9,7 +9,7 @@ export default async function handler(
   res: NextApiResponse
 ) {
   if (req.method === 'GET') {
-    const results = await getVacuumTempData(req, res); // get data
+    const results = await getVacuumTempData(req); // get data
     res.status(200).json(results);
   } else {
     res.setHeader('Allow', 'GET');
@@ -17,8 +17,8 @@ export default async function handler(
   }
 }
 
-async function getVacuumTempData(req: NextApiRequest, res: NextApiResponse) {
-  const { start, end, machine_serial, periodic }: any = req.query;
+async function getVacuumTempData(req: NextApiRequest) {
+  const { start, end, machine_serial }: any = req.query;
 
   const query = `from(bucket: ${escape.quoted(INFLUX_CONFIG.bucket)})
       |> range(start: ${start}, stop: ${end})

@@ -18,7 +18,6 @@ const VacuumTemp = () => {
           start: '-7d',
           end: 'now()',
           machine_serial: 'T100',
-          periodic: 'true',
         });
 
         const response = await fetch(`/api/sensors/vacuum-temp?${params}`);

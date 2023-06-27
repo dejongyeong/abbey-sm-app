@@ -3,6 +3,7 @@ import VacuumSpeedChart from './VacuumSpeedChart';
 import { Card, Typography } from 'antd';
 import NoData from '@/components/shared/sensors/NoData';
 import DataError from '@/components/shared/sensors/DataError';
+import { SENSOR_INTERVAL } from '@/config/constant';
 
 const { Title } = Typography;
 
@@ -11,23 +12,30 @@ const VacuumSpeed = () => {
   const [error, setError] = useState(false);
 
   useEffect(() => {
-    const api =
-      '/api/sensors/vacuum-speed?start=-4d&end=now()&measurement=Vacuumspeed&field_max=vacuum_rpm_max&field_avg=vacuum_rpm_avg&machine_serial=T100';
-    const eventSource = new EventSource(api);
+    const fetching = async () => {
+      try {
+        const params = new URLSearchParams({
+          start: '-7d',
+          end: 'now()',
+          measurement: 'Vacuumspeed',
+          field_max: 'vacuum_rpm_max',
+          field_avg: 'vacuum_rpm_avg',
+          machine_serial: 'T100',
+        });
 
-    eventSource.onmessage = (event: any) => {
-      const points = JSON.parse(event.data);
-      setData((prev) => [...prev, points]);
+        const response = await fetch(`/api/sensors/vacuum-speed?${params}`);
+        const data = await response.json();
+        setData(data);
+      } catch (error) {
+        setError(true);
+      }
     };
 
-    eventSource.onerror = (error: any) => {
-      setError(true);
-      eventSource.close();
-    };
+    fetching();
 
+    const interval = setInterval(fetching, SENSOR_INTERVAL.vacuumSpeed);
     return () => {
-      eventSource.close();
-      setData([]); // beware of this if is causing problem to showing real-time
+      clearInterval(interval);
     };
   }, []);
 

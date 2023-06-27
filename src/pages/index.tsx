@@ -13,7 +13,7 @@ export default function Home() {
       <Breadcrumb items={[{ title: 'Home' }, { title: 'Dashboard' }]} />
       <div className="h-auto mt-7 p-5 bg-white">
         <div className="grid grid-cols-3 max-[1440px]:grid-cols-2 max-[768px]:grid-cols-1 gap-4">
-          {/* <VacuumSpeed /> */}
+          <VacuumSpeed />
           <VacuumTemp />
         </div>
       </div>
