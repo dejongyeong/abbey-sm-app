@@ -20,6 +20,7 @@ export default function Home() {
           <HydraulicPressure />
           <OilAvailability />
         </div>
+        <div className="mt-6">map</div>
       </div>
     </main>
   );

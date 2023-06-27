@@ -37,14 +37,22 @@ export const getNavList = (
     // Home dashboard
     getItem('Dashboard', '1', <HomeOutlined />, undefined, undefined, () => {
       router.push('/');
-      setSelectedKeys(['1']);
     }),
 
     // Machines
     getItem('Machines', '3', <ToolOutlined />),
 
     // Analytics
-    getItem('Analytics', '4', <LineChartOutlined />),
+    getItem(
+      'Analytics',
+      '4',
+      <LineChartOutlined />,
+      undefined,
+      undefined,
+      () => {
+        router.push('/analytics');
+      }
+    ),
 
     // Divider
     {
@@ -70,7 +78,6 @@ export const getNavList = (
         undefined,
         () => {
           router.push('/users');
-          setSelectedKeys(['2']);
         }
       )
     );

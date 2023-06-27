@@ -38,7 +38,7 @@ const VacuumTemp = () => {
 
   // TODO: add machine number (user input)
   return (
-    <Card className="h-max">
+    <Card>
       <Title level={5}>Vacuum Pump Temperature</Title>
       <div className="mt-6">
         {error ? <DataError /> : null}
