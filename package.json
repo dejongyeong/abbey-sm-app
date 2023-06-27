@@ -16,7 +16,7 @@
     "@ant-design/plots": "^1.2.5",
     "@influxdata/influxdb-client": "^1.33.2",
     "@influxdata/influxdb-client-apis": "^1.33.2",
-    "@prisma/client": "^4.15.0",
+    "@prisma/client": "^4.16.1",
     "@sendgrid/mail": "^7.7.0",
     "@supabase/auth-helpers-nextjs": "^0.7.2",
     "@supabase/auth-helpers-react": "^0.4.0",
@@ -35,6 +35,8 @@
     "next-pwa": "^5.6.0",
     "nextjs-progressbar": "^0.0.16",
     "postcss": "8.4.24",
+    "pusher": "^5.1.3",
+    "pusher-js": "^8.2.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-error-boundary": "^4.0.10",
@@ -45,7 +47,7 @@
     "yup": "^1.2.0"
   },
   "devDependencies": {
-    "prisma": "^4.15.0",
+    "prisma": "^4.16.1",
     "supabase": "^1.68.6",
     "ts-node": "^10.9.1"
   }

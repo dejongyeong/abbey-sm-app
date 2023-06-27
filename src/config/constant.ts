@@ -34,6 +34,14 @@ export const REDIS_CONFIG = {
   password: process.env.NEXT_PUBLIC_REDIS_PASSWORD,
 };
 
+// Pusher
+export const PUSHER_CONFIG = {
+  appId: process.env.NEXT_PUBLIC_PUSHER_APP_ID,
+  key: process.env.NEXT_PUBLIC_PUSHER_KEY,
+  secret: process.env.NEXT_PUBLIC_PUSHER_SECRET,
+  cluster: process.env.NEXT_PUBLIC_PUSHER_CLUSTER,
+};
+
 // Super Admin has no invitation - to bypass nextjs middleware
 export const SUPER_ADMIN = {
   email: 'dejong.re2@gmail.com',
