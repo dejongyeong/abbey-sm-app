@@ -1,5 +1,6 @@
 import DshLayout from '@/components/dashboard/Layout';
 import HydraulicPressure from '@/components/sensors/hydraulic-pressure/HydraulicPressure';
+import OilAvailability from '@/components/sensors/oil-status/OilAvailability';
 import VacuumSpeed from '@/components/sensors/vacuum-speed/VacuumSpeed';
 import VacuumTemp from '@/components/sensors/vacuum-temperature/VacuumTemp';
 import { checkUserSessionSsr } from '@/services/auth/check-session-ssr';
@@ -17,6 +18,7 @@ export default function Home() {
           <VacuumSpeed />
           <VacuumTemp />
           <HydraulicPressure />
+          <OilAvailability />
         </div>
       </div>
     </main>

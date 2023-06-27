@@ -1,9 +1,9 @@
-import { NextApiRequest, NextApiResponse } from 'next';
-import { checkUserSessionApi } from '@/services/auth/check-session-api';
-import { FluxTableMetaData, escape } from '@influxdata/influxdb-client';
 import { INFLUX_CONFIG } from '@/config/constant';
+import { NextApiRequest, NextApiResponse } from 'next';
+import { FluxTableMetaData, escape } from '@influxdata/influxdb-client';
 import influxDbClient from '@/lib/influxdb/client';
 import { convertTimezone } from '@/utils/convert-timezone';
+import { checkUserSessionApi } from '@/services/auth/check-session-api';
 
 export default async function handler(
   req: NextApiRequest,
@@ -18,11 +18,11 @@ export default async function handler(
         .json({ message: 'No active session or is not authenticated' });
     } else {
       try {
-        const results = await getHydraulicPressure(req);
+        const results = await getOilAvailability(req); // get data
         res.status(200).json(results);
       } catch (error) {
         res.status(500).json({
-          message: 'Error fetching hydraulic pressure data',
+          message: 'Error fetching oil status data',
         });
       }
     }
@@ -32,19 +32,22 @@ export default async function handler(
   }
 }
 
-async function getHydraulicPressure(req: NextApiRequest) {
+async function getOilAvailability(req: NextApiRequest) {
   const { start, end, machine_serial }: any = req.query;
 
-  const query = `from(bucket: ${escape.quoted(INFLUX_CONFIG.bucket)}) 
-    |> range(start: ${start}, stop: ${end}) 
-    |> filter(fn: (r) => r._measurement == "HydraulicPressure")
-    |> filter(fn: (r) => r._field == "pressure")
-    |> filter(fn: (r) => r.machine_serial == "${escape.tag(machine_serial)}")
-    |> map(fn: (r) => ({
-        dateTime: r._time,
-        value: float(v: r._value),
-        category: "Pressure"})
-    )`;
+  const query = `from(bucket: ${escape.quoted(INFLUX_CONFIG.bucket)})
+        |> range(start: ${start}, stop: ${end})
+        |> filter(fn: (r) => r._measurement == "Vaccuumpump_oil_status")
+        |> filter(fn: (r) => r._field == "oil_status" )
+        |> filter(fn: (r) => r.machine_serial == "${escape.tag(
+          machine_serial
+        )}")
+        |> last()
+        |> map(fn: (r) => ({
+          dateTime: r._time,
+          value: r._value,
+          category: "Oil Status"})
+      )`;
 
   return await queryData(query);
 }

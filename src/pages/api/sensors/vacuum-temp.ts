@@ -20,7 +20,6 @@ export default async function handler(
       try {
         const results = await getVacuumTempData(req); // get data
         res.status(200).json(results);
-        res.status(200).json(results);
       } catch (error) {
         res.status(500).json({
           message: 'Error fetching vacuum temperature data',

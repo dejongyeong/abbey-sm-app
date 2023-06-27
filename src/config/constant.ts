@@ -52,4 +52,5 @@ export const SENSOR_INTERVAL = {
   vacuumSpeed: 10000, // 10 seconds
   vacuumTemp: 60000, // 1 minute
   pressure: 10000, // 10 seconds
+  oilAvailability: 600000, // 10 minutes
 };
