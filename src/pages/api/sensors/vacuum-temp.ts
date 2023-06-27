@@ -3,14 +3,30 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import { FluxTableMetaData, escape } from '@influxdata/influxdb-client';
 import influxDbClient from '@/lib/influxdb/client';
 import { convertTimezone } from '@/utils/convert-timezone';
+import { checkUserSessionApi } from '@/services/auth/check-session-api';
 
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
   if (req.method === 'GET') {
-    const results = await getVacuumTempData(req); // get data
-    res.status(200).json(results);
+    const session = await checkUserSessionApi(req, res);
+
+    if (!session) {
+      res
+        .status(401)
+        .json({ message: 'No active session or is not authenticated' });
+    } else {
+      try {
+        const results = await getVacuumTempData(req); // get data
+        res.status(200).json(results);
+        res.status(200).json(results);
+      } catch (error) {
+        res.status(500).json({
+          message: 'Error fetching vacuum temperature data',
+        });
+      }
+    }
   } else {
     res.setHeader('Allow', 'GET');
     res.status(405).json({ message: 'Method not allowed' });

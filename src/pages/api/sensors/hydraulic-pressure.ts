@@ -1,9 +1,9 @@
+import { NextApiRequest, NextApiResponse } from 'next';
+import { checkUserSessionApi } from '@/services/auth/check-session-api';
+import { FluxTableMetaData, escape } from '@influxdata/influxdb-client';
 import { INFLUX_CONFIG } from '@/config/constant';
 import influxDbClient from '@/lib/influxdb/client';
-import { checkUserSessionApi } from '@/services/auth/check-session-api';
 import { convertTimezone } from '@/utils/convert-timezone';
-import { FluxTableMetaData, escape } from '@influxdata/influxdb-client';
-import { NextApiRequest, NextApiResponse } from 'next';
 
 export default async function handler(
   req: NextApiRequest,
@@ -18,7 +18,7 @@ export default async function handler(
         .json({ message: 'No active session or is not authenticated' });
     } else {
       try {
-        const results = await getVacuumSpeedData(req);
+        const results = await getHydraulicPressure(req);
         res.status(200).json(results);
       } catch (error) {
         res.status(500).json({
@@ -32,20 +32,18 @@ export default async function handler(
   }
 }
 
-async function getVacuumSpeedData(req: NextApiRequest) {
-  const { start, end, measurement, field_max, field_avg, machine_serial }: any =
-    req.query;
+async function getHydraulicPressure(req: NextApiRequest) {
+  const { start, end, machine_serial }: any = req.query;
 
   const query = `from(bucket: ${escape.quoted(INFLUX_CONFIG.bucket)}) 
     |> range(start: ${start}, stop: ${end}) 
-    |> filter(fn: (r) => r._measurement == "${escape.measurement(measurement)}")
-    |> filter(fn: (r) => r._field == "${escape.tag(field_max)}" 
-                      or r._field == "${escape.tag(field_avg)}")
+    |> filter(fn: (r) => r._measurement == "HydraulicPressure")
+    |> filter(fn: (r) => r._field == "pressure")
     |> filter(fn: (r) => r.machine_serial == "${escape.tag(machine_serial)}")
     |> map(fn: (r) => ({
         dateTime: r._time,
         value: float(v: r._value),
-        category: r._field})
+        category: "Pressure"})
     )`;
 
   return await queryData(query);
@@ -60,12 +58,7 @@ async function queryData(query: string) {
           const o = tableMeta.toObject(row);
           const dt = convertTimezone(o.dateTime);
 
-          const data = {
-            dt: dt,
-            value: o.value,
-            category:
-              o.category === 'vacuum_rpm_max' ? 'RPM Max' : 'RPM Average',
-          };
+          const data = { dt: dt, value: o.value, category: o.category };
           results.push(data);
         },
         error: (error) => {
