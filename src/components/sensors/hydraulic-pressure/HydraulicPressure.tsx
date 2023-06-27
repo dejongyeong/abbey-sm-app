@@ -31,10 +31,10 @@ const HydraulicPressure = () => {
 
     fetching();
 
-    const interval = setInterval(fetching, SENSOR_INTERVAL.pressure);
-    return () => {
-      clearInterval(interval);
-    };
+    // const interval = setInterval(fetching, SENSOR_INTERVAL.pressure);
+    // return () => {
+    //   clearInterval(interval);
+    // };
   }, []);
 
   // TODO: add machine number

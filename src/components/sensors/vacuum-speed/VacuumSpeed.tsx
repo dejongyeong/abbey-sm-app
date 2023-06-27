@@ -33,10 +33,10 @@ const VacuumSpeed = () => {
 
     fetching();
 
-    const interval = setInterval(fetching, SENSOR_INTERVAL.vacuumSpeed);
-    return () => {
-      clearInterval(interval);
-    };
+    // const interval = setInterval(fetching, SENSOR_INTERVAL.vacuumSpeed);
+    // return () => {
+    //   clearInterval(interval);
+    // };
   }, []);
 
   // TODO: add machine number

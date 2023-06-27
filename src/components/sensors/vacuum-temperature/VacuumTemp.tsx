@@ -30,17 +30,17 @@ const VacuumTemp = () => {
 
     fetching();
 
-    const interval = setInterval(fetching, SENSOR_INTERVAL.vacuumTemp);
-    return () => {
-      clearInterval(interval);
-    };
+    // const interval = setInterval(fetching, SENSOR_INTERVAL.vacuumTemp);
+    // return () => {
+    //   clearInterval(interval);
+    // };
   }, []);
 
   // TODO: add machine number (user input)
   return (
     <Card className="h-max">
       <Title level={5}>Vacuum Pump Temperature</Title>
-      <div className="mt-10">
+      <div className="mt-6">
         {error ? <DataError /> : null}
         {data && data.length > 0 && !error ? (
           <VacuumTempChart data={data} />

@@ -23,10 +23,10 @@ export default function Login() {
   const router = useRouter();
 
   // TODO: might need to revise this in future
-  useEffect(() => {
-    const { error } = router.query;
-    error ? toast.error(error) : null;
-  });
+  // useEffect(() => {
+  //   const { error } = router.query;
+  //   error ? toast.error(error) : null;
+  // });
 
   const onFinish = async ({ email, password, remember }: ILogin) => {
     setLoading(true);
