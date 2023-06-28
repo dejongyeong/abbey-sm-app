@@ -27,7 +27,7 @@ export async function middleware(req: NextRequest) {
     }
 
     // Auth condition not met, redirect to home page and throw error
-    throw new Error('Authentication failed. Contact support if error persist.');
+    throw new Error('Authentication failed. Please login.');
   } catch (error) {
     const redirectUrl = req.nextUrl.clone();
     redirectUrl.pathname = '/auth/login';
