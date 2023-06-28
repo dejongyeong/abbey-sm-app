@@ -4,6 +4,7 @@ import NoData from '@/components/shared/sensors/NoData';
 import DataError from '@/components/shared/sensors/DataError';
 import { SENSOR_INTERVAL } from '@/config/constant';
 import OilAvailabilityChart from './OilAvailabilityChart';
+import { getOilStatus } from '@/services/sensor/get-oil-status';
 
 const { Title, Text } = Typography;
 
@@ -15,14 +16,11 @@ const OilAvailability = () => {
   useEffect(() => {
     const fetching = async () => {
       try {
-        const params = new URLSearchParams({
+        const data = await getOilStatus({
           start: '-7d',
           end: 'now()',
-          machine_serial: 'T100',
+          serial: 'T100',
         });
-
-        const response = await fetch(`/api/sensors/oil-availability?${params}`);
-        const data = await response.json();
 
         const { dt, value } = data[0];
         setValue(value);
@@ -42,7 +40,7 @@ const OilAvailability = () => {
 
   // TODO: add machine number (user input)
   return (
-    <Card className="h-max">
+    <Card>
       <Title level={5}>Oil Availability Status</Title>
       <Text type="secondary">{timestamp}</Text>
       <div className="mt-3">

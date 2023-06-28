@@ -4,6 +4,7 @@ import { Card, Typography } from 'antd';
 import NoData from '@/components/shared/sensors/NoData';
 import DataError from '@/components/shared/sensors/DataError';
 import { SENSOR_INTERVAL } from '@/config/constant';
+import { getVacuumSpeed } from '@/services/sensor/get-vacuum-speed';
 
 const { Title } = Typography;
 
@@ -14,17 +15,12 @@ const VacuumSpeed = () => {
   useEffect(() => {
     const fetching = async () => {
       try {
-        const params = new URLSearchParams({
+        const data = await getVacuumSpeed({
           start: '-7d',
           end: 'now()',
-          measurement: 'Vacuumspeed',
-          field_max: 'vacuum_rpm_max',
-          field_avg: 'vacuum_rpm_avg',
-          machine_serial: 'T100',
+          serial: 'T100',
         });
 
-        const response = await fetch(`/api/sensors/vacuum-speed?${params}`);
-        const data = await response.json();
         setData(data);
       } catch (error) {
         setError(true);

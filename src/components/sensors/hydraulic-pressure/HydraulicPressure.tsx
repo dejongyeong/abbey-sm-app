@@ -4,6 +4,7 @@ import NoData from '@/components/shared/sensors/NoData';
 import DataError from '@/components/shared/sensors/DataError';
 import { SENSOR_INTERVAL } from '@/config/constant';
 import HydraulicPressureChart from './HydraulicPressureChart';
+import { getHydraulicPressure } from '@/services/sensor/get-hydraulic-pressure';
 
 const { Title } = Typography;
 
@@ -14,15 +15,12 @@ const HydraulicPressure = () => {
   useEffect(() => {
     const fetching = async () => {
       try {
-        const params = new URLSearchParams({
+        const data = await getHydraulicPressure({
           start: '-7d',
           end: 'now()',
-          machine_serial: 'T100',
+          serial: 'T100',
         });
 
-        const api = `/api/sensors/hydraulic-pressure?${params}`;
-        const response = await fetch(api);
-        const data = await response.json();
         setData(data);
       } catch (error) {
         setError(true);

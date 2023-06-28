@@ -33,14 +33,13 @@ export default async function handler(
 }
 
 async function getVacuumSpeedData(req: NextApiRequest) {
-  const { start, end, measurement, field_max, field_avg, machine_serial }: any =
-    req.query;
+  const { start, end, machine_serial }: any = req.query;
 
   const query = `from(bucket: ${escape.quoted(INFLUX_CONFIG.bucket)}) 
     |> range(start: ${start}, stop: ${end}) 
-    |> filter(fn: (r) => r._measurement == "${escape.measurement(measurement)}")
-    |> filter(fn: (r) => r._field == "${escape.tag(field_max)}" 
-                      or r._field == "${escape.tag(field_avg)}")
+    |> filter(fn: (r) => r._measurement == "Vacuumspeed")
+    |> filter(fn: (r) => r._field == "vacuum_rpm_max" 
+                      or r._field == "vacuum_rpm_avg")
     |> filter(fn: (r) => r.machine_serial == "${escape.tag(machine_serial)}")
     |> map(fn: (r) => ({
         dateTime: r._time,

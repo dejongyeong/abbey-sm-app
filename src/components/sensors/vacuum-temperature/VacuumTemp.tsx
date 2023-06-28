@@ -4,6 +4,7 @@ import NoData from '@/components/shared/sensors/NoData';
 import DataError from '@/components/shared/sensors/DataError';
 import VacuumTempChart from './VacuumTempChart';
 import { SENSOR_INTERVAL } from '@/config/constant';
+import { getVacuumTemperature } from '@/services/sensor/get-vacuum-temperature';
 
 const { Title } = Typography;
 
@@ -14,14 +15,12 @@ const VacuumTemp = () => {
   useEffect(() => {
     const fetching = async () => {
       try {
-        const params = new URLSearchParams({
+        const data = await getVacuumTemperature({
           start: '-7d',
           end: 'now()',
-          machine_serial: 'T100',
+          serial: 'T100',
         });
 
-        const response = await fetch(`/api/sensors/vacuum-temp?${params}`);
-        const data = await response.json();
         setData(data);
       } catch (error) {
         setError(true);

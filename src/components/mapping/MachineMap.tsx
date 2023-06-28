@@ -19,6 +19,7 @@ export default function MachineMap() {
           end: 'now()',
           serial: 'T100',
         });
+
         setData(data);
       } catch (error) {
         setError(true);
@@ -39,7 +40,9 @@ export default function MachineMap() {
       {!error && data && data.length > 0 ? (
         <>
           <div className="mb-4 mt-3">
-            <p>Last 14 days data</p>
+            <p>
+              Last 14 days data and the last recorded datetime: {data[0]?.dt}
+            </p>
           </div>
           <DLeafletMap
             center={[52.85331759764098, -8.052514052701099]}

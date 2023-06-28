@@ -1,6 +1,6 @@
 import { ISensorProps } from '@/types/sensor';
 
-export const getGps = async ({ start, end, serial }: ISensorProps) => {
+export const getVacuumSpeed = async ({ start, end, serial }: ISensorProps) => {
   try {
     const params = new URLSearchParams({
       start: start,
@@ -8,7 +8,7 @@ export const getGps = async ({ start, end, serial }: ISensorProps) => {
       machine_serial: serial,
     });
 
-    const response = await fetch(`/api/sensors/gps?${params}`, {
+    const response = await fetch(`/api/sensors/vacuum-speed?${params}`, {
       method: 'GET',
       headers: { 'Content-Type': 'application/json' },
     });
@@ -20,6 +20,6 @@ export const getGps = async ({ start, end, serial }: ISensorProps) => {
 
     return data;
   } catch (error) {
-    throw new Error('Error retrieving GPS data');
+    throw new Error('Error retrieving vacuum speed data');
   }
 };
