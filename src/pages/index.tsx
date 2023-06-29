@@ -1,4 +1,4 @@
-import DataSection from '@/components/dashboard/DataSection';
+import HistoricalData from '@/components/dashboard/HistoricalData';
 import DshLayout from '@/components/dashboard/Layout';
 import { checkUserSessionSsr } from '@/services/auth/check-session-ssr';
 import { getLoginUser } from '@/services/user/get-login-user';
@@ -13,7 +13,7 @@ export default function Home() {
     <main className="w-full h-auto">
       <Breadcrumb items={[{ title: 'Home' }, { title: 'Dashboard' }]} />
       <div className="h-auto mt-7 p-7 bg-white">
-        <DataSection />
+        <HistoricalData />
       </div>
     </main>
   );

@@ -4,6 +4,19 @@ import OilAvailability from '@/components/sensors/oil-status/OilAvailability';
 import VacuumSpeed from '@/components/sensors/vacuum-speed/VacuumSpeed';
 import VacuumTemp from '@/components/sensors/vacuum-temperature/VacuumTemp';
 
+interface IProps {
+  vacuumSpeed: any[];
+  vacuumSpeedError: boolean;
+  vacuumTemp: any[];
+  vacuumTempError: boolean;
+  hydraulicPressure: any[];
+  hydraulicPressureError: boolean;
+  oilStatus: any[];
+  oilStatusError: boolean;
+  gps: any[];
+  gpsError: boolean;
+}
+
 export default function SensorData({
   vacuumSpeed,
   vacuumSpeedError,
@@ -15,7 +28,7 @@ export default function SensorData({
   oilStatusError,
   gps,
   gpsError,
-}: any) {
+}: IProps) {
   return (
     <>
       <div className="grid grid-cols-2 max-[1440px]:grid-cols-2 max-[768px]:grid-cols-1 gap-4">
