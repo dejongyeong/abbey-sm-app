@@ -3,6 +3,7 @@ import SensorData from '@/components/sensors/historical-data/SensorData';
 import { checkUserSessionSsr } from '@/services/auth/check-session-ssr';
 import { getLoginUser } from '@/services/user/get-login-user';
 import { getDefaultStartEndDate } from '@/utils/get-default-start-end-date';
+import { selectionSchema } from '@/validations/sensors/selection-schema';
 import { Breadcrumb, Button, DatePicker, Form, Select } from 'antd';
 import dayjs from 'dayjs';
 import { GetServerSidePropsContext } from 'next';
@@ -10,10 +11,11 @@ import { ReactNode } from 'react';
 
 const { RangePicker } = DatePicker;
 
-// TODO: separate this
-const selectRules = [
-  { required: true, message: 'Please select a machine serial number.' },
-];
+const yupSync = {
+  async validator({ field }: any, value: any) {
+    await selectionSchema.validateSyncAt(field, { [field]: value });
+  },
+};
 
 // TODO: list should populate from database
 
@@ -23,11 +25,12 @@ export default function Home() {
 
   // TODO: add logic
   const onFinish = async (value: any) => {
+    console.log(value);
     alert('This function is in progress');
   };
 
   const initialValues = {
-    'range-picker': [dayjs(defaultStartDate), dayjs(defaultEndDate)],
+    range_picker: [dayjs(defaultStartDate), dayjs(defaultEndDate)],
   };
 
   return (
@@ -36,6 +39,7 @@ export default function Home() {
       <div className="h-auto mt-7 p-7 bg-white">
         <div className="flex justify-between align-middle gap-3 mb-3">
           <Form
+            form={form}
             name="historical"
             layout="horizontal"
             labelWrap
@@ -48,13 +52,18 @@ export default function Home() {
               name="serial"
               label="Machines:"
               required
-              rules={selectRules}
+              rules={[yupSync]}
             >
               <Select placeholder="Machine Serial Number">
                 <Select.Option value="T100">T100</Select.Option>
               </Select>
             </Form.Item>
-            <Form.Item name="range-picker" label="Date Range:">
+            <Form.Item
+              name="range_picker"
+              label="Date Range:"
+              required
+              rules={[yupSync]}
+            >
               <RangePicker className="w-full" />
             </Form.Item>
             <Form.Item>
