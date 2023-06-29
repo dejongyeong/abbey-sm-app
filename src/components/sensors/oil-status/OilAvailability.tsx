@@ -1,41 +1,11 @@
-import { useEffect, useState } from 'react';
 import { Card, Typography } from 'antd';
 import NoData from '@/components/shared/sensors/NoData';
 import DataError from '@/components/shared/sensors/DataError';
-import { SENSOR_INTERVAL } from '@/config/constant';
 import OilAvailabilityChart from './OilAvailabilityChart';
-import { getOilStatus } from '@/services/sensor/get-oil-status';
 
 const { Title, Text } = Typography;
 
-const OilAvailability = () => {
-  const [data, setData] = useState([]);
-  const [error, setError] = useState(false);
-
-  useEffect(() => {
-    const fetching = async () => {
-      try {
-        const data = await getOilStatus({
-          start: '-9d',
-          end: 'now()',
-          serial: 'T100',
-        });
-
-        setData(data);
-      } catch (error) {
-        setError(true);
-      }
-    };
-
-    fetching();
-
-    // const interval = setInterval(fetching, SENSOR_INTERVAL.vacuumTemp);
-    // return () => {
-    //   clearInterval(interval);
-    // };
-  }, []);
-
-  // TODO: add machine number (user input)
+const OilAvailability = ({ data, error }: any) => {
   return (
     <Card>
       <Title level={5}>
@@ -61,6 +31,34 @@ const OilAvailability = () => {
 };
 
 export default OilAvailability;
+
+// const [data, setData] = useState([]);
+// const [error, setError] = useState(false);
+
+// useEffect(() => {
+//   const fetching = async () => {
+//     try {
+//       const data = await getOilStatus({
+//         start: '-9d',
+//         end: 'now()',
+//         serial: 'T100',
+//       });
+
+//       setData(data);
+//     } catch (error) {
+//       setError(true);
+//     }
+//   };
+
+//   fetching();
+
+//   const interval = setInterval(fetching, SENSOR_INTERVAL.vacuumTemp);
+//   return () => {
+//     clearInterval(interval);
+//   };
+// }, []);
+
+/************************************** */
 
 // const [value, setValue] = useState(0);
 //   const [timestamp, setTimestamp] = useState('');

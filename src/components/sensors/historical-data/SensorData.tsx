@@ -3,17 +3,32 @@ import HydraulicPressure from '@/components/sensors/hydraulic-pressure/Hydraulic
 import OilAvailability from '@/components/sensors/oil-status/OilAvailability';
 import VacuumSpeed from '@/components/sensors/vacuum-speed/VacuumSpeed';
 import VacuumTemp from '@/components/sensors/vacuum-temperature/VacuumTemp';
-export default function SensorData() {
+
+export default function SensorData({
+  vacuumSpeed,
+  vacuumSpeedError,
+  vacuumTemp,
+  vacuumTempError,
+  hydraulicPressure,
+  hydraulicPressureError,
+  oilStatus,
+  oilStatusError,
+  gps,
+  gpsError,
+}: any) {
   return (
     <>
       <div className="grid grid-cols-2 max-[1440px]:grid-cols-2 max-[768px]:grid-cols-1 gap-4">
-        <VacuumSpeed />
-        <VacuumTemp />
-        <HydraulicPressure />
-        <OilAvailability />
+        <VacuumSpeed data={vacuumSpeed} error={vacuumSpeedError} />
+        <VacuumTemp data={vacuumTemp} error={vacuumTempError} />
+        <HydraulicPressure
+          data={hydraulicPressure}
+          error={hydraulicPressureError}
+        />
+        <OilAvailability data={oilStatus} error={oilStatusError} />
       </div>
       <div className="mt-4">
-        <MachineMap />
+        <MachineMap data={gps} error={gpsError} />
       </div>
     </>
   );

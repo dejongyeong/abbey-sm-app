@@ -1,41 +1,11 @@
-import { useEffect, useState } from 'react';
 import { Card, Typography } from 'antd';
 import NoData from '@/components/shared/sensors/NoData';
 import DataError from '@/components/shared/sensors/DataError';
 import VacuumTempChart from './VacuumTempChart';
-import { SENSOR_INTERVAL } from '@/config/constant';
-import { getVacuumTemperature } from '@/services/sensor/get-vacuum-temperature';
 
 const { Title } = Typography;
 
-const VacuumTemp = () => {
-  const [data, setData] = useState<any[]>([]);
-  const [error, setError] = useState(false);
-
-  useEffect(() => {
-    const fetching = async () => {
-      try {
-        const data = await getVacuumTemperature({
-          start: '-7d',
-          end: 'now()',
-          serial: 'T100',
-        });
-
-        setData(data);
-      } catch (error) {
-        setError(true);
-      }
-    };
-
-    fetching();
-
-    // const interval = setInterval(fetching, SENSOR_INTERVAL.vacuumTemp);
-    // return () => {
-    //   clearInterval(interval);
-    // };
-  }, []);
-
-  // TODO: add machine number (user input)
+const VacuumTemp = ({ data, error }: any) => {
   return (
     <Card>
       <Title level={5}>Vacuum Pump Temperature</Title>
@@ -52,6 +22,32 @@ const VacuumTemp = () => {
 };
 
 export default VacuumTemp;
+
+// const [data, setData] = useState<any[]>([]);
+// const [error, setError] = useState(false);
+
+// useEffect(() => {
+//   const fetching = async () => {
+//     try {
+//       const data = await getVacuumTemperature({
+//         start: '-7d',
+//         end: 'now()',
+//         serial: 'T100',
+//       });
+
+//       setData(data);
+//     } catch (error) {
+//       setError(true);
+//     }
+//   };
+
+//   fetching();
+
+//   const interval = setInterval(fetching, SENSOR_INTERVAL.vacuumTemp);
+//   return () => {
+//     clearInterval(interval);
+//   };
+// }, []);
 
 // try {
 //   const channel = pusherClient.subscribe('sensor');
