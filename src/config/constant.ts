@@ -55,3 +55,5 @@ export const SENSOR_INTERVAL = {
   oilAvailability: 600000, // 10 minutes
   gps: 10000, // 10 seconds
 };
+
+export const DATE_FORMAT = 'YYYY-MM-DD';

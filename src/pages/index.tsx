@@ -1,29 +1,63 @@
 import DshLayout from '@/components/dashboard/Layout';
-import MachineMap from '@/components/mapping/MachineMap';
-import HydraulicPressure from '@/components/sensors/hydraulic-pressure/HydraulicPressure';
-import OilAvailability from '@/components/sensors/oil-status/OilAvailability';
-import VacuumSpeed from '@/components/sensors/vacuum-speed/VacuumSpeed';
-import VacuumTemp from '@/components/sensors/vacuum-temperature/VacuumTemp';
+import SensorData from '@/components/sensors/historical-data/SensorData';
+
 import { checkUserSessionSsr } from '@/services/auth/check-session-ssr';
 import { getLoginUser } from '@/services/user/get-login-user';
-import { Breadcrumb } from 'antd';
+import { getDefaultStartEndDate } from '@/utils/get-default-start-end-date';
+import { Breadcrumb, Button, DatePicker, Form, Select } from 'antd';
+import dayjs from 'dayjs';
 import { GetServerSidePropsContext } from 'next';
 import { ReactNode } from 'react';
 
+const { RangePicker } = DatePicker;
+
 export default function Home() {
+  const [form] = Form.useForm();
+  const { defaultStartDate, defaultEndDate } = getDefaultStartEndDate();
+
+  const onFinish = async (value: any) => {
+    console.log(value);
+  };
+
+  const initialValues = {
+    'range-picker': [dayjs(defaultStartDate), dayjs(defaultEndDate)],
+  };
+
   return (
     <main className="w-full h-auto">
       <Breadcrumb items={[{ title: 'Home' }, { title: 'Dashboard' }]} />
-      <div className="h-auto mt-7 p-5 bg-white">
-        <div className="grid grid-cols-2 max-[1440px]:grid-cols-2 max-[768px]:grid-cols-1 gap-4">
-          <VacuumSpeed />
-          <VacuumTemp />
-          <HydraulicPressure />
-          <OilAvailability />
+      <div className="h-auto mt-7 p-7 bg-white">
+        <div className="flex justify-between align-middle gap-3 mb-3">
+          <Form
+            name="historical"
+            layout="horizontal"
+            labelWrap
+            labelAlign="left"
+            labelCol={{ span: 7 }}
+            initialValues={initialValues}
+            onFinish={onFinish}
+          >
+            <Form.Item name="serial" label="Machines:">
+              <Select placeholder="Machine Serial Number">
+                <Select.Option value="T100">T100</Select.Option>
+              </Select>
+            </Form.Item>
+            <Form.Item name="range-picker" label="Date Range:">
+              <RangePicker className="w-full" />
+            </Form.Item>
+            <Form.Item>
+              <Button
+                type="primary"
+                htmlType="submit"
+                className="w-full bg-custom-color hover:bg-hover-color"
+              >
+                Submit
+              </Button>
+            </Form.Item>
+          </Form>
         </div>
-        <div className="mt-4">
-          <MachineMap />
-        </div>
+
+        <SensorData />
       </div>
     </main>
   );
