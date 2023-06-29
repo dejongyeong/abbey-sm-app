@@ -1,6 +1,5 @@
 import DshLayout from '@/components/dashboard/Layout';
 import SensorData from '@/components/sensors/historical-data/SensorData';
-
 import { checkUserSessionSsr } from '@/services/auth/check-session-ssr';
 import { getLoginUser } from '@/services/user/get-login-user';
 import { getDefaultStartEndDate } from '@/utils/get-default-start-end-date';
@@ -11,13 +10,20 @@ import { ReactNode } from 'react';
 
 const { RangePicker } = DatePicker;
 
+// TODO: separate this
+const selectRules = [
+  { required: true, message: 'Please select a machine serial number.' },
+];
+
+// TODO: list should populate from database
+
 export default function Home() {
   const [form] = Form.useForm();
   const { defaultStartDate, defaultEndDate } = getDefaultStartEndDate();
 
   // TODO: add logic
   const onFinish = async (value: any) => {
-    console.log(value);
+    alert('This function is in progress');
   };
 
   const initialValues = {
@@ -38,7 +44,12 @@ export default function Home() {
             initialValues={initialValues}
             onFinish={onFinish}
           >
-            <Form.Item name="serial" label="Machines:">
+            <Form.Item
+              name="serial"
+              label="Machines:"
+              required
+              rules={selectRules}
+            >
               <Select placeholder="Machine Serial Number">
                 <Select.Option value="T100">T100</Select.Option>
               </Select>
