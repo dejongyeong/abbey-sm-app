@@ -10,7 +10,7 @@ module.exports = {
       colors: {
         'custom-color': '#1677FF',
         'hover-color': '#40a9ff',
-        'avatar-color': '#001529'
+        'avatar-color': '#001529',
       }
     },
   },

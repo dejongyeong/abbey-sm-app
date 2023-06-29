@@ -6,6 +6,11 @@ import { DLeafletPopup } from '@/config/leaflet/dynamic-leaflet-popup';
 import { convertToLatLng } from '@/services/sensor/convert-gps';
 import { getGps } from '@/services/sensor/get-gps-data';
 import { useEffect, useState } from 'react';
+import { Typography } from 'antd';
+import DataError from '../shared/sensors/DataError';
+import NoData from '../shared/sensors/NoData';
+
+const { Title, Text } = Typography;
 
 export default function MachineMap() {
   const [data, setData] = useState<any[]>([]);
@@ -35,32 +40,30 @@ export default function MachineMap() {
   }, []);
 
   return (
-    <div className="w-full flex flex-col flex-1 h-[700px]">
-      {error ? <p>error</p> : null}
+    <div className="w-full flex flex-col flex-1 h-[800px] border-2 border-[#f0f0f0] rounded-lg p-6">
+      <div className="mb-5">
+        <Title level={5}>GPS Data</Title>
+        <Text type="secondary">Last recorded timestamp: {data[0]?.dt}</Text>
+      </div>
+
+      {error ? <DataError /> : null}
+
       {!error && data && data.length > 0 ? (
-        <>
-          <div className="mb-4 mt-3">
-            <p>
-              Last 14 days data and the last recorded datetime: {data[0]?.dt}
-            </p>
-          </div>
-          <DLeafletMap
-            center={[52.85331759764098, -8.052514052701099]}
-            zoom={10}
-            markerZoomAnimation={true}
-          >
-            <>
-              <DLeafletMarker position={[data[0]?.lat, data[0]?.lon]}>
-                <DLeafletPopup>Last location: {data[0]?.dt}</DLeafletPopup>
-              </DLeafletMarker>
-              <DLeafletPolyline
-                positions={convertToLatLng(data)}
-                color="blue"
-              />
-            </>
-          </DLeafletMap>
-        </>
-      ) : null}
+        <DLeafletMap
+          center={[52.85331759764098, -8.052514052701099]}
+          zoom={10}
+          markerZoomAnimation={true}
+        >
+          <>
+            <DLeafletMarker position={[data[0]?.lat, data[0]?.lon]}>
+              <DLeafletPopup>Last location: {data[0]?.dt}</DLeafletPopup>
+            </DLeafletMarker>
+            <DLeafletPolyline positions={convertToLatLng(data)} color="blue" />
+          </>
+        </DLeafletMap>
+      ) : (
+        <NoData />
+      )}
     </div>
   );
 }

@@ -7,5 +7,9 @@ export default function NoData() {
     </div>
   );
 
-  return <Empty description={descr} />;
+  return (
+    <div className="h-full flex flex-row items-center justify-center">
+      <Empty description={descr} />
+    </div>
+  );
 }
