@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Card, Result, Typography } from 'antd';
+import { Card, Typography } from 'antd';
 import NoData from '@/components/shared/sensors/NoData';
 import DataError from '@/components/shared/sensors/DataError';
 import { SENSOR_INTERVAL } from '@/config/constant';
@@ -9,22 +9,19 @@ import { getOilStatus } from '@/services/sensor/get-oil-status';
 const { Title, Text } = Typography;
 
 const OilAvailability = () => {
-  const [value, setValue] = useState(0);
-  const [timestamp, setTimestamp] = useState('');
+  const [data, setData] = useState([]);
   const [error, setError] = useState(false);
 
   useEffect(() => {
     const fetching = async () => {
       try {
         const data = await getOilStatus({
-          start: '-7d',
+          start: '-9d',
           end: 'now()',
           serial: 'T100',
         });
 
-        const { dt, value } = data[0];
-        setValue(value);
-        setTimestamp(dt);
+        setData(data);
       } catch (error) {
         setError(true);
       }
@@ -41,6 +38,35 @@ const OilAvailability = () => {
   // TODO: add machine number (user input)
   return (
     <Card>
+      <Title level={5}>
+        Oil Availability Status{' '}
+        <Text type="secondary" className="text-xs">
+          <span className="font-bold">Label:</span>{' '}
+          <span className="font-bold">0</span> - No Oil,{' '}
+          <span className="font-bold">1</span> - Oil Available,{' '}
+          <span className="font-bold">-1</span>: Sensor Calibration Error
+        </Text>
+      </Title>
+
+      <div className="mt-6">
+        {error ? <DataError /> : null}
+        {data && data.length > 0 && !error ? (
+          <OilAvailabilityChart data={data} />
+        ) : (
+          <NoData />
+        )}
+      </div>
+    </Card>
+  );
+};
+
+export default OilAvailability;
+
+// const [value, setValue] = useState(0);
+//   const [timestamp, setTimestamp] = useState('');
+
+{
+  /* <Card>
       <Title level={5}>Oil Availability Status</Title>
       <Text type="secondary">{timestamp}</Text>
       <div className="mt-3">
@@ -60,8 +86,5 @@ const OilAvailability = () => {
           />
         ) : null}
       </div>
-    </Card>
-  );
-};
-
-export default OilAvailability;
+    </Card> */
+}

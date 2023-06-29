@@ -42,7 +42,6 @@ async function getOilAvailability(req: NextApiRequest) {
         |> filter(fn: (r) => r.machine_serial == "${escape.tag(
           machine_serial
         )}")
-        |> last()
         |> map(fn: (r) => ({
           dateTime: r._time,
           value: r._value,
