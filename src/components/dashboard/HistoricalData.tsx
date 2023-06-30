@@ -34,7 +34,7 @@ const HistoricalData = () => {
 
   const onFinish = async ({ serial, range_picker }: any) => {
     const start = dayjs(range_picker[0]).format(DATE_FORMAT);
-    const end = dayjs(range_picker[1]).format(DATE_FORMAT);
+    const end = dayjs(range_picker[1]).add(1, 'day').format(DATE_FORMAT);
 
     try {
       const updatedSensorData = await getAllData(start, end, serial);
