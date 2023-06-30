@@ -1,46 +1,17 @@
 import { Table, Typography } from 'antd';
+import { columns } from './tables/TableColumns';
 
 const { Text } = Typography;
 
-// TODO: get data from database
-
-const dataSource = [
-  {
-    key: '1',
-    name: 'Mike',
-    age: 32,
-    address: '10 Downing Street',
-  },
-  {
-    key: '2',
-    name: 'John',
-    age: 42,
-    address: '10 Downing Street',
-  },
-  {
-    key: '3',
-    name: 'John',
-    age: 42,
-    address: '10 Downing Street',
-  },
-];
-
-const columns = [
-  {
-    title: 'Name',
-    dataIndex: 'name',
-  },
-  {
-    title: 'Age',
-    dataIndex: 'age',
-  },
-  {
-    title: 'Address',
-    dataIndex: 'address',
-  },
-];
-
 export default function UserTable({ users }: any) {
+  const dataSource = users?.map((user: any) => ({
+    key: user.sb_auth_id,
+    first_name: user.first_name,
+    last_name: user.last_name,
+  }));
+
+  console.log(users);
+
   return (
     <div className="lg:w-9/12 order-1 lg:order-2">
       <div className="mb-4">
