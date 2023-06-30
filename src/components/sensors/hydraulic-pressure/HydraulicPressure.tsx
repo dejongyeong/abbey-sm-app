@@ -10,8 +10,9 @@ const HydraulicPressure = ({ data, error }: any) => {
     <Card>
       <Title level={5}>Hydraulic Pressure</Title>
       <div className="mt-6">
-        {error ? <DataError /> : null}
-        {data && data.length > 0 && !error ? (
+        {error ? (
+          <DataError />
+        ) : data && data.length > 0 ? (
           <HydraulicPressureChart data={data} />
         ) : (
           <NoData />

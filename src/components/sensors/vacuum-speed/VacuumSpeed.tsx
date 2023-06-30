@@ -10,8 +10,9 @@ const VacuumSpeed = ({ data, error }: any) => {
     <Card>
       <Title level={5}>Vacuum Speed</Title>
       <div className="mt-6">
-        {error ? <DataError /> : null}
-        {data && data.length > 0 && !error ? (
+        {error ? (
+          <DataError />
+        ) : data && data.length > 0 ? (
           <VacuumSpeedChart data={data} />
         ) : (
           <NoData />

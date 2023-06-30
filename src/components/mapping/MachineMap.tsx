@@ -19,9 +19,9 @@ export default function MachineMap({ data, error }: any) {
         ) : null}
       </div>
 
-      {error ? <DataError /> : null}
-
-      {!error && data && data.length > 0 ? (
+      {error ? (
+        <DataError />
+      ) : data && data.length > 0 ? (
         <DLeafletMap
           center={[52.85331759764098, -8.052514052701099]}
           zoom={10}

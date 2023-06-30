@@ -16,6 +16,8 @@ const yupSync = {
 };
 const HistoricalData = () => {
   const [form] = Form.useForm();
+  const [loading, setLoading] = useState(false);
+
   const { defaultStartDate, defaultEndDate } = getDefaultStartEndDate();
 
   // sensor data
@@ -33,6 +35,7 @@ const HistoricalData = () => {
   });
 
   const onFinish = async ({ serial, range_picker }: any) => {
+    setLoading(true);
     const start = dayjs(range_picker[0]).format(DATE_FORMAT);
     const end = dayjs(range_picker[1]).add(1, 'day').format(DATE_FORMAT);
 
@@ -40,6 +43,7 @@ const HistoricalData = () => {
       const updatedSensorData = await getAllData(start, end, serial);
       setSensorData(updatedSensorData);
     } catch (error) {
+      // only show this when unable to get all the data
       setSensorData((prev) => ({
         ...prev,
         vacuumSpeedError: true,
@@ -48,6 +52,8 @@ const HistoricalData = () => {
         oilStatusError: true,
         gpsError: true,
       }));
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -85,9 +91,11 @@ const HistoricalData = () => {
             <Button
               type="primary"
               htmlType="submit"
+              loading={loading}
+              disabled={loading}
               className="w-full bg-custom-color hover:bg-hover-color"
             >
-              Submit
+              {!loading ? 'Populate' : 'Populating'}
             </Button>
           </Form.Item>
         </Form>

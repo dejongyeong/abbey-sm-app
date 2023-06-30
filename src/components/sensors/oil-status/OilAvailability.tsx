@@ -19,8 +19,9 @@ const OilAvailability = ({ data, error }: any) => {
       </Title>
 
       <div className="mt-6">
-        {error ? <DataError /> : null}
-        {data && data.length > 0 && !error ? (
+        {error ? (
+          <DataError />
+        ) : data && data.length > 0 ? (
           <OilAvailabilityChart data={data} />
         ) : (
           <NoData />

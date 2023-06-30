@@ -6,33 +6,38 @@ import { getVacuumTemperature } from './get-vacuum-temperature';
 
 const getAllData = async (start: any, end: any, serial: any) => {
   const requests = [
-    getVacuumSpeed({ start, end, serial }),
-    getVacuumTemperature({ start, end, serial }),
-    getHydraulicPressure({ start, end, serial }),
-    getOilStatus({ start, end, serial }),
-    getGps({ start, end, serial }),
+    { getData: getVacuumSpeed, key: 'vacuumSpeed' },
+    { getData: getVacuumTemperature, key: 'vacuumTemp' },
+    { getData: getHydraulicPressure, key: 'hydraulicPressure' },
+    { getData: getOilStatus, key: 'oilStatus' },
+    { getData: getGps, key: 'gps' },
   ];
 
-  const [
-    vacuumSpeedData,
-    vacuumTempData,
-    hydraulicPressureData,
-    oilStatusData,
-    gpsData,
-  ] = await Promise.all(requests);
-
-  return {
-    vacuumSpeed: vacuumSpeedData,
+  const updatedSensorData: any = {
+    vacuumSpeed: [],
     vacuumSpeedError: false,
-    vacuumTemp: vacuumTempData,
+    vacuumTemp: [],
     vacuumTempError: false,
-    hydraulicPressure: hydraulicPressureData,
+    hydraulicPressure: [],
     hydraulicPressureError: false,
-    oilStatus: oilStatusData,
+    oilStatus: [],
     oilStatusError: false,
-    gps: gpsData,
+    gps: [],
     gpsError: false,
   };
+
+  await Promise.all(
+    requests.map(async ({ getData, key }) => {
+      try {
+        const data = await getData({ start, end, serial });
+        updatedSensorData[key] = data;
+      } catch (error) {
+        updatedSensorData[`${key}Error`] = true;
+      }
+    })
+  );
+
+  return updatedSensorData;
 };
 
 export default getAllData;

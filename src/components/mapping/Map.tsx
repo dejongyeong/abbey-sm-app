@@ -6,7 +6,6 @@ import {
 } from 'react-leaflet';
 import L, { MapOptions } from 'leaflet';
 import { FC } from 'react';
-import { MAPBOX_CONFIG } from '@/config/constant';
 
 L.Marker.prototype.options.icon = L.icon({
   iconRetinaUrl: 'leaflet/images/map-marker.svg',
