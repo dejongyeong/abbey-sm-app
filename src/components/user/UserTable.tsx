@@ -1,4 +1,6 @@
-import { Table } from 'antd';
+import { Table, Typography } from 'antd';
+
+const { Title } = Typography;
 
 // TODO: get data from database
 
@@ -37,19 +39,27 @@ const columns = [
 
 export default function UserTable() {
   return (
-    <Table
-      size="middle"
-      rowKey="key"
-      bordered={true}
-      loading={false}
-      scroll={{ x: '100%' }}
-      dataSource={dataSource}
-      columns={columns}
-      pagination={{
-        position: ['bottomRight'],
-        showTotal: (total: any, range: any) =>
-          `${range[0]}-${range[1]} of ${total} items`,
-      }}
-    />
+    <div className="col-span-4 max-[1024px]:order-1">
+      <div className="mb-5">
+        <Title level={5}>User List</Title>
+      </div>
+      <div className=" overflow-x-auto">
+        <Table
+          size="middle"
+          rowKey="key"
+          bordered={true}
+          loading={false}
+          scroll={{ x: '100%' }}
+          dataSource={dataSource}
+          columns={columns}
+          pagination={{
+            position: ['bottomRight'],
+            showTotal: (total: any, range: any) =>
+              `${range[0]}-${range[1]} of ${total} items`,
+          }}
+          className="w-full"
+        />
+      </div>
+    </div>
   );
 }

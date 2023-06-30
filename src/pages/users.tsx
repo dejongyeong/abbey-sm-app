@@ -1,4 +1,5 @@
 import DshLayout from '@/components/dashboard/Layout';
+import RolesCount from '@/components/user/RolesCount';
 import UserTable from '@/components/user/UserTable';
 import InviteSection from '@/components/user/invite/InviteSection';
 import { checkUserSessionSsr } from '@/services/auth/check-session-ssr';
@@ -28,7 +29,8 @@ export default function Users({ uid, roles }: IProps) {
         <div className="mt-6">
           <InviteSection senderId={senderId} roles={roles} />
         </div>
-        <div className="mt-8 overflow-x-auto">
+        <div className="grid grid-cols-5 mt-9 max-[1024px]:grid-cols-1 max-[1024px]:gap-0 min-[1024.1px]:gap-10">
+          <RolesCount />
           <UserTable />
         </div>
       </div>
