@@ -64,7 +64,7 @@ export const getNavList = (
     getItem('Settings', '5', <SettingOutlined />),
   ];
 
-  const allow = ['am-admin', 'am-manager', 'dealership', 'dealership'];
+  const allow = ['am-admin', 'am-manager', 'dealership', 'farm-manager'];
   if (allow.includes(role)) {
     // Users
     items.splice(

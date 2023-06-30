@@ -1,6 +1,7 @@
 import { BASE_URL, SENDGRID_CONFIG } from '@/config/constant';
 import { prisma } from '@/lib/prisma/db';
 import { getSupabaseServerAdminClient } from '@/lib/supabase/admin';
+import { checkUserSessionApi } from '@/services/auth/check-session-api';
 import { send } from '@/services/mail/send';
 import { checkUserExist } from '@/services/user/check-user-exist';
 import { createInvite } from '@/services/user/create-invite';
@@ -11,14 +12,23 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  try {
-    if (req.method === 'POST') {
-      await createUserAndSendInvitation(req, res);
+  if (req.method === 'POST') {
+    const session = await checkUserSessionApi(req, res);
+
+    if (!session) {
+      res
+        .status(401)
+        .json({ message: 'No active session or is not authenticated' });
     } else {
-      res.status(405).json({ message: 'Method not allowed' });
+      try {
+        await createUserAndSendInvitation(req, res);
+      } catch (error) {
+        res.status(500).json({ message: (error as Error).message });
+      }
     }
-  } catch (error: any) {
-    res.status(500).json({ message: error.message });
+  } else {
+    res.setHeader('Allow', 'POST');
+    res.status(405).json({ message: 'Method not allowed' });
   }
 }
 

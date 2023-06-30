@@ -3,11 +3,12 @@ import RolesCount from '@/components/user/RolesCount';
 import UserTable from '@/components/user/UserTable';
 import InviteSection from '@/components/user/invite/InviteSection';
 import { checkUserSessionSsr } from '@/services/auth/check-session-ssr';
+import { countUsersByRole } from '@/services/role/count-users-by-role';
 import { filterRoleList } from '@/services/role/filter-role-list';
 import { getAllRoles } from '@/services/role/get-all-roles';
 import { getLoginUser } from '@/services/user/get-login-user';
 import { IRole } from '@/types/role';
-import { Breadcrumb, Divider, Typography } from 'antd';
+import { Breadcrumb, Typography } from 'antd';
 import { GetServerSidePropsContext } from 'next';
 import { ReactNode } from 'react';
 
@@ -16,9 +17,10 @@ const { Title } = Typography;
 interface IProps {
   uid: string;
   roles: IRole;
+  counts: any;
 }
 
-export default function Users({ uid, roles }: IProps) {
+export default function Users({ uid, roles, counts }: IProps) {
   const senderId = uid;
 
   return (
@@ -29,8 +31,8 @@ export default function Users({ uid, roles }: IProps) {
         <div className="mt-6">
           <InviteSection senderId={senderId} roles={roles} />
         </div>
-        <div className="mt-9 flex flex-col gap-14 lg:flex-row">
-          <RolesCount />
+        <div className="mt-9 flex flex-col lg:gap-9 lg:flex-row">
+          {counts && counts.length > 0 ? <RolesCount counts={counts} /> : null}
           <UserTable />
         </div>
       </div>
@@ -63,12 +65,16 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
   // get role option based on user role
   const roles = await roleOptions(user);
 
+  // count users by roles
+  const counts = await userRoleCounts(user);
+
   return {
     props: {
       initialSession: session,
       uid: session?.user.id,
       roles: roles,
       user: user,
+      counts: counts,
     },
   };
 };
@@ -77,6 +83,16 @@ const roleOptions = async (user: any) => {
   try {
     const roles = await getAllRoles();
     const filtered = await filterRoleList(user, roles);
+    return filtered;
+  } catch (error) {
+    throw error;
+  }
+};
+
+const userRoleCounts = async (user: any) => {
+  try {
+    const counts = await countUsersByRole();
+    const filtered = await filterRoleList(user, counts);
     return filtered;
   } catch (error) {
     throw error;
