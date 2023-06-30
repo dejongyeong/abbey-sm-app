@@ -17,29 +17,32 @@ const dataSource = [
     age: 42,
     address: '10 Downing Street',
   },
+  {
+    key: '3',
+    name: 'John',
+    age: 42,
+    address: '10 Downing Street',
+  },
 ];
 
 const columns = [
   {
     title: 'Name',
     dataIndex: 'name',
-    key: 'name',
   },
   {
     title: 'Age',
     dataIndex: 'age',
-    key: 'age',
   },
   {
     title: 'Address',
     dataIndex: 'address',
-    key: 'address',
   },
 ];
 
-export default function UserTable() {
+export default function UserTable({ users }: any) {
   return (
-    <div className="lg:w-10/12 order-1 lg:order-2">
+    <div className="lg:w-9/12 order-1 lg:order-2">
       <div className="mb-4">
         <Text>User List:</Text>
       </div>
@@ -47,7 +50,7 @@ export default function UserTable() {
         <Table
           size="middle"
           rowKey="key"
-          bordered={true}
+          bordered={false}
           loading={false}
           scroll={{ x: '100%' }}
           dataSource={dataSource}
@@ -56,6 +59,7 @@ export default function UserTable() {
             position: ['bottomRight'],
             showTotal: (total: any, range: any) =>
               `${range[0]}-${range[1]} of ${total} items`,
+            showSizeChanger: true,
           }}
         />
       </div>

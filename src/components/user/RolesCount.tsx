@@ -4,7 +4,7 @@ const { Text } = Typography;
 
 export default function RolesCount({ counts }: any) {
   return (
-    <div className="lg:w-2/12 order-2 lg:order-1">
+    <div className="lg:w-3/12 order-2 lg:order-1">
       <Divider className="lg:hidden" />
       <div className="mb-4">
         <Text>Total Users:</Text>
