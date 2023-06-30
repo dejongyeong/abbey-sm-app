@@ -39,9 +39,9 @@ const columns = [
 
 export default function UserTable() {
   return (
-    <div className="col-span-4 max-[1024px]:order-1">
-      <div className="mb-5">
-        <Title level={5}>User List</Title>
+    <div className="lg:w-10/12 order-1 lg:order-2">
+      <div className="mb-4">
+        <Title level={5}>User List:</Title>
       </div>
       <div className=" overflow-x-auto">
         <Table
@@ -57,7 +57,6 @@ export default function UserTable() {
             showTotal: (total: any, range: any) =>
               `${range[0]}-${range[1]} of ${total} items`,
           }}
-          className="w-full"
         />
       </div>
     </div>

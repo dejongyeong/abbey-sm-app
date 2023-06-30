@@ -7,7 +7,7 @@ import { filterRoleList } from '@/services/role/filter-role-list';
 import { getAllRoles } from '@/services/role/get-all-roles';
 import { getLoginUser } from '@/services/user/get-login-user';
 import { IRole } from '@/types/role';
-import { Breadcrumb, Typography } from 'antd';
+import { Breadcrumb, Divider, Typography } from 'antd';
 import { GetServerSidePropsContext } from 'next';
 import { ReactNode } from 'react';
 
@@ -29,7 +29,7 @@ export default function Users({ uid, roles }: IProps) {
         <div className="mt-6">
           <InviteSection senderId={senderId} roles={roles} />
         </div>
-        <div className="grid grid-cols-5 mt-9 max-[1024px]:grid-cols-1 max-[1024px]:gap-0 min-[1024.1px]:gap-10">
+        <div className="mt-9 flex flex-col gap-14 lg:flex-row">
           <RolesCount />
           <UserTable />
         </div>

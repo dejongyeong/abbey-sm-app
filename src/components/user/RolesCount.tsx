@@ -1,9 +1,14 @@
-import { Card, Divider, Statistic } from 'antd';
+import { Card, Divider, Statistic, Typography } from 'antd';
+
+const { Title } = Typography;
 
 export default function RolesCount() {
   return (
-    <div className="col-span-1 max-[1024px]:order-2">
-      <Divider className="min-[1025px]:hidden max-[1024px]:visible" />
+    <div className="lg:w-2/12 order-2 lg:order-1">
+      <Divider className="lg:hidden" />
+      <div className="mb-4">
+        <Title level={5}>Total Users:</Title>
+      </div>
       <div className="grid grid-cols-2 gap-3">
         <Card>
           <Statistic title="Active Users" value={11111} />
