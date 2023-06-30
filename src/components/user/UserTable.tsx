@@ -1,10 +1,17 @@
-import { Table, Typography } from 'antd';
+import { Table, Typography, message } from 'antd';
+import type { InputRef } from 'antd';
 import { userColumns } from './tables/TableColumns';
 import moment from 'moment';
+import { resendInvite } from '@/services/user/resend-invite';
+import { displayMessage } from '@/utils/display-message';
+import { useRef } from 'react';
 
 const { Text } = Typography;
 
 export default function UserTable({ users }: any) {
+  const [messageApi, contextHolder] = message.useMessage();
+  const searchInput = useRef<InputRef>(null);
+
   const dataSource = users?.map((user: any) => ({
     key: user.id,
     sb_auth_id: user.sb_auth_id,
@@ -23,8 +30,6 @@ export default function UserTable({ users }: any) {
     zip: `${user.company.zip ? user.company.zip : '-'}`,
   }));
 
-  console.log(users);
-
   const handleView = (record: any) => {
     alert(`view click: ${JSON.stringify(record)}`);
   };
@@ -33,34 +38,47 @@ export default function UserTable({ users }: any) {
     alert(`view click: ${JSON.stringify(record)}`);
   };
 
-  const handleSendInvite = (record: any) => {
-    alert(`view click: ${JSON.stringify(record)}`);
+  const handleSendInvite = async (record: any) => {
+    try {
+      const data = await resendInvite(record.email);
+      displayMessage(messageApi, 'success', data?.message);
+    } catch (error: any) {
+      displayMessage(messageApi, 'error', error?.message);
+    }
   };
 
-  const columns = userColumns(handleView, handleDelete, handleSendInvite);
+  const columns = userColumns(
+    handleView,
+    handleDelete,
+    handleSendInvite,
+    searchInput
+  );
 
   return (
-    <div className="lg:w-9/12 order-1 lg:order-2">
-      <div className="mb-4">
-        <Text>User List:</Text>
+    <>
+      {contextHolder}
+      <div className="lg:w-9/12 order-1 lg:order-2">
+        <div className="mb-4">
+          <Text>User List:</Text>
+        </div>
+        <div className=" overflow-x-auto">
+          <Table
+            size="middle"
+            rowKey="key"
+            bordered={true}
+            loading={false}
+            scroll={{ x: 2300 }}
+            dataSource={dataSource}
+            columns={columns}
+            pagination={{
+              position: ['bottomRight'],
+              showTotal: (total: any, range: any) =>
+                `${range[0]}-${range[1]} of ${total} items`,
+              showSizeChanger: true,
+            }}
+          />
+        </div>
       </div>
-      <div className=" overflow-x-auto">
-        <Table
-          size="middle"
-          rowKey="key"
-          bordered={true}
-          loading={false}
-          scroll={{ x: 2300 }}
-          dataSource={dataSource}
-          columns={columns}
-          pagination={{
-            position: ['bottomRight'],
-            showTotal: (total: any, range: any) =>
-              `${range[0]}-${range[1]} of ${total} items`,
-            showSizeChanger: true,
-          }}
-        />
-      </div>
-    </div>
+    </>
   );
 }

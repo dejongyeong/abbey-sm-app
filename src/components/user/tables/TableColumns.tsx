@@ -2,6 +2,7 @@ import _ from 'lodash';
 import { getColumnSearchProps } from './TableHelpers';
 import { Badge, Button, Space, Tag, Tooltip } from 'antd';
 import { DeleteOutlined, EyeOutlined, MailOutlined } from '@ant-design/icons';
+import { render } from 'react-dom';
 
 const renderActions = (
   _: any,
@@ -39,6 +40,7 @@ const renderActions = (
             size="small"
             icon={<MailOutlined />}
             className="flex items-center justify-center"
+            onClick={() => handleSendInvite(record)}
           />
         </Tooltip>
       ) : null}
@@ -49,7 +51,8 @@ const renderActions = (
 export const userColumns: any = (
   handleView: any,
   handleDelete: any,
-  handleSendInvite: any
+  handleSendInvite: any,
+  searchInput: any
 ) => [
   {
     title: '#',
@@ -62,7 +65,7 @@ export const userColumns: any = (
     title: 'First Name',
     dataIndex: 'first_name',
     key: 'first_name',
-    ...getColumnSearchProps('first_name'),
+    ...getColumnSearchProps('first_name', searchInput),
     shouldCellUpdate: (record: any, prev: any) => !_.isEqual(record, prev),
   },
   {
@@ -75,7 +78,7 @@ export const userColumns: any = (
     title: 'Email',
     dataIndex: 'email',
     key: 'email',
-    ...getColumnSearchProps('email'),
+    ...getColumnSearchProps('email', searchInput),
     shouldCellUpdate: (record: any, prev: any) => !_.isEqual(record, prev),
     width: 290,
   },

@@ -16,7 +16,7 @@ export const handleReset = (
   confirm();
 };
 
-export const getColumnSearchProps = (dataIndex: any) => {
+export const getColumnSearchProps = (dataIndex: any, searchInput: any) => {
   return {
     filterDropdown: ({
       setSelectedKeys,
@@ -26,6 +26,7 @@ export const getColumnSearchProps = (dataIndex: any) => {
     }: any) => (
       <div style={{ padding: 8 }}>
         <Input
+          ref={searchInput}
           placeholder={`Search ${dataIndex}`}
           value={selectedKeys[0]}
           onChange={(e) =>
