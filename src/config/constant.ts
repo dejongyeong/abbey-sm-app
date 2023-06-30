@@ -47,6 +47,11 @@ export const SUPER_ADMIN = {
   email: 'dejong.re2@gmail.com',
 };
 
+// Mapbox
+export const MAPBOX_CONFIG = {
+  token: process.env.NEXT_PUBLIC_MAPBOX_TOKEN,
+};
+
 // All value are in milliseconds.
 export const SENSOR_INTERVAL = {
   vacuumSpeed: 10000, // 10 seconds

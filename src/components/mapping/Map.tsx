@@ -1,6 +1,12 @@
-import { MapContainer, TileLayer, MapContainerProps } from 'react-leaflet';
+import {
+  MapContainer,
+  TileLayer,
+  MapContainerProps,
+  LayersControl,
+} from 'react-leaflet';
 import L, { MapOptions } from 'leaflet';
 import { FC } from 'react';
+import { MAPBOX_CONFIG } from '@/config/constant';
 
 L.Marker.prototype.options.icon = L.icon({
   iconRetinaUrl: 'leaflet/images/map-marker.svg',
@@ -16,10 +22,23 @@ L.Marker.prototype.options.icon = L.icon({
 const Map: FC<MapContainerProps & MapOptions> = ({ children, ...rest }) => {
   return (
     <MapContainer {...rest} className="flex-1 h-full w-full">
-      <TileLayer
-        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-        url="https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png"
-      />
+      <LayersControl position="topright">
+        <LayersControl.BaseLayer name="Open Street Map">
+          <TileLayer
+            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+            url="https://tile.openstreetmap.org/{z}/{x}/{y}.png"
+          />
+        </LayersControl.BaseLayer>
+        <LayersControl.BaseLayer checked name="Satellite">
+          <TileLayer
+            attribution='&copy; <a href="https://www.mapbox.com/about/maps/">Mapbox</a> &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+            url={`https://api.mapbox.com/styles/v1/mapbox/satellite-v9/tiles/{z}/{x}/{y}?access_token=${MAPBOX_CONFIG.token}`}
+            maxZoom={20}
+            noWrap
+          />
+        </LayersControl.BaseLayer>
+      </LayersControl>
+
       {children}
     </MapContainer>
   );
