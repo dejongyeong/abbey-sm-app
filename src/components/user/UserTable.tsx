@@ -1,6 +1,6 @@
 import { Table, Typography } from 'antd';
 
-const { Title } = Typography;
+const { Text } = Typography;
 
 // TODO: get data from database
 
@@ -41,7 +41,7 @@ export default function UserTable() {
   return (
     <div className="lg:w-10/12 order-1 lg:order-2">
       <div className="mb-4">
-        <Title level={5}>User List:</Title>
+        <Text>User List:</Text>
       </div>
       <div className=" overflow-x-auto">
         <Table
