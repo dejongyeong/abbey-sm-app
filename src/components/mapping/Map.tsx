@@ -31,10 +31,8 @@ const Map: FC<MapContainerProps & MapOptions> = ({ children, ...rest }) => {
         </LayersControl.BaseLayer>
         <LayersControl.BaseLayer checked name="Satellite">
           <TileLayer
-            attribution='&copy; <a href="https://www.mapbox.com/about/maps/">Mapbox</a> &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-            url={`https://api.mapbox.com/styles/v1/mapbox/satellite-v9/tiles/{z}/{x}/{y}?access_token=${MAPBOX_CONFIG.token}`}
-            maxZoom={20}
-            noWrap
+            attribution=' &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
+            url="https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}"
           />
         </LayersControl.BaseLayer>
       </LayersControl>
@@ -45,3 +43,17 @@ const Map: FC<MapContainerProps & MapOptions> = ({ children, ...rest }) => {
 };
 
 export default Map;
+
+// Reference: https://gist.github.com/nitaku/047a77e256de17f25e72
+
+// Paid version
+{
+  /* <LayersControl.BaseLayer name="Mapbox">
+<TileLayer
+  attribution='&copy; <a href="https://www.mapbox.com/about/maps/">Mapbox</a> &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+  url={`https://api.mapbox.com/styles/v1/mapbox/satellite-v9/tiles/{z}/{x}/{y}?access_token=${MAPBOX_CONFIG.token}`}
+  maxZoom={20}
+  noWrap
+/>
+</LayersControl.BaseLayer> */
+}
