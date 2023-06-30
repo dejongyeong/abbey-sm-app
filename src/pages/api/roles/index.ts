@@ -10,12 +10,10 @@ export default async function handler(
     const session = await checkUserSessionApi(req, res);
 
     if (!session) {
-      res
-        .status(401)
-        .json({
-          roles: null,
-          message: 'No active session or is not authenticated',
-        });
+      res.status(401).json({
+        roles: null,
+        message: 'No active session or is not authenticated',
+      });
     } else {
       const roles = await countUsersByRoles();
       res.status(200).json({ roles: roles, message: 'Success' });

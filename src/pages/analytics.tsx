@@ -1,6 +1,6 @@
 import DshLayout from '@/components/dashboard/Layout';
 import { checkUserSessionSsr } from '@/services/auth/check-session-ssr';
-import { getLoginUser } from '@/services/user/get-login-user';
+import { getLoginUser } from '@/services/user/query/get-login-user';
 import { Breadcrumb, Typography } from 'antd';
 import { GetServerSidePropsContext } from 'next';
 import { ReactNode } from 'react';
@@ -8,8 +8,6 @@ import { ReactNode } from 'react';
 const { Title } = Typography;
 
 export default function Analytics({ user }: { user: any }) {
-  console.log(user);
-
   // TODO: show machines that are belonging to the person
 
   return (

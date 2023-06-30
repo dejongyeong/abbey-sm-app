@@ -1,7 +1,7 @@
 import HistoricalData from '@/components/dashboard/HistoricalData';
 import DshLayout from '@/components/dashboard/Layout';
 import { checkUserSessionSsr } from '@/services/auth/check-session-ssr';
-import { getLoginUser } from '@/services/user/get-login-user';
+import { getLoginUser } from '@/services/user/query/get-login-user';
 import { Breadcrumb } from 'antd';
 import { GetServerSidePropsContext } from 'next';
 import { ReactNode } from 'react';

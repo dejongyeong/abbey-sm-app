@@ -1,4 +1,4 @@
-import { checkUserExist } from '@/services/user/check-user-exist';
+import { checkUserExist } from '@/services/user/query/check-user-exist';
 import type { NextApiRequest, NextApiResponse } from 'next';
 
 export default async function handler(

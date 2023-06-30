@@ -3,7 +3,7 @@ import { prisma } from '@/lib/prisma/db';
 import { getSupabaseServerAdminClient } from '@/lib/supabase/admin';
 import { checkUserSessionApi } from '@/services/auth/check-session-api';
 import { send } from '@/services/mail/send';
-import { checkUserExist } from '@/services/user/check-user-exist';
+import { checkUserExist } from '@/services/user/query/check-user-exist';
 import { createInvite } from '@/services/user/create-invite';
 import { ICreateUserInput } from '@/types/user';
 import { NextApiRequest, NextApiResponse } from 'next';

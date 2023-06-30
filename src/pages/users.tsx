@@ -6,8 +6,11 @@ import { checkUserSessionSsr } from '@/services/auth/check-session-ssr';
 import { countUsersByRole } from '@/services/role/count-users-by-role';
 import { filterRoleList } from '@/services/role/filter-role-list';
 import { getAllRoles } from '@/services/role/get-all-roles';
-import { getAllUsers } from '@/services/user/get-all-users';
-import { getLoginUser } from '@/services/user/get-login-user';
+import { roleOptions } from '@/services/user/get-role-options';
+import { getUserList } from '@/services/user/get-user-list';
+import { userRoleCounts } from '@/services/user/get-user-role-counts';
+import { getAllUsers } from '@/services/user/query/get-all-users';
+import { getLoginUser } from '@/services/user/query/get-login-user';
 import { IRole } from '@/types/role';
 import { Breadcrumb, Typography } from 'antd';
 import { GetServerSidePropsContext } from 'next';
@@ -34,7 +37,7 @@ export default function Users({ uid, roles, counts, userList }: IProps) {
         <div className="mt-6">
           <InviteSection senderId={senderId} roles={roles} />
         </div>
-        <div className="mt-9 flex flex-col lg:gap-9 lg:flex-row">
+        <div className="mt-10 flex flex-col lg:gap-9 lg:flex-row">
           {counts && counts.length > 0 ? <RolesCount counts={counts} /> : null}
           <UserTable users={users} />
         </div>
@@ -84,33 +87,4 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
       userList: JSON.stringify(userList),
     },
   };
-};
-
-const roleOptions = async (user: any) => {
-  try {
-    const roles = await getAllRoles();
-    const filtered = await filterRoleList(user, roles);
-    return filtered;
-  } catch (error) {
-    throw error;
-  }
-};
-
-const userRoleCounts = async (user: any) => {
-  try {
-    const counts = await countUsersByRole();
-    const filtered = await filterRoleList(user, counts);
-    return filtered;
-  } catch (error) {
-    throw error;
-  }
-};
-
-const getUserList = async (id: any, role: any) => {
-  try {
-    const users = await getAllUsers(id, role);
-    return users;
-  } catch (error) {
-    throw error;
-  }
 };
