@@ -9,7 +9,6 @@ export async function createInvite(senderUid: string, receiverUid: string) {
       },
     });
   } catch (error) {
-    console.log(error);
     throw error;
   }
 }

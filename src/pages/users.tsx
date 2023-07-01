@@ -37,7 +37,7 @@ export default function Users({ uid, roles, counts, userList }: IProps) {
         <div className="mt-6">
           <InviteSection senderId={senderId} roles={roles} />
         </div>
-        <div className="mt-10 flex flex-col lg:gap-9 lg:flex-row">
+        <div className="mt-10 flex flex-col lg:gap-10 lg:flex-row">
           {counts && counts.length > 0 ? <RolesCount counts={counts} /> : null}
           <UserTable users={users} />
         </div>

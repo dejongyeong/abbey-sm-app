@@ -1,8 +1,12 @@
 import _ from 'lodash';
 import { getColumnSearchProps } from './TableHelpers';
-import { Badge, Button, Space, Tag, Tooltip } from 'antd';
-import { DeleteOutlined, EyeOutlined, MailOutlined } from '@ant-design/icons';
-import { render } from 'react-dom';
+import { Badge, Button, Popconfirm, Space, Tag, Tooltip } from 'antd';
+import {
+  DeleteOutlined,
+  EyeOutlined,
+  MailOutlined,
+  QuestionCircleOutlined,
+} from '@ant-design/icons';
 
 const renderActions = (
   _: any,
@@ -24,13 +28,24 @@ const renderActions = (
       </Tooltip>
 
       <Tooltip title="Delete">
-        <Button
-          danger
-          type="primary"
-          size="small"
-          icon={<DeleteOutlined />}
-          className="flex items-center justify-center"
-        />
+        <Popconfirm
+          placement="left"
+          title="Delete User"
+          description="Are you sure to delete this user?"
+          okText="Yes"
+          cancelText="No"
+          okButtonProps={{ className: 'bg-custom-color hover:bg-hover-color' }}
+          onConfirm={() => handleDelete(record)}
+          icon={<QuestionCircleOutlined style={{ color: 'red' }} />}
+        >
+          <Button
+            danger
+            type="primary"
+            size="small"
+            icon={<DeleteOutlined />}
+            className="flex items-center justify-center"
+          />
+        </Popconfirm>
       </Tooltip>
 
       {!record.status ? (
@@ -155,8 +170,7 @@ export const userColumns: any = (
   {
     title: 'Actions',
     key: 'actions',
-    fixed: 'right',
-    width: 200,
+    width: 150,
     render: (_: any, record: any) =>
       renderActions(_, record, handleView, handleDelete, handleSendInvite),
   },

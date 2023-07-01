@@ -5,6 +5,7 @@ import moment from 'moment';
 import { resendInvite } from '@/services/user/resend-invite';
 import { displayMessage } from '@/utils/display-message';
 import { useRef } from 'react';
+import { deleteUser } from '@/services/user/delete-user';
 
 const { Text } = Typography;
 
@@ -34,8 +35,15 @@ export default function UserTable({ users }: any) {
     alert(`view click: ${JSON.stringify(record)}`);
   };
 
-  const handleDelete = (record: any) => {
-    alert(`view click: ${JSON.stringify(record)}`);
+  const handleDelete = async (record: any) => {
+    try {
+      const data = await deleteUser(record.sb_auth_id);
+      displayMessage(messageApi, 'success', data?.message);
+    } catch (error: any) {
+      displayMessage(messageApi, 'error', error?.message);
+    } finally {
+      window.location.reload();
+    }
   };
 
   const handleSendInvite = async (record: any) => {
