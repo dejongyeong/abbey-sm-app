@@ -1,12 +1,13 @@
 import _ from 'lodash';
 import { getColumnSearchProps } from './TableHelpers';
-import { Badge, Button, Popconfirm, Space, Tag, Tooltip } from 'antd';
+import { Badge, Button, Checkbox, Popconfirm, Space, Tag, Tooltip } from 'antd';
 import {
   DeleteOutlined,
   EyeOutlined,
   MailOutlined,
   QuestionCircleOutlined,
 } from '@ant-design/icons';
+import moment from 'moment';
 
 const renderActions = (
   _: any,
@@ -40,7 +41,6 @@ const renderActions = (
         >
           <Button
             danger
-            type="primary"
             size="small"
             icon={<DeleteOutlined />}
             className="flex items-center justify-center"
@@ -49,7 +49,7 @@ const renderActions = (
       </Tooltip>
 
       {!record.status ? (
-        <Tooltip title="Send Invitation">
+        <Tooltip title="Resend Invitation">
           <Button
             type="default"
             size="small"
@@ -132,6 +132,12 @@ export const userColumns: any = (
     title: 'Invited At',
     dataIndex: 'invited_at',
     key: 'invited_at',
+    sorter: (a: any, b: any) => {
+      return (
+        moment(a.invited_at, 'DD-MM-YYYY HH:mm:ss').unix() -
+        moment(b.invited_at, 'DD-MM-YYYY HH:mm:ss').unix()
+      );
+    },
     shouldCellUpdate: (record: any, prev: any) => !_.isEqual(record, prev),
     width: 170,
   },
@@ -141,11 +147,17 @@ export const userColumns: any = (
     key: 'status',
     render: (status: Boolean) => (
       <Badge
-        status={status ? 'success' : 'processing'}
+        status={status ? 'success' : 'error'}
         text={status ? 'Registered' : 'Pending'}
       />
     ),
+    filters: [
+      { text: 'Registered', value: true },
+      { text: 'Pending', value: false },
+    ],
+    onFilter: (value: boolean, record: any) => record.status === value,
     shouldCellUpdate: (record: any, prev: any) => !_.isEqual(record, prev),
+    width: 150,
   },
   {
     title: 'Company',
@@ -175,5 +187,3 @@ export const userColumns: any = (
       renderActions(_, record, handleView, handleDelete, handleSendInvite),
   },
 ];
-
-// record.sb_auth_id

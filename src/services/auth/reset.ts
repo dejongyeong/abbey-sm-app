@@ -17,7 +17,7 @@ export const resetPassword = async (uid: string, password: string) => {
 
     return data;
   } catch (error) {
-    throw new Error('Error during API request');
+    throw new Error('Error in resetting password.');
   }
 };
 

@@ -3,3 +3,22 @@
 @tailwind utilities;
 
 @import '~leaflet/dist/leaflet.css';
+
+/* small hack to style ok button in the table of rthe filter dropdown list */
+body
+  > div:nth-child(6)
+  > div
+  > div
+  > div.ant-table-filter-dropdown-btns
+  > button.ant-btn.css-dev-only-do-not-override-12upa3x.ant-btn-primary.ant-btn-sm {
+  @apply bg-custom-color;
+}
+
+body
+  > div:nth-child(6)
+  > div
+  > div
+  > div.ant-table-filter-dropdown-btns
+  > button.ant-btn.css-dev-only-do-not-override-12upa3x.ant-btn-primary.ant-btn-sm:hover {
+  @apply bg-hover-color;
+}
