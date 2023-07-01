@@ -37,6 +37,7 @@ export const getNavList = (
     // Home dashboard
     getItem('Dashboard', '1', <HomeOutlined />, undefined, undefined, () => {
       router.push('/');
+      setSelectedKeys(['1']);
     }),
 
     // Machines
@@ -51,6 +52,7 @@ export const getNavList = (
       undefined,
       () => {
         router.push('/analytics');
+        setSelectedKeys(['4']);
       }
     ),
 
@@ -78,6 +80,7 @@ export const getNavList = (
         undefined,
         () => {
           router.push('/users');
+          setSelectedKeys(['2']);
         }
       )
     );

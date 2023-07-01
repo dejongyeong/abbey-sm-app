@@ -1,14 +1,14 @@
 import AuthLayout from '@/components/auth/Layout';
 import { LockOutlined } from '@ant-design/icons';
-import { Button, Form, Input } from 'antd';
+import { Button, Form, Input, message } from 'antd';
 import { Typography } from 'antd';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { IResetPassword } from '../../../types/auth';
 import { getUid } from '@/services/auth/reset';
 import { confirm } from '@/services/auth/confirm';
-import { toast } from 'react-toastify';
 import { accountConfirmSchema } from '@/validations/auth/account-confirm-schema';
+import { displayMessage } from '@/utils/display-message';
 
 const title: string = 'Confirm Account';
 
@@ -22,6 +22,7 @@ const yupSync = {
 
 export default function Confirm() {
   const [form] = Form.useForm();
+  const [messageApi, contextHolder] = message.useMessage();
   const [loading, setLoading] = useState(false);
   const [expired, setExpired] = useState(false);
   const router = useRouter();
@@ -35,15 +36,17 @@ export default function Confirm() {
       }
 
       const data = await confirm(uid, password);
-      toast.success(`${data.message}`);
+      displayMessage(messageApi, 'success', data.message);
       router.push('/auth/login');
     } catch (error) {
       if ((error as Error).name === 'TokenExpiredError') {
-        toast.error(
+        displayMessage(
+          messageApi,
+          'success',
           'Token to confirm account expired. Contact inviter to resend an invite link.'
         );
       } else {
-        toast.error((error as Error).message);
+        displayMessage(messageApi, 'error', (error as Error).message);
       }
       setExpired(true);
     } finally {
@@ -53,6 +56,7 @@ export default function Confirm() {
 
   return (
     <AuthLayout pageTitle={title} formTitle={title}>
+      {contextHolder}
       <Text>Please create a strong, secure password.</Text>
 
       <Form
@@ -102,6 +106,8 @@ export default function Confirm() {
           <Button
             type="primary"
             htmlType="submit"
+            loading={loading}
+            disabled={loading}
             className="w-full mb-5 bg-custom-color hover:bg-hover-color"
           >
             {!loading ? 'Confirm Account' : 'Confirming'}

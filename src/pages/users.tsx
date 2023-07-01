@@ -8,7 +8,7 @@ import { getUserList } from '@/services/user/get-user-list';
 import { userRoleCounts } from '@/services/user/get-user-role-counts';
 import { getLoginUser } from '@/services/user/query/get-login-user';
 import { IRole } from '@/types/role';
-import { Breadcrumb, Divider, Empty, Typography } from 'antd';
+import { Breadcrumb, Divider, Empty, Tooltip, Typography } from 'antd';
 import { GetServerSidePropsContext } from 'next';
 import { ReactNode } from 'react';
 
@@ -36,7 +36,9 @@ export default function Users({ uid, roles, counts, userList }: IProps) {
         <div className="mt-10 mb-6 flex flex-col">
           <div className="order-1 mb-4">
             <div className="mb-4">
-              <Text className="font-semibold">User List:</Text>
+              <Tooltip title="Reload page to see the latest list.">
+                <Text className="font-semibold">User List:</Text>
+              </Tooltip>
             </div>
             <UserTable users={users} />
           </div>

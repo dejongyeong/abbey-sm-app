@@ -1,4 +1,4 @@
-import { Button, Checkbox, Form, Input } from 'antd';
+import { Button, Checkbox, Form, Input, message } from 'antd';
 import AuthLayout from '@/components/auth/Layout';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import Link from 'next/link';
@@ -7,7 +7,7 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { ILogin } from '../../types/auth';
 import { login } from '@/services/auth/login';
-import { toast } from 'react-toastify';
+import { displayMessage } from '@/utils/display-message';
 
 const title: string = 'Login';
 
@@ -19,6 +19,7 @@ const yupSync = {
 
 export default function Login() {
   const [form] = Form.useForm();
+  const [messageApi, contextHolder] = message.useMessage();
   const [loading, setLoading] = useState(false);
   const router = useRouter();
 
@@ -32,10 +33,10 @@ export default function Login() {
     setLoading(true);
     try {
       const data = await login(email, password);
-      toast.success(data.message);
+      displayMessage(messageApi, 'success', data.message);
       router.push('/');
     } catch (error) {
-      toast.error((error as Error).message);
+      displayMessage(messageApi, 'error', (error as Error).message);
     } finally {
       setLoading(false);
     }
@@ -43,6 +44,7 @@ export default function Login() {
 
   return (
     <AuthLayout pageTitle={title} formTitle={title}>
+      {contextHolder}
       <Form
         form={form}
         name="login"

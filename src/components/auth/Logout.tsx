@@ -1,22 +1,23 @@
 import { logout } from '@/services/auth/logout';
+import { displayMessage } from '@/utils/display-message';
 import { LoadingOutlined, LogoutOutlined } from '@ant-design/icons';
-import { Button, Tooltip } from 'antd';
+import { Button, Tooltip, message } from 'antd';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
-import { toast } from 'react-toastify';
 
 export default function Logout() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
+  const [messageApi, contextHolder] = message.useMessage();
 
   const signOut = async () => {
     setLoading(true);
     try {
       const data = await logout();
-      toast.success(data.message);
+      displayMessage(messageApi, 'success', data.message);
       router.push('/auth/login');
     } catch (error) {
-      toast.error((error as Error).message);
+      displayMessage(messageApi, 'error', (error as Error).message);
     } finally {
       setLoading(false);
     }
@@ -24,6 +25,7 @@ export default function Logout() {
 
   return (
     <div className="flex justify-center align-middle">
+      {contextHolder}
       <Tooltip title="Logout">
         <Button
           type="text"

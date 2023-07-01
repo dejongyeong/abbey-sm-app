@@ -1,13 +1,13 @@
 import AuthLayout from '@/components/auth/Layout';
 import { LockOutlined } from '@ant-design/icons';
-import { Button, Form, Input } from 'antd';
+import { Button, Form, Input, message } from 'antd';
 import { Typography } from 'antd';
 import { useState } from 'react';
 import { IResetPassword } from '../../../types/auth';
-import { toast } from 'react-toastify';
 import { getUid, resetPassword } from '@/services/auth/reset';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
+import { displayMessage } from '@/utils/display-message';
 
 const title: string = 'Reset Password';
 
@@ -15,6 +15,7 @@ const { Text } = Typography;
 
 export default function Reset() {
   const [form] = Form.useForm();
+  const [messageApi, contextHolder] = message.useMessage();
   const [loading, setLoading] = useState(false);
   const [expired, setExpired] = useState(false);
   const router = useRouter();
@@ -28,15 +29,17 @@ export default function Reset() {
       }
 
       const data = await resetPassword(uid, password);
-      toast.success(`${data.message}`);
+      displayMessage(messageApi, 'success', data.message);
       router.push('/auth/login');
     } catch (error) {
       if ((error as Error).name === 'TokenExpiredError') {
-        toast.error(
+        displayMessage(
+          messageApi,
+          'error',
           'Token to reset password expired. Please return to Login Page'
         );
       } else {
-        toast.error((error as Error).message);
+        displayMessage(messageApi, 'error', (error as Error).message);
       }
       setExpired(true);
     } finally {
@@ -46,8 +49,8 @@ export default function Reset() {
 
   return (
     <AuthLayout pageTitle={title} formTitle={title}>
+      {contextHolder}
       <Text>Please enter a new and secure password below.</Text>
-
       <Form
         form={form}
         name="reset"
@@ -95,6 +98,8 @@ export default function Reset() {
           <Button
             type="primary"
             htmlType="submit"
+            loading={loading}
+            disabled={loading}
             className="w-full mb-5 bg-custom-color hover:bg-hover-color"
           >
             {!loading ? 'Reset Password' : 'Updating'}
