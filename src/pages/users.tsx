@@ -3,20 +3,16 @@ import RolesCount from '@/components/user/RolesCount';
 import UserTable from '@/components/user/UserTable';
 import InviteSection from '@/components/user/invite/InviteSection';
 import { checkUserSessionSsr } from '@/services/auth/check-session-ssr';
-import { countUsersByRole } from '@/services/role/count-users-by-role';
-import { filterRoleList } from '@/services/role/filter-role-list';
-import { getAllRoles } from '@/services/role/get-all-roles';
 import { roleOptions } from '@/services/user/get-role-options';
 import { getUserList } from '@/services/user/get-user-list';
 import { userRoleCounts } from '@/services/user/get-user-role-counts';
-import { getAllUsers } from '@/services/user/query/get-all-users';
 import { getLoginUser } from '@/services/user/query/get-login-user';
 import { IRole } from '@/types/role';
-import { Breadcrumb, Typography } from 'antd';
+import { Breadcrumb, Divider, Empty, Typography } from 'antd';
 import { GetServerSidePropsContext } from 'next';
 import { ReactNode } from 'react';
 
-const { Title } = Typography;
+const { Title, Text } = Typography;
 
 interface IProps {
   uid: string;
@@ -37,9 +33,26 @@ export default function Users({ uid, roles, counts, userList }: IProps) {
         <div className="mt-6">
           <InviteSection senderId={senderId} roles={roles} />
         </div>
-        <div className="mt-10 flex flex-col lg:gap-10 lg:flex-row">
-          {counts && counts.length > 0 ? <RolesCount counts={counts} /> : null}
-          <UserTable users={users} />
+        <div className="mt-10 mb-6 flex flex-col">
+          <div className="order-1 mb-4">
+            <div className="mb-4">
+              <Text className="font-semibold">User List:</Text>
+            </div>
+            <UserTable users={users} />
+          </div>
+
+          <Divider className="order-2" />
+
+          <div className="order-3 mt-5 mb-6">
+            <div className="mb-4">
+              <Text className="font-semibold mb-6">Total Users:</Text>
+            </div>
+            {counts && counts.length > 0 ? (
+              <RolesCount counts={counts} />
+            ) : (
+              <Empty description="No Users" />
+            )}
+          </div>
         </div>
       </div>
     </main>

@@ -65,27 +65,22 @@ export default function UserTable({ users }: any) {
   return (
     <>
       {contextHolder}
-      <div className="lg:w-9/12 order-1 lg:order-2">
-        <div className="mb-4">
-          <Text>User List:</Text>
-        </div>
-        <div className=" overflow-x-auto">
-          <Table
-            size="middle"
-            rowKey="key"
-            bordered={true}
-            loading={false}
-            scroll={{ x: 2300 }}
-            dataSource={dataSource}
-            columns={columns}
-            pagination={{
-              position: ['bottomRight'],
-              showTotal: (total: any, range: any) =>
-                `${range[0]}-${range[1]} of ${total} items`,
-              showSizeChanger: true,
-            }}
-          />
-        </div>
+      <div className=" overflow-x-auto">
+        <Table
+          size="middle"
+          rowKey="key"
+          bordered={true}
+          loading={false}
+          scroll={{ x: 2300 }}
+          dataSource={dataSource}
+          columns={columns}
+          pagination={{
+            position: ['bottomRight'],
+            showTotal: (total: any, range: any) =>
+              `${range[0]}-${range[1]} of ${total} items`,
+            showSizeChanger: true,
+          }}
+        />
       </div>
     </>
   );
