@@ -28,7 +28,7 @@ export default function Users({ uid, roles, counts, userList }: IProps) {
   return (
     <main className="w-full h-auto">
       <Breadcrumb items={[{ title: 'Home' }, { title: 'Users' }]} />
-      <div className="h-auto mt-7 p-5 bg-white ">
+      <div className="h-auto mt-7 p-5 bg-white">
         <Title level={4}>Manage Users</Title>
         <div className="mt-6">
           <InviteSection senderId={senderId} roles={roles} />
@@ -40,7 +40,7 @@ export default function Users({ uid, roles, counts, userList }: IProps) {
                 <Text className="font-semibold">User List:</Text>
               </Tooltip>
             </div>
-            <UserTable users={users} />
+            <UserTable uid={uid} users={users} />
           </div>
 
           <Divider className="order-2" />

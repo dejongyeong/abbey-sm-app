@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import { getColumnSearchProps } from './TableHelpers';
-import { Badge, Button, Checkbox, Popconfirm, Space, Tag, Tooltip } from 'antd';
+import { Badge, Button, Popconfirm, Space, Tag, Tooltip } from 'antd';
 import {
   DeleteOutlined,
   EyeOutlined,

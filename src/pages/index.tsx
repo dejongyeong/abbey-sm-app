@@ -6,7 +6,7 @@ import { Breadcrumb } from 'antd';
 import { GetServerSidePropsContext } from 'next';
 import { ReactNode } from 'react';
 
-// TODO: list should populate from database
+// TODO: machine list should populate from database
 
 export default function Home() {
   return (

@@ -1,4 +1,4 @@
-import { Table, Typography, message } from 'antd';
+import { Table, message } from 'antd';
 import type { InputRef } from 'antd';
 import { userColumns } from './tables/TableColumns';
 import moment from 'moment';
@@ -6,12 +6,12 @@ import { resendInvite } from '@/services/user/resend-invite';
 import { displayMessage } from '@/utils/display-message';
 import { useRef } from 'react';
 import { deleteUser } from '@/services/user/delete-user';
+import { useRouter } from 'next/router';
 
-const { Text } = Typography;
-
-export default function UserTable({ users }: any) {
+export default function UserTable({ uid, users }: any) {
   const [messageApi, contextHolder] = message.useMessage();
   const searchInput = useRef<InputRef>(null);
+  const router = useRouter();
 
   const dataSource = users?.map((user: any) => ({
     key: user.id,
@@ -32,7 +32,8 @@ export default function UserTable({ users }: any) {
   }));
 
   const handleView = (record: any) => {
-    alert(`view click: ${JSON.stringify(record)}`);
+    const id = record.sb_auth_id;
+    router.push(`/users/${uid}/manage/${id}`);
   };
 
   const handleDelete = async (record: any) => {
