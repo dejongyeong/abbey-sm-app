@@ -33,7 +33,7 @@ export default function UserTable({ uid, users }: any) {
 
   const handleView = (record: any) => {
     const id = record.sb_auth_id;
-    router.push(`/users/${uid}/manage/${id}`);
+    router.push(`/users/manage/${id}`);
   };
 
   const handleDelete = async (record: any) => {
