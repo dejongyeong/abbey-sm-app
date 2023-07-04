@@ -1,3 +1,4 @@
+import HistoricalData from '@/components/dashboard/HistoricalData';
 import DshLayout from '@/components/dashboard/Layout';
 import { checkUserSessionSsr } from '@/services/auth/check-session-ssr';
 import { getLoginUser } from '@/services/user/query/get-login-user';
@@ -14,10 +15,10 @@ export default function Analytics({ user }: { user: any }) {
     <main className="w-full h-auto">
       <Breadcrumb items={[{ title: 'Home' }, { title: 'Analytics' }]} />
       <div className="h-auto mt-7 p-5 bg-white ">
-        <Title level={4}>Historical Data</Title>
-        <div className="mt-6">
-          <p>Select Options</p>
+        <div className="mb-8">
+          <Title level={4}>Historical Data</Title>
         </div>
+        <HistoricalData />
       </div>
     </main>
   );
