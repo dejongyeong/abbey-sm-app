@@ -2,6 +2,7 @@ import { getSupabaseServerAdminClient } from '@/lib/supabase/admin';
 import { checkUserSessionApi } from '@/services/auth/check-session-api';
 import { deleteUserInDatabase } from '@/services/user/query/delete-user-db';
 import { getSelectedUser } from '@/services/user/query/get-selected-user';
+import { updateUser } from '@/services/user/query/update-user';
 import { NextApiRequest, NextApiResponse } from 'next';
 
 export default async function handler(
@@ -30,8 +31,22 @@ export default async function handler(
       // GET /api/users/[id]
       if (req.method === 'GET') {
         const user = await getUserById(id);
-        res.status(200).json({ user: user, message: 'Success' });
+        res.status(200).json({ user: user, message: 'Update success' });
       }
+    }
+
+    if (req.method === 'PUT') {
+      // PUT /api/users/id
+      const { params } = req.body;
+      const supabaseServerAdminClient = getSupabaseServerAdminClient(req, res); // update supabase as well
+
+      const user = await updateSelectedUser(
+        id,
+        params,
+        supabaseServerAdminClient
+      );
+
+      res.status(200).json({ user: user, message: 'Update success' });
     }
   } catch (error) {
     res.status(500).json({ message: 'Error in manage users api' });
@@ -57,6 +72,28 @@ async function getUserById(id: any) {
   try {
     const user = await getSelectedUser(id);
     return user;
+  } catch (error) {
+    throw error;
+  }
+}
+
+async function updateSelectedUser(
+  id: any,
+  params: any,
+  supabaseServerAdminClient: any
+) {
+  try {
+    const user = updateUser(id, params);
+    const { error } = await supabaseServerAdminClient.auth.admin.updateUserById(
+      id,
+      { email: params?.email }
+    );
+
+    if (!error) {
+      return user;
+    } else {
+      throw new Error('Error while updating user');
+    }
   } catch (error) {
     throw error;
   }
