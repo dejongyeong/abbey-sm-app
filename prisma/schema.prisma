@@ -12,22 +12,24 @@ datasource db {
 }
 
 model User {
-  id                  String        @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid @unique
-  sb_auth_id          String        @db.Uuid @unique
-  email               String        @db.VarChar(255) @unique
-  first_name          String        @db.VarChar(255)
-  last_name           String        @db.VarChar(255)
-  dial_code           String        @db.VarChar(10)
-  phone               String        @db.VarChar(50)
-  company             Json?
-  role                Role          @relation(fields: [role_id], references: [id])
-  role_id             String        @db.Uuid
-  machines            Machine[]
-  invites_sent        Invite[]      @relation("sender_to_receiver")
-  invites_received    Invite[]      @relation("receiver_to_invite")
-  created_at          DateTime      @default(now())
-  updated_at          DateTime      @updatedAt @default(now())
-  deleted_at          DateTime?
+  id                      String        @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid @unique
+  sb_auth_id              String        @db.Uuid @unique
+  email                   String        @db.VarChar(255) @unique
+  first_name              String        @db.VarChar(255)
+  last_name               String        @db.VarChar(255)
+  dial_code               String        @db.VarChar(10)
+  phone                   String        @db.VarChar(50)
+  company                 Json?
+  role                    Role          @relation(fields: [role_id], references: [id])
+  role_id                 String        @db.Uuid
+  invites_sent            Invite[]      @relation("sender_to_receiver")
+  invites_received        Invite[]      @relation("receiver_to_invite")
+  machines                Machine[]     @relation("machine_registrar")
+  machines_dealership     Machine[]     @relation("machine_dealership")
+  machines_farm_manager   Machine[]     @relation("machine_farm_manager")
+  created_at              DateTime      @default(now())
+  updated_at              DateTime      @updatedAt @default(now())
+  deleted_at              DateTime?
 
   @@map("profiles")
 }
@@ -76,11 +78,16 @@ model Machine {
   prod_date         DateTime
   type              MachineType     @relation(fields: [type_id], references: [id], onDelete: Cascade)
   type_id           String          @db.Uuid
-  owner             User            @relation(fields: [owner_id], references: [sb_auth_id], onDelete: Cascade)
-  owner_id          String          @db.Uuid
+  registrar         User            @relation("machine_registrar", fields: [registrar_id], references: [sb_auth_id], onDelete: Cascade)
+  registrar_id      String          @db.Uuid
+  dealership        User?           @relation("machine_dealership", fields: [dealership_id], references: [sb_auth_id], onDelete: Cascade)
+  dealership_id     String?         @db.Uuid
+  farm_manager      User?           @relation("machine_farm_manager", fields: [farm_manager_id], references: [sb_auth_id], onDelete: Cascade)
+  farm_manager_id   String?         @db.Uuid
   created_at        DateTime        @default(now())
   updated_at        DateTime        @updatedAt @default(now())
   deleted_at        DateTime?
+
 
   @@map("machines")
 }

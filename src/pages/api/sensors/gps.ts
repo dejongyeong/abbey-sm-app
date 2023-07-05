@@ -67,9 +67,11 @@ async function queryData(query: string) {
           reject(error);
         },
         complete: async () => {
+          console.log(results);
           // remove null lat and lon value
           const filtered = results.filter(
-            (coord: any) => coord.lat !== 'n/a' && coord.lon !== 'n/a'
+            (coord: any) =>
+              !isNaN(parseFloat(coord.lat)) && !isNaN(parseFloat(coord.lon))
           );
           resolve(filtered);
         },
