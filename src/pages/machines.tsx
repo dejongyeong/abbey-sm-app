@@ -1,5 +1,6 @@
 import DshLayout from '@/components/dashboard/Layout';
 import { checkUserSessionSsr } from '@/services/auth/check-session-ssr';
+import { getMachineType } from '@/services/machine/query/get-machine-type';
 import { getLoginUser } from '@/services/user/query/get-login-user';
 import { Breadcrumb, Typography } from 'antd';
 import { GetServerSidePropsContext } from 'next';
@@ -7,7 +8,11 @@ import { ReactNode } from 'react';
 
 const { Title } = Typography;
 
-export default function Machines({ user }: { user: any }) {
+interface IMachines {
+  machineType: any;
+}
+
+export default function Machines({ machineType }: IMachines) {
   // TODO: show machines that are belonging to the person
 
   return (
@@ -43,10 +48,14 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
   }
 
   const user = await getLoginUser(session.user.id); // get current user
+
+  const machineType = await getMachineType();
+
   return {
     props: {
       initialSession: session,
       user: user,
+      machineType: machineType,
     },
   };
 };
