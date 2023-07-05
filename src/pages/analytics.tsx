@@ -14,7 +14,7 @@ export default function Analytics({ user }: { user: any }) {
   return (
     <main className="w-full h-auto">
       <Breadcrumb items={[{ title: 'Home' }, { title: 'Analytics' }]} />
-      <div className="h-auto mt-7 p-5 bg-white ">
+      <div className="h-auto mt-7 p-7 bg-white ">
         <div className="mb-8">
           <Title level={4}>Historical Data</Title>
         </div>
