@@ -13,6 +13,9 @@ export default function Navigation({ role }: { role: string }) {
       case '/users':
         setSelectedKeys(['2']);
         break;
+      case '/machines':
+        setSelectedKeys(['3']);
+        break;
       case '/analytics':
         setSelectedKeys(['4']);
         break;

@@ -41,7 +41,10 @@ export const getNavList = (
     }),
 
     // Machines
-    getItem('Machines', '3', <ToolOutlined />),
+    getItem('Machines', '3', <ToolOutlined />, undefined, undefined, () => {
+      router.push('/machines');
+      setSelectedKeys(['3']);
+    }),
 
     // Analytics
     getItem(
