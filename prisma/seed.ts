@@ -22,7 +22,14 @@ async function seed() {
       ],
     });
 
-    console.log('Role seeded successfully');
+    await prisma.machineType.createMany({
+      data: [
+        { name: 'Tanker', alias: 'tanker' },
+        { name: 'Feeder', alias: 'feeder' },
+      ],
+    });
+
+    console.log('Role and machine type seeded successfully');
   } catch (error) {
     console.error('Failed to create seed data: ', error);
   } finally {

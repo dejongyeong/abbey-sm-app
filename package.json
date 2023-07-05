@@ -16,7 +16,7 @@
     "@ant-design/plots": "^1.2.5",
     "@influxdata/influxdb-client": "^1.33.2",
     "@influxdata/influxdb-client-apis": "^1.33.2",
-    "@prisma/client": "^4.16.1",
+    "@prisma/client": "^4.16.2",
     "@sendgrid/mail": "^7.7.0",
     "@supabase/auth-helpers-nextjs": "^0.7.2",
     "@supabase/auth-helpers-react": "^0.4.0",
@@ -53,7 +53,7 @@
   "devDependencies": {
     "@types/leaflet": "^1.9.3",
     "@types/lodash": "^4.14.195",
-    "prisma": "^4.16.1",
+    "prisma": "^4.16.2",
     "supabase": "^1.68.6",
     "ts-node": "^10.9.1"
   }
