@@ -19,6 +19,11 @@ export async function getLoginUser(uid: string) {
           alias: true,
         },
       },
+      invites_received: {
+        select: {
+          sender_id: true,
+        },
+      },
     },
   });
 

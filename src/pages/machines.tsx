@@ -7,7 +7,9 @@ import { getAllMachines } from '@/services/machine/query/get-all-machines';
 import { getDealerships } from '@/services/machine/query/get-dealerships-list';
 import { getFarmManagers } from '@/services/machine/query/get-farm-manager-list';
 import { getMachineType } from '@/services/machine/query/get-machine-type';
+import { getMachinesForFarmManager } from '@/services/machine/query/get-machines-farm-managers';
 import { getMachinesForDealers } from '@/services/machine/query/get-machines-for-dealers';
+import { getMachinesForFarmer } from '@/services/machine/query/get-machines-for-farmer';
 import { getLoginUser } from '@/services/user/query/get-login-user';
 import { Breadcrumb, Typography, message } from 'antd';
 import { GetServerSidePropsContext } from 'next';
@@ -42,6 +44,7 @@ export default function Machines({
               dealerships={dealers}
             />
           )}
+
           <MachineTable machines={assets} />
         </div>
       </div>
@@ -68,7 +71,7 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
     };
   }
 
-  const user = await getLoginUser(session.user.id); // get current user
+  const user = await getLoginUser(session.user.id); // get current user'
 
   // get machine information for forms
   const machineType = await getMachineType();
@@ -78,9 +81,17 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
   let machines = [];
   switch (user?.role?.alias) {
     case 'dealership':
-      machines = await getMachinesForDealers(user.sb_auth_id); // get all machines belonging to the dealerships only
+      // get all machines belonging to the dealerships only
+      machines = await getMachinesForDealers(user.sb_auth_id);
+    case 'farm-manager':
+      // get all machines belonging to the farm manager only
+      machines = await getMachinesForFarmManager(user.sb_auth_id);
+    case 'farmer':
+      // get all machines belonging to their farm manager only
+      machines = await getMachinesForFarmer(user.invites_received[0].sender_id);
     default:
-      machines = await getAllMachines(); // get all machines
+      // get all machines for am-admin, am-manager, am-prod, and am-service
+      machines = await getAllMachines();
   }
 
   return {

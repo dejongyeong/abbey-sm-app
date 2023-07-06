@@ -5,6 +5,8 @@ const { Text } = Typography;
 export default function MachineTable({ machines }: any) {
   console.log(machines);
 
+  // TODO: remove certain actions for farmers
+
   return (
     <div>
       <Tooltip title="Reload page to see the latest list.">
