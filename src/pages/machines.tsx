@@ -1,5 +1,6 @@
 import DshLayout from '@/components/dashboard/Layout';
 import MachineForm from '@/components/machine/MachineForm';
+import MachineTable from '@/components/machine/MachineTable';
 import { checkUserSessionSsr } from '@/services/auth/check-session-ssr';
 import { isRegisterable } from '@/services/machine/check-accessible';
 import { getDealerships } from '@/services/machine/query/get-dealerships-list';
@@ -40,10 +41,8 @@ export default function Machines({
             />
           )}
 
-          <div>machine list</div>
+          <MachineTable />
         </div>
-
-        <div>assign machine</div>
       </div>
     </main>
   );

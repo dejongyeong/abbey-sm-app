@@ -51,13 +51,13 @@ const MachineForm = ({ user, types, dealerships, messageApi }: any) => {
   return (
     <Card>
       <Text className="text-gray-600 font-semibold">Create Machines</Text>
-      <div className="flex flex-col justify-start align-top mt-5 w-5/12 max-[1258px]:w-9/12 max-[1024px]:w-full">
+      <div className="flex flex-col justify-start align-top mt-5 w-4/12 max-[1258px]:w-9/12 max-[1024px]:w-full -mb-4">
         <Form
           form={form}
           name="add-machine"
           labelWrap
           labelAlign="left"
-          labelCol={{ span: 7 }}
+          labelCol={{ span: 6 }}
           initialValues={initialValues}
           onFinish={onFinish}
         >

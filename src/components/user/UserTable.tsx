@@ -66,7 +66,7 @@ export default function UserTable({ uid, users }: any) {
   return (
     <>
       {contextHolder}
-      <div className=" overflow-x-auto">
+      <div className="overflow-x-auto">
         <Table
           size="middle"
           rowKey="key"
