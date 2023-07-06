@@ -19,7 +19,7 @@ const yupSync = {
   },
 };
 
-const MachineForm = ({
+const CreateMachineForm = ({
   messageApi,
   types,
   user,
@@ -46,7 +46,8 @@ const MachineForm = ({
     };
 
     try {
-      alert(JSON.stringify(values));
+      // TODO: edit logic here
+      alert(JSON.stringify(params));
       displayMessage(messageApi, 'success', 'Success');
       form.resetFields();
     } catch (error) {
@@ -200,4 +201,4 @@ const MachineForm = ({
   );
 };
 
-export default MachineForm;
+export default CreateMachineForm;

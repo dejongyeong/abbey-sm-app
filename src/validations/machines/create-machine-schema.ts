@@ -6,6 +6,10 @@ export const createMachineSchema = yup.object().shape({
   type_id: yup.string().required('Machine type must not be empty'),
   prod_date: yup.date().required('Production date must not be empty'),
   registrar: yup.string().required('Registrar must not be empty'),
-  dealership: yup.string().required('Dealership must not be empty'),
-  farm_manager: yup.string().required('Farm Manager must not be empty'),
+  dealership: yup
+    .string()
+    .required(
+      'Dealership must not be empty. Invite dealership first if list is empty'
+    ),
+  farm_manager: yup.string().notRequired(),
 });

@@ -1,5 +1,5 @@
 import DshLayout from '@/components/dashboard/Layout';
-import MachineForm from '@/components/machine/MachineForm';
+import CreateMachineForm from '@/components/machine/CreateMachineForm';
 import { checkUserSessionSsr } from '@/services/auth/check-session-ssr';
 import { isAccessible } from '@/services/machine/check-form-accessible';
 import { getDealerships } from '@/services/machine/query/get-dealerships-list';
@@ -39,7 +39,7 @@ export default function Machines({
         <Title level={4}>Manage Machines</Title>
         <div className="flex flex-col justify-start gap-4 my-6">
           {accessible ? (
-            <MachineForm
+            <CreateMachineForm
               messageApi={messageApi}
               types={machineType}
               user={user}
