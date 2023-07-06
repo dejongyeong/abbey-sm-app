@@ -6,7 +6,6 @@ export async function getSelectedUser(id: string) {
       where: { sb_auth_id: id },
       include: {
         role: true,
-        machines: true,
         invites_sent: true,
         invites_received: true,
       },

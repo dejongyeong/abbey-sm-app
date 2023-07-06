@@ -1,7 +1,7 @@
 import DshLayout from '@/components/dashboard/Layout';
-import CreateMachineForm from '@/components/machine/CreateMachineForm';
+import MachineForm from '@/components/machine/MachineForm';
 import { checkUserSessionSsr } from '@/services/auth/check-session-ssr';
-import { isAccessible } from '@/services/machine/check-form-accessible';
+import { isRegisterable } from '@/services/machine/check-accessible';
 import { getDealerships } from '@/services/machine/query/get-dealerships-list';
 import { getFarmManagers } from '@/services/machine/query/get-farm-manager-list';
 import { getMachineType } from '@/services/machine/query/get-machine-type';
@@ -12,22 +12,15 @@ import { ReactNode } from 'react';
 
 const { Title } = Typography;
 
-interface IMachines {
-  machineType: any;
-  user: any;
-  dealerships: any;
-  farmManagers: any;
-}
-
 export default function Machines({
-  machineType,
   user,
+  machineType,
   dealerships,
   farmManagers,
-}: IMachines) {
+}: any) {
   const [messageApi, contextHolder] = message.useMessage();
 
-  const accessible = isAccessible(user);
+  const registerable = isRegisterable(user);
 
   // TODO: show machines that are belonging to the person
 
@@ -38,15 +31,14 @@ export default function Machines({
       <div className="h-auto mt-7 p-5 bg-white ">
         <Title level={4}>Manage Machines</Title>
         <div className="flex flex-col justify-start gap-4 my-6">
-          {accessible ? (
-            <CreateMachineForm
-              messageApi={messageApi}
-              types={machineType}
+          {registerable && (
+            <MachineForm
               user={user}
+              types={machineType}
               dealerships={dealerships}
-              farmManagers={farmManagers}
+              mmessageApi={messageApi}
             />
-          ) : null}
+          )}
 
           <div>machine list</div>
         </div>
