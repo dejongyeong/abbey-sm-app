@@ -49,7 +49,7 @@ const MachineForm = ({ user, types, dealerships, messageApi }: any) => {
   };
 
   return (
-    <Card>
+    <Card className="mb-9">
       <Text className="text-gray-600 font-semibold">Create Machines</Text>
       <div className="flex flex-col justify-start align-top mt-5 w-4/12 max-[1258px]:w-9/12 max-[1024px]:w-full -mb-4">
         <Form

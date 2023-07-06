@@ -4,7 +4,7 @@ const { Text } = Typography;
 
 export default function MachineTable() {
   return (
-    <div className="mt-10">
+    <div>
       <Tooltip title="Reload page to see the latest list.">
         <Text className="font-semibold">Machine List:</Text>
       </Tooltip>
