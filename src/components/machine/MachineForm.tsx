@@ -1,3 +1,4 @@
+import { createMachine } from '@/services/machine/create-machine';
 import { displayMessage } from '@/utils/display-message';
 import { createMachineSchema } from '@/validations/machines/create-machine-schema';
 import {
@@ -8,6 +9,7 @@ import {
   Input,
   Select,
   Typography,
+  message,
 } from 'antd';
 import { useState } from 'react';
 
@@ -19,39 +21,43 @@ const yupSync = {
   },
 };
 
-// TODO: edit create logic here
-
-const MachineForm = ({ user, types, dealerships, messageApi }: any) => {
+const MachineForm = ({ user, types, dealerships }: any) => {
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
+  const [messageApi, contextHolder] = message.useMessage();
 
   const initialValues = { registrar: `${user?.first_name} ${user?.last_name}` };
   const registrarId = user?.sb_auth_id;
 
-  const onFinish = (values: any) => {
+  const onFinish = async (values: any) => {
     setLoading(true);
+
     const params = {
+      serial_no: values.serial_no,
       model_no: values.model_no,
       type_id: values.type_id,
       prod_date: values.prod_date,
       registrar_id: registrarId,
+      dealership_id: values.dealership,
     };
 
     try {
-      alert(JSON.stringify(params));
-      displayMessage(messageApi, 'success', 'Success');
-      // form.resetFields();
+      const machine = await createMachine(params);
+      const message = `${machine.serial_no} created successful.`;
+      displayMessage(messageApi, 'success', message);
+      form.resetFields();
     } catch (error) {
-      displayMessage(messageApi, 'error', (error as Error).message);
+      displayMessage(messageApi, 'error', 'Error in creating machine');
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <Card className="mb-9">
+    <Card className="mb-7">
+      {contextHolder}
       <Text className="text-gray-600 font-semibold">Create Machines</Text>
-      <div className="flex flex-col justify-start align-top mt-5 w-4/12 max-[1258px]:w-9/12 max-[1024px]:w-full -mb-4">
+      <div className="flex flex-col justify-start align-top mt-5 w-4/12 max-[1440px]:w-6/12 max-[1258px]:w-9/12 max-[1024px]:w-full -mb-4">
         <Form
           form={form}
           name="add-machine"
@@ -128,6 +134,7 @@ const MachineForm = ({ user, types, dealerships, messageApi }: any) => {
               optionFilterProp="children"
               filterOption={(input, option) =>
                 option?.props?.children
+                  .toString()
                   .toLowerCase()
                   .includes(input.toLowerCase())
               }

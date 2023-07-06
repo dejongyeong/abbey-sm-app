@@ -2,7 +2,9 @@ import { Tooltip, Typography } from 'antd';
 
 const { Text } = Typography;
 
-export default function MachineTable() {
+export default function MachineTable({ machines }: any) {
+  console.log(machines);
+
   return (
     <div>
       <Tooltip title="Reload page to see the latest list.">

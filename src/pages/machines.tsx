@@ -3,6 +3,7 @@ import MachineForm from '@/components/machine/MachineForm';
 import MachineTable from '@/components/machine/MachineTable';
 import { checkUserSessionSsr } from '@/services/auth/check-session-ssr';
 import { isRegisterable } from '@/services/machine/check-accessible';
+import { getAllMachines } from '@/services/machine/query/get-all-machines';
 import { getDealerships } from '@/services/machine/query/get-dealerships-list';
 import { getFarmManagers } from '@/services/machine/query/get-farm-manager-list';
 import { getMachineType } from '@/services/machine/query/get-machine-type';
@@ -13,21 +14,22 @@ import { ReactNode } from 'react';
 
 const { Title } = Typography;
 
+// TODO: show machines that are belonging to the person
+
 export default function Machines({
   user,
+  machines,
   machineType,
   dealerships,
   farmManagers,
 }: any) {
-  const [messageApi, contextHolder] = message.useMessage();
+  const dealers = JSON.parse(dealerships);
+  const assets = JSON.parse(machines);
 
   const registerable = isRegisterable(user);
 
-  // TODO: show machines that are belonging to the person
-
   return (
     <main className="w-full h-auto">
-      {contextHolder}
       <Breadcrumb items={[{ title: 'Home' }, { title: 'Machines' }]} />
       <div className="h-auto mt-7 p-5 bg-white ">
         <Title level={4}>Manage Machines</Title>
@@ -36,12 +38,10 @@ export default function Machines({
             <MachineForm
               user={user}
               types={machineType}
-              dealerships={dealerships}
-              mmessageApi={messageApi}
+              dealerships={dealers}
             />
           )}
-
-          <MachineTable />
+          <MachineTable machines={assets} />
         </div>
       </div>
     </main>
@@ -69,6 +69,7 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
 
   const user = await getLoginUser(session.user.id); // get current user
 
+  const machines = await getAllMachines(); // get all machines
   const machineType = await getMachineType();
   const dealerships = await getDealerships();
   const farmManagers = await getFarmManagers();
@@ -77,8 +78,9 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
     props: {
       initialSession: session,
       user: user,
+      machines: JSON.stringify(machines),
       machineType: machineType,
-      dealerships: dealerships,
+      dealerships: JSON.stringify(dealerships),
       farmManagers: farmManagers,
     },
   };
