@@ -1,9 +1,8 @@
 import _ from 'lodash';
 import { Tag } from 'antd';
 import { getColumnSearchProps } from '../../../shared/tables/TableHelpers';
-import moment from 'moment';
 
-export const defaultColumns: any = (searchInput: any) => [
+export const farmerColumns: any = (searchInput: any) => [
   {
     title: 'Serial No',
     dataIndex: 'serial_no',
@@ -36,39 +35,22 @@ export const defaultColumns: any = (searchInput: any) => [
       record.type.toLowerCase() === value.toLowerCase(),
     shouldCellUpdate: (record: any, prev: any) => !_.isEqual(record, prev),
   },
+
   {
-    title: 'Production Date',
-    dataIndex: 'prod_date',
-    key: 'prod_date',
-    sorter: (a: any, b: any) => {
-      return (
-        moment(a.prod_date, 'DD-MM-YYYY HH:mm:ss').unix() -
-        moment(b.prod_date, 'DD-MM-YYYY HH:mm:ss').unix()
-      );
-    },
-    shouldCellUpdate: (record: any, prev: any) => !_.isEqual(record, prev),
-  },
-  {
-    title: `Dealer's Name`,
-    dataIndex: 'dealer_name',
-    key: 'dealer_name',
+    title: `Farm Manager's Name`,
+    dataIndex: 'farm_manager_name',
+    key: 'farm_manager_name',
     render: (_: any, record: any) =>
-      `${record.dealer_first_name} ${record.dealer_last_name}`,
-    ...getColumnSearchProps('Dealer Name', searchInput),
+      `${record.farm_manager_first_name} ${record.farm_manager_last_name}`,
+    ...getColumnSearchProps('Farm Manager Name', searchInput),
     shouldCellUpdate: (record: any, prev: any) => !_.isEqual(record, prev),
   },
   {
-    title: `Dealer's Phone`,
-    dataIndex: 'dealer_phone',
-    key: 'dealer_phone',
+    title: `Farm Manager's Phone`,
+    dataIndex: 'farm_manager_phone',
+    key: 'farm_manager_phone',
     render: (_: any, record: any) =>
-      `${record.dealer_dial_code} ${record.dealer_phone}`,
-    shouldCellUpdate: (record: any, prev: any) => !_.isEqual(record, prev),
-  },
-  {
-    title: `Dealer's Email`,
-    dataIndex: 'dealer_email',
-    key: 'dealer_email',
+      `${record.farm_manager_dial_code} ${record.farm_manager_phone}`,
     shouldCellUpdate: (record: any, prev: any) => !_.isEqual(record, prev),
   },
 ];

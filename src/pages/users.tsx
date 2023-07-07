@@ -26,7 +26,7 @@ export default function Users({ uid, roles, counts, userList }: IProps) {
   const users = JSON.parse(userList);
 
   return (
-    <main className="w-full h-auto">
+    <main className="w-full min-h-screen">
       <Breadcrumb items={[{ title: 'Home' }, { title: 'Users' }]} />
       <div className="h-auto mt-7 p-5 bg-white">
         <Title level={4}>Manage Users</Title>

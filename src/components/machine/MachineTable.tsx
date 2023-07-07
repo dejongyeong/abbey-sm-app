@@ -16,9 +16,9 @@ export default function MachineTable({ machines, user }: any) {
   const columns = machineColumns(cols);
 
   return (
-    <div>
+    <>
       <Tooltip title="Reload page to see the latest list.">
-        <Text className="font-semibold">Machine List:</Text>
+        <Text className="text-gray-600 font-semibold">Machine List:</Text>
       </Tooltip>
       <div className="mt-3 overflow-x-auto">
         <Table
@@ -38,6 +38,6 @@ export default function MachineTable({ machines, user }: any) {
           className="mt-1"
         />
       </div>
-    </div>
+    </>
   );
 }

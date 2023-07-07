@@ -32,7 +32,7 @@ export default function Machines({
   const registerable = isRegisterable(user);
 
   return (
-    <main className="w-full h-auto">
+    <main className="w-full min-h-screen">
       <Breadcrumb items={[{ title: 'Home' }, { title: 'Machines' }]} />
       <div className="h-auto mt-7 p-5 bg-white ">
         <Title level={4}>Manage Machines</Title>

@@ -22,3 +22,39 @@ body
   > button.ant-btn.css-dev-only-do-not-override-12upa3x.ant-btn-primary.ant-btn-sm:hover {
   @apply bg-hover-color;
 }
+
+body
+  > div:nth-child(8)
+  > div
+  > div
+  > div.ant-table-filter-dropdown-btns
+  > button.ant-btn.css-dev-only-do-not-override-12upa3x.ant-btn-primary.ant-btn-sm {
+  @apply bg-custom-color;
+}
+
+body
+  > div:nth-child(8)
+  > div
+  > div
+  > div.ant-table-filter-dropdown-btns
+  > button.ant-btn.css-dev-only-do-not-override-12upa3x.ant-btn-primary.ant-btn-sm {
+  @apply bg-hover-color;
+}
+
+body
+  > div:nth-child(7)
+  > div
+  > div
+  > div.ant-table-filter-dropdown-btns
+  > button.ant-btn.css-dev-only-do-not-override-12upa3x.ant-btn-primary.ant-btn-sm {
+  @apply bg-custom-color;
+}
+
+body
+  > div:nth-child(7)
+  > div
+  > div
+  > div.ant-table-filter-dropdown-btns
+  > button.ant-btn.css-dev-only-do-not-override-12upa3x.ant-btn-primary.ant-btn-sm {
+  @apply bg-hover-color;
+}
