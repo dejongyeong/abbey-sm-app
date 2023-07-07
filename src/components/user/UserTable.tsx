@@ -8,7 +8,7 @@ import { useRef } from 'react';
 import { deleteUser } from '@/services/user/delete-user';
 import { useRouter } from 'next/router';
 
-export default function UserTable({ uid, users }: any) {
+export default function UserTable({ users }: any) {
   const [messageApi, contextHolder] = message.useMessage();
   const searchInput = useRef<InputRef>(null);
   const router = useRouter();

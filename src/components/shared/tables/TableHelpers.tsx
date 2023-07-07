@@ -57,7 +57,5 @@ export const getColumnSearchProps = (dataIndex: any, searchInput: any) => {
     filterIcon: (filtered: any) => (
       <SearchOutlined className={filtered ? 'text-blue-500' : ''} />
     ),
-    onFilter: (value: any, record: any) =>
-      record.first_name.toLowerCase().includes(value.toLowerCase()),
   };
 };

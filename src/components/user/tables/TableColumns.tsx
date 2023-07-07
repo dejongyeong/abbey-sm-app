@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { getColumnSearchProps } from './TableHelpers';
+import { getColumnSearchProps } from '../../shared/tables/TableHelpers';
 import { Badge, Button, Popconfirm, Space, Tag, Tooltip } from 'antd';
 import {
   DeleteOutlined,
@@ -80,7 +80,9 @@ export const userColumns: any = (
     title: 'First Name',
     dataIndex: 'first_name',
     key: 'first_name',
-    ...getColumnSearchProps('first_name', searchInput),
+    ...getColumnSearchProps('First Name', searchInput),
+    onFilter: (value: any, record: any) =>
+      record.first_name.toLowerCase().includes(value.toLowerCase()),
     shouldCellUpdate: (record: any, prev: any) => !_.isEqual(record, prev),
   },
   {
@@ -93,7 +95,9 @@ export const userColumns: any = (
     title: 'Email',
     dataIndex: 'email',
     key: 'email',
-    ...getColumnSearchProps('email', searchInput),
+    ...getColumnSearchProps('Email', searchInput),
+    onFilter: (value: any, record: any) =>
+      record.email.toLowerCase().includes(value.toLowerCase()),
     shouldCellUpdate: (record: any, prev: any) => !_.isEqual(record, prev),
     width: 290,
   },
