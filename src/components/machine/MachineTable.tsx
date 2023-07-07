@@ -1,22 +1,39 @@
-import { Table, Tooltip, Typography } from 'antd';
+import { Table, Tooltip, Typography, message } from 'antd';
 import type { InputRef } from 'antd';
 import { useRef } from 'react';
 import { machineColumns } from './tables/TableColumns';
 import { getTableColumns } from '@/services/machine/get-table-columns';
 import { getTableData } from '@/services/machine/get-table-data';
+import { displayMessage } from '@/utils/display-message';
+import { unassignMachines } from '@/services/machine/unassign-machines';
 
 const { Text } = Typography;
 
 export default function MachineTable({ machines, user }: any) {
+  const [messageApi, contextHolder] = message.useMessage();
   const searchInput = useRef<InputRef>(null);
   const dataSource = getTableData(machines, user);
 
-  // TODO: remove certain actions for farmers
+  // handlers
+  const handleUnassign = async (record: any) => {
+    try {
+      const machine = await unassignMachines(user, record.key);
+      const message = `${machine.serial_no} unassign successful`;
+      displayMessage(messageApi, 'success', message);
+    } catch (error: any) {
+      displayMessage(messageApi, 'error', error?.message);
+    } finally {
+      window.location.reload();
+    }
+  };
+
   const cols = getTableColumns(user, searchInput);
-  const columns = machineColumns(cols);
+  const role = user?.role.alias;
+  const columns = machineColumns(cols, role, handleUnassign);
 
   return (
     <>
+      {contextHolder}
       <Tooltip title="Reload page to see the latest list.">
         <Text className="text-gray-600 font-semibold">Machine List:</Text>
       </Tooltip>

@@ -1,4 +1,5 @@
 import DshLayout from '@/components/dashboard/Layout';
+import AssignForm from '@/components/machine/AssignForm';
 import MachineForm from '@/components/machine/MachineForm';
 import MachineTable from '@/components/machine/MachineTable';
 import { checkUserSessionSsr } from '@/services/auth/check-session-ssr';
@@ -44,6 +45,8 @@ export default function Machines({
               dealerships={dealers}
             />
           )}
+
+          <AssignForm />
 
           <MachineTable machines={assets} user={user} />
         </div>
