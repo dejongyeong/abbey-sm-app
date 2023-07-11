@@ -35,22 +35,19 @@ export const farmerColumns: any = (searchInput: any) => [
       record.type.toLowerCase() === value.toLowerCase(),
     shouldCellUpdate: (record: any, prev: any) => !_.isEqual(record, prev),
   },
-
   {
-    title: `Farm Manager's Name`,
+    title: 'Farm Manager',
     dataIndex: 'farm_manager_name',
     key: 'farm_manager_name',
-    render: (_: any, record: any) =>
-      `${record.farm_manager_first_name} ${record.farm_manager_last_name}`,
-    ...getColumnSearchProps('Farm Manager Name', searchInput),
+    ...getColumnSearchProps('Farm Manager', searchInput),
+    onFilter: (value: any, record: any) =>
+      record.farm_manager_name.toLowerCase().includes(value.toLowerCase()),
     shouldCellUpdate: (record: any, prev: any) => !_.isEqual(record, prev),
   },
   {
     title: `Farm Manager's Phone`,
     dataIndex: 'farm_manager_phone',
     key: 'farm_manager_phone',
-    render: (_: any, record: any) =>
-      `${record.farm_manager_dial_code} ${record.farm_manager_phone}`,
     shouldCellUpdate: (record: any, prev: any) => !_.isEqual(record, prev),
   },
 ];

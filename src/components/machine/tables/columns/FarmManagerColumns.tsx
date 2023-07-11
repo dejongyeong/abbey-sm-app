@@ -36,24 +36,28 @@ export const farmManagerColumns: any = (searchInput: any) => [
     shouldCellUpdate: (record: any, prev: any) => !_.isEqual(record, prev),
   },
   {
-    title: `Dealer's Name`,
+    title: `Dealership`,
     dataIndex: 'dealer_name',
     key: 'dealer_name',
-    render: (_: any, record: any) =>
-      `${record.dealer_first_name} ${record.dealer_last_name}`,
-    ...getColumnSearchProps('Dealer Name', searchInput),
+    ...getColumnSearchProps('Dealership', searchInput),
+    onFilter: (value: any, record: any) =>
+      record.dealer_name.toLowerCase().includes(value.toLowerCase()),
     shouldCellUpdate: (record: any, prev: any) => !_.isEqual(record, prev),
   },
   {
-    title: `Dealer's Phone`,
+    title: `Dealership's Company`,
+    dataIndex: 'dealer_company',
+    key: 'dealer_company',
+    shouldCellUpdate: (record: any, prev: any) => !_.isEqual(record, prev),
+  },
+  {
+    title: `Dealership's Phone`,
     dataIndex: 'dealer_phone',
     key: 'dealer_phone',
-    render: (_: any, record: any) =>
-      `${record.dealer_dial_code} ${record.dealer_phone}`,
     shouldCellUpdate: (record: any, prev: any) => !_.isEqual(record, prev),
   },
   {
-    title: `Dealer's Email`,
+    title: `Dealership's Email`,
     dataIndex: 'dealer_email',
     key: 'dealer_email',
     shouldCellUpdate: (record: any, prev: any) => !_.isEqual(record, prev),

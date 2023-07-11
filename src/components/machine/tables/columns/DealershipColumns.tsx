@@ -36,26 +36,24 @@ export const dealershipColumns: any = (searchInput: any) => [
     shouldCellUpdate: (record: any, prev: any) => !_.isEqual(record, prev),
   },
   {
-    title: 'Provider Name',
-    dataIndex: 'registrar_name',
-    key: 'registrar_name',
-    render: (_: any, record: any) =>
-      `${record.registrar_first_name} ${record.registrar_last_name}`,
-    ...getColumnSearchProps('Provider Name', searchInput),
+    title: 'Farm Manager',
+    dataIndex: 'farm_manager_name',
+    key: 'farm_manager_name',
+    ...getColumnSearchProps('Farm Manager', searchInput),
+    onFilter: (value: any, record: any) =>
+      record.farm_manager_name.toLowerCase().includes(value.toLowerCase()),
     shouldCellUpdate: (record: any, prev: any) => !_.isEqual(record, prev),
   },
   {
-    title: `Provider Phone`,
-    dataIndex: 'registrar_phone',
-    key: 'registrar_phone',
-    render: (_: any, record: any) =>
-      `${record.registrar_dial_code} ${record.registrar_phone}`,
+    title: `Farm Manager's Phone`,
+    dataIndex: 'farm_manager_phone',
+    key: 'farm_manager_phone',
     shouldCellUpdate: (record: any, prev: any) => !_.isEqual(record, prev),
   },
   {
-    title: `Provider Email`,
-    dataIndex: 'registrar_email',
-    key: 'registrar_email',
+    title: `Farm Manager's Email`,
+    dataIndex: 'farm_manager_email',
+    key: 'farm_manager_email',
     shouldCellUpdate: (record: any, prev: any) => !_.isEqual(record, prev),
   },
 ];

@@ -144,7 +144,8 @@ const MachineForm = ({ user, types, dealerships }: any) => {
                   key={dealership.sb_auth_id}
                   value={dealership.sb_auth_id}
                 >
-                  {dealership.first_name} {dealership.last_name}
+                  {dealership.first_name} {dealership.last_name} @{' '}
+                  {dealership.company?.name}
                 </Select.Option>
               ))}
             </Select>

@@ -19,7 +19,10 @@ const renderActions = (_: any, record: any, role: any, handleUnassign: any) => {
         />
       </Tooltip>
       {role !== 'farmer' && role !== 'am-service-team' ? (
-        <Tooltip title="Unassign">
+        <Tooltip
+          title="Unassign"
+          className={(record.dealer_id || record.farm_manager_id) ?? 'hidden'}
+        >
           <Popconfirm
             placement="left"
             title="Unassign machine"
