@@ -45,7 +45,7 @@ export default function InviteForm({ senderId, roles }: any) {
     try {
       const data = await invite(params);
       displayMessage(messageApi, 'success', data.message);
-      form.resetFields();
+      window.location.reload();
     } catch (error) {
       displayMessage(messageApi, 'error', (error as Error).message);
     } finally {

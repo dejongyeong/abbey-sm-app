@@ -6,7 +6,12 @@ import { checkUserSessionSsr } from '@/services/auth/check-session-ssr';
 import { isRegisterable } from '@/services/machine/check-accessible';
 import { getMachineBasedOnRole } from '@/services/machine/get-machines-based-on-role';
 import { getDealerships } from '@/services/machine/query/get-dealerships-list';
+import { getFarmManagers } from '@/services/machine/query/get-farm-manager-list';
 import { getMachineType } from '@/services/machine/query/get-machine-type';
+import {
+  getUnassignMachineForAM,
+  getUnassignMachineForDealer,
+} from '@/services/machine/query/get-unassigned-machine-am-query';
 import { getLoginUser } from '@/services/user/query/get-login-user';
 import { Breadcrumb, Typography, message } from 'antd';
 import { GetServerSidePropsContext } from 'next';
@@ -19,21 +24,25 @@ export default function Machines({
   machines,
   machineType,
   dealerships,
+  unassignAM,
+  farmManagers,
+  unassignDealer,
 }: any) {
   const dealers = JSON.parse(dealerships);
+  const farmManager = JSON.parse(farmManagers);
   const assets = JSON.parse(machines);
+  const unassignedAM = JSON.parse(unassignAM);
+  const unassignedDealer = JSON.parse(unassignDealer);
 
   const registerable = isRegisterable(user);
   const role = user.role.alias;
-
-  console.log(assets);
 
   return (
     <main className="w-full min-h-screen">
       <Breadcrumb items={[{ title: 'Home' }, { title: 'Machines' }]} />
       <div className="h-auto mt-7 p-5 bg-white ">
         <Title level={4}>Manage Machines</Title>
-        <div className="flex flex-col justify-start gap-4 my-6">
+        <div className="flex flex-col justify-start gap-3 my-6">
           {registerable && (
             <MachineForm
               user={user}
@@ -42,8 +51,20 @@ export default function Machines({
             />
           )}
 
-          {role !== 'farmer' && role !== 'am-service-team' ? (
-            <AssignForm />
+          {role === 'dealership' ? (
+            <AssignForm
+              user={user}
+              assignees={farmManager}
+              machines={unassignedDealer}
+            />
+          ) : null}
+
+          {role === 'am-admin' || role === 'am-manager' || 'am-prod-team' ? (
+            <AssignForm
+              user={user}
+              assignees={dealers}
+              machines={unassignedAM}
+            />
           ) : null}
 
           <MachineTable machines={assets} user={user} />
@@ -77,9 +98,13 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
   // get machine information for forms
   const machineType = await getMachineType();
   const dealerships = await getDealerships();
+  const farmManagers = await getFarmManagers(user.sb_auth_id);
 
   // get machines based on user roles
   const machines = await getMachineBasedOnRole(user);
+
+  const unassignAM = await getUnassignMachineForAM();
+  const unassignDealer = await getUnassignMachineForDealer();
 
   return {
     props: {
@@ -88,6 +113,9 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
       machines: JSON.stringify(machines),
       machineType: machineType,
       dealerships: JSON.stringify(dealerships),
+      unassignAM: JSON.stringify(unassignAM),
+      farmManagers: JSON.stringify(farmManagers),
+      unassignDealer: JSON.stringify(unassignDealer),
     },
   };
 };

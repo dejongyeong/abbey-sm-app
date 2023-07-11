@@ -1,10 +1,11 @@
-import { getUnassignMachineUrl } from './check-accessible';
+import { getAssignMachineUrl } from './check-accessible';
 
-export const unassignMachines = async (user: any, mid: any) => {
+export const assignMachine = async (user: any, mid: any, id: any) => {
   try {
-    const url: any = getUnassignMachineUrl(user, mid);
+    const url: any = getAssignMachineUrl(user, mid, id);
+    console.log(url);
     const response = await fetch(url, {
-      method: 'DELETE',
+      method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
     });
 

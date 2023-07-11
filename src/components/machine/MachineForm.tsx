@@ -45,7 +45,7 @@ const MachineForm = ({ user, types, dealerships }: any) => {
       const machine = await createMachine(params);
       const message = `${machine.serial_no} created successful.`;
       displayMessage(messageApi, 'success', message);
-      form.resetFields();
+      window.location.reload();
     } catch (error) {
       displayMessage(messageApi, 'error', 'Error in creating machine');
     } finally {
