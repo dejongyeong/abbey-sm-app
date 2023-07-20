@@ -33,8 +33,8 @@ export default function AuthLayout({ children, pageTitle, formTitle }: TProps) {
         <meta name="description" content={APP_DESCRIPTION} />
         <meta name="author" content="De Jong Yeong" />
       </Head>
-      <main className="flex w-full h-screen justify-center items-center bg-gradient-to-r from-gray-100 via-gray-200 to-gray-300">
-        <div className="lg:w-2/6 sm:w-4/6 px-6 py-8 rounded-none bg-white">
+      <main className="flex w-full min-h-screen justify-center items-center p-5 bg-gradient-to-r from-gray-100 via-gray-200 to-gray-300">
+        <div className="container max-w-xl px-6 py-8 rounded-none bg-white">
           <div className="flex flex-col justify-center items-center">
             <Logo />
           </div>
