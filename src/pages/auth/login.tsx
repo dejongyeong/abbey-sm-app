@@ -51,22 +51,17 @@ export default function Login() {
         layout="vertical"
         initialValues={{ remember: true }}
         onFinish={onFinish}
-        className="w-full"
       >
         <Form.Item name="email" required rules={[yupSync]}>
           <Input
-            prefix={
-              <UserOutlined className="mr-1 text-black text-opacity-25" />
-            }
+            prefix={<UserOutlined className="text-black text-opacity-25" />}
             placeholder="Email Address"
           />
         </Form.Item>
 
         <Form.Item name="password" required rules={[yupSync]}>
           <Input
-            prefix={
-              <LockOutlined className="mr-1 text-black text-opacity-25" />
-            }
+            prefix={<LockOutlined className="text-black text-opacity-25" />}
             type="password"
             placeholder="Password"
           />
